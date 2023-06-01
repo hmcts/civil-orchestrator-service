@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.demo.openapi;
+package uk.gov.hmcts.reform.civil.openapi;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,6 +38,9 @@ class OpenAPIPublisherTest {
             .getResponse()
             .getContentAsByteArray();
 
+        if (!Files.exists(Paths.get("/tmp/"))) {
+            Files.createDirectories(Paths.get("/tmp/"));    // needed on Windows systems as the directory won't exist by default
+        }
         try (OutputStream outputStream = Files.newOutputStream(Paths.get("/tmp/openapi-specs.json"))) {
             outputStream.write(specs);
         }
