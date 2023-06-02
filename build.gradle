@@ -182,6 +182,11 @@ ext {
 
 ext['snakeyaml.version'] = '2.0'
 
+ext {
+  mapstructVersion = '1.5.3.Final'
+  lombokVersion = '1.18.26'
+}
+
 dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
@@ -202,6 +207,13 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+
+  implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+  implementation "org.projectlombok:lombok:${lombokVersion}"
+  annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+  annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
 }
 
 mainClassName = 'uk.gov.hmcts.reform.civil.Application'
@@ -220,5 +232,5 @@ rootProject.tasks.named("processSmokeTestResources") {
 }
 
 wrapper {
-    distributionType = Wrapper.DistributionType.ALL
+  distributionType = Wrapper.DistributionType.ALL
 }
