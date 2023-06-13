@@ -1,17 +1,18 @@
-package uk.gov.hmcts.reform.civil.mappings;
+package uk.gov.hmcts.reform.civil.modelsdt;
 
-import lombok.*;
-import uk.gov.hmcts.reform.civil.modelsdt.ClaimantType;
-import uk.gov.hmcts.reform.civil.modelsdt.DefendantType;
-
-import java.time.LocalDate;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@XmlRootElement
 public class CreateClaimSDT {
 
     private String claimantReference;
@@ -21,7 +22,8 @@ public class CreateClaimSDT {
     private String particulars;
     private Integer claimAmount;
     private Boolean reserveRightToClaimInterest;
-    private LocalDate claimDate;
     private String sotSignature;
+    private String sotSignatureRole = "bulk issuer role";
+    private Interest interest;
 
 }
