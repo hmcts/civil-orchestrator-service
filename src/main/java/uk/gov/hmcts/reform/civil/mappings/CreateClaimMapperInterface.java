@@ -80,7 +80,7 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent1.primaryAddress.country", expression = "java(null)")
     @Mapping(target = "respondent1.primaryAddress.postCode", source = "defendant1.address.postcode")
 
-    @Mapping(target = "AddRespondent2", expression = "java(checkRespondent2(createClaimSDT))")
+    @Mapping(target = "adddRespondent2", expression = "java(checkRespondent2(createClaimSDT))")
 
     @Mapping(target = "respondent2.type", expression = "java(setDefendantType())")
     @Mapping(target = "respondent2.partyID", expression = "java(null)")
@@ -120,6 +120,7 @@ public interface CreateClaimMapperInterface {
     CreateClaimCCD claimToDto(CreateClaimSDT createClaimSDT);
 
     default Party.Type setClaimantType() {
+
         return Party.Type.ORGANISATION;
     }
 
@@ -127,14 +128,14 @@ public interface CreateClaimMapperInterface {
         return Party.Type.INDIVIDUAL;
     }
 
-    default CorrectEmail checkCorrectEmail(){
-       CorrectEmail correctEmail = new CorrectEmail();
-       correctEmail.setCorrect(YesOrNo.YES);
+    default CorrectEmail checkCorrectEmail() {
+        CorrectEmail correctEmail = new CorrectEmail();
+        correctEmail.setCorrect(YesOrNo.YES);
 
-       return correctEmail;
+        return correctEmail;
     }
 
-    default OrganisationPolicy applicantOrganisation(){
+    default OrganisationPolicy applicantOrganisation() {
         OrganisationPolicy organisationPolicy = new OrganisationPolicy();
         organisationPolicy.setOrganisation(OrganisationId.builder().build());
         organisationPolicy.setOrgPolicyCaseAssignedRole("testrole");
@@ -151,16 +152,16 @@ public interface CreateClaimMapperInterface {
         }
     }
 
-    default List<ClaimAmountBreakup> claimAmount(CreateClaimSDT createClaimSDT){
-       BigDecimal bigDecimal = new BigDecimal(createClaimSDT.getClaimAmount());
-       List<ClaimAmountBreakup> claimAmountBreakup = new ArrayList<>();
-       claimAmountBreakup.add(ClaimAmountBreakup.builder()
+    default List<ClaimAmountBreakup> claimAmount(CreateClaimSDT createClaimSDT) {
+        BigDecimal bigDecimal = new BigDecimal(createClaimSDT.getClaimAmount());
+        List<ClaimAmountBreakup> claimAmountBreakup = new ArrayList<>();
+        claimAmountBreakup.add(ClaimAmountBreakup.builder()
                                    .value(ClaimAmountBreakupDetails.builder()
                                               .claimAmount(bigDecimal)
                                               .claimReason("Test reason1")
                                               .build()).build());
 
-       return claimAmountBreakup;
+        return claimAmountBreakup;
     }
 
     default YesOrNo claimInterest(CreateClaimSDT createClaimSDT) {

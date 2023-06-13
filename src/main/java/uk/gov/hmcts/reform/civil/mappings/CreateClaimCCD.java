@@ -30,7 +30,7 @@ public class CreateClaimCCD {
     private CorrectEmail applicantSolicitor1CheckEmail;
     private OrganisationPolicy applicant1OrganisationPolicy;
     private Party respondent1;
-    private YesOrNo AddRespondent2;
+    private YesOrNo adddRespondent2;
     private Party respondent2;
     private String detailsOfClaim;
     private List<ClaimAmountBreakup> claimAmountBreakup;
