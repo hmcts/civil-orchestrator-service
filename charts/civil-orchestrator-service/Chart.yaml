@@ -3,10 +3,10 @@ appVersion: "1.0"
 description: A Helm chart for civil-orchestrator-service App
 name: civil-civil-orchestrator-service
 home: https://github.com/hmcts/civil-orchestrator-service
-version: 0.0.7
+version: 0.0.8
 maintainers:
   - name: HMCTS civil team
 dependencies:
   - name: java
-    version: 4.1.2
+    version: 4.1.4
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
