@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapper;
+import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
 import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
+import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
 
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
@@ -18,18 +20,16 @@ import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 @RequiredArgsConstructor
 public class CreateClaimSdtController {
 
-    @PutMapping(path = "/SDTCreateClaim", produces = APPLICATION_XML_VALUE, consumes = APPLICATION_XML_VALUE)
+    private final CreateClaimFromSdtService createClaimFromSdtService;
+
+    @PostMapping(path = "/createSDTClaim", consumes = APPLICATION_XML_VALUE)
     @Operation(summary = "Create claim SDT")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Callback processed."),
         @ApiResponse(responseCode = "400", description = "Bad Request")})
-    public void createClaimSdt(@RequestBody CreateClaimSDT createClaimSDT) {
-        try {
-            CreateClaimMapper createClaimMapper = new CreateClaimMapper();
-            createClaimMapper.mappedCreateClaim(createClaimSDT);
-        } catch (Exception ex) {
-            log.error("Create claim SDT callback failed", ex);
-        }
+    public ResponseEntity<CreateSDTResponse> createClaimSdt(@RequestBody CreateClaimSDT createClaimSDT) {
+
+        return createClaimFromSdtService.buildResponse(createClaimSDT);
     }
 }
 

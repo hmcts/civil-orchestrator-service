@@ -15,6 +15,7 @@ import lombok.ToString;
 @XmlRootElement
 public class CreateClaimSDT {
 
+    private String bulkCustomerId;
     private String claimantReference;
     private ClaimantType claimant;
     private DefendantType defendant1;
