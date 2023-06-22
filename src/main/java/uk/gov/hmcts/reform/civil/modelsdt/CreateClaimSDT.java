@@ -15,13 +15,14 @@ import lombok.ToString;
 @XmlRootElement
 public class CreateClaimSDT {
 
+    // TODO remove bulkCustomerId, not part of payload, believe it is sent as header
     private String bulkCustomerId;
     private String claimantReference;
     private ClaimantType claimant;
     private DefendantType defendant1;
     private DefendantType defendant2;
     private String particulars;
-    private Integer claimAmount;
+    private Long claimAmount;
     private Boolean reserveRightToClaimInterest;
     private String sotSignature;
     private String sotSignatureRole = "bulk issuer role";

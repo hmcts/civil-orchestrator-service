@@ -23,17 +23,14 @@ class CreateClaimSdtControllerTest {
 
     @MockBean
     private MockMvc mvc;
-
     @MockBean
     private CreateClaimFromSdtService createClaimFromSdtService;
-
     @Autowired
     WebApplicationContext webApplicationContext;
 
     @Test
-    public void validRequestCreateClaim() throws Exception {
+    public void validRequestWithXmlContent() throws Exception {
         AddressType addressType = new AddressType("test", "test", "test", "test", "test");
-
         StringWriter sw = new StringWriter();
         JAXB.marshal(addressType, sw);
         String xmlString = sw.toString();
@@ -48,7 +45,6 @@ class CreateClaimSdtControllerTest {
 
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
     }
 
     @Test
@@ -59,9 +55,29 @@ class CreateClaimSdtControllerTest {
                                               .accept(MediaType.APPLICATION_XML_VALUE)).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
-        assertEquals(405, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        System.out.println("testttt" + mvcResult.getResponse().getErrorMessage());
+        assertEquals(405, status);;
+    }
+
+    @Test
+    public void methodNotAllowedPut() throws Exception {
+        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        String uri = "/createSDTClaim";
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri)
+                                              .accept(MediaType.APPLICATION_XML_VALUE)).andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(405, status);;
+    }
+
+    @Test
+    public void methodNotAllowedDelete() throws Exception {
+        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        String uri = "/createSDTClaim";
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)
+                                              .accept(MediaType.APPLICATION_XML_VALUE)).andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(405, status);;
     }
 
 }

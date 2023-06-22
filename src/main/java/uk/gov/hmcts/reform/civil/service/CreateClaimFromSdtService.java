@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapper;
 import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
 import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
@@ -15,6 +16,7 @@ import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
 public class CreateClaimFromSdtService {
 
     private final CreateSDTResponse createSDTResponse;
+    private final SubmitCreateClaim submitCreateClaim;
 
     public ResponseEntity<CreateSDTResponse> buildResponse(CreateClaimSDT createClaimSDT) {
 
@@ -102,22 +104,15 @@ public class CreateClaimFromSdtService {
                 HttpStatus.BAD_REQUEST);
         }
         else {
-            System.out.println("Claim data valid continue onto mapping");
-            processSdtClaim(createClaimSDT);
-            var response = createSDTResponse.toBuilder()
-                .claimNumber("the generated claimnumber")
-                .build();
-            return new ResponseEntity<>(
-                response,
-                HttpStatus.OK);
+            return submitCreateClaim.submitClaim(processSdtClaim(createClaimSDT));
         }
 
     }
 
-    public void processSdtClaim(CreateClaimSDT createClaimSDT) {
+    public CreateClaimCCD processSdtClaim(CreateClaimSDT createClaimSDT) {
         CreateClaimMapper createClaimMapper = new CreateClaimMapper();
         createClaimMapper.mappedCreateClaim(createClaimSDT);
-
+        return createClaimMapper.getCreateClaimCCD();
     }
 
 }

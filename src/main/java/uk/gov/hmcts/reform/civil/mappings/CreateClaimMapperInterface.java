@@ -1,21 +1,19 @@
 package uk.gov.hmcts.reform.civil.mappings;
 
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import uk.gov.hmcts.reform.civil.model.MockOrg;
+import uk.gov.hmcts.reform.civil.model.MockOrgPolicy;
 import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
+import uk.gov.hmcts.reform.civil.utils.MonetaryConversions;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.model.ClaimAmountBreakup;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.model.ClaimAmountBreakupDetails;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.CorrectEmail;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.model.OrganisationId;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.model.OrganisationPolicy;
+import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Fee;
+import uk.gov.hmcts.reform.civilcommonsmock.civil.model.IdamUserDetails;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Party;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Mapper
 public interface CreateClaimMapperInterface {
@@ -110,12 +108,15 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent2.primaryAddress.postCode", source = "defendant2.address.postcode")
 
     @Mapping(target = "detailsOfClaim", source = "particulars")
-    @Mapping(target = "claimAmountBreakup", expression = "java(claimAmount(createClaimSDT))")
+    @Mapping(target = "totalClaimAmount", expression = "java(claimAmount(createClaimSDT))")
     @Mapping(target = "claimInterest", expression = "java(claimInterest(createClaimSDT))")
     @Mapping(target = "interestFromSpecificDate", source = "interest.owedDate")
     @Mapping(target = "interestFromSpecificDateDescription", expression = "java(null)")
     @Mapping(target = "uiStatementOfTruth.name", source = "sotSignature")
     @Mapping(target = "uiStatementOfTruth.role", source = "sotSignatureRole")
+    @Mapping(target = "applicantSolicitor1UserDetails", expression = "java(populateIdamDetails())")
+    @Mapping(target = "claimFee", expression = "java(calculateClaimFee(createClaimSDT))")
+
 
     CreateClaimCCD claimToDto(CreateClaimSDT createClaimSDT);
 
@@ -135,11 +136,11 @@ public interface CreateClaimMapperInterface {
         return correctEmail;
     }
 
-    default OrganisationPolicy applicantOrganisation() {
-        OrganisationPolicy organisationPolicy = new OrganisationPolicy();
-        organisationPolicy.setOrganisation(OrganisationId.builder().build());
-        organisationPolicy.setOrgPolicyCaseAssignedRole("testrole");
-        organisationPolicy.setOrgPolicyReference("test");
+    default MockOrgPolicy applicantOrganisation() {
+        MockOrgPolicy organisationPolicy = new MockOrgPolicy();
+        organisationPolicy.setOrgPolicyCaseAssignedRole("[APPLICANTSOLICITORONE]");
+        organisationPolicy.setOrgPolicyReference(null);
+        organisationPolicy.setOrganisation(MockOrg.builder().organisationID("Q1KOKP2").build());
 
         return organisationPolicy;
     }
@@ -152,16 +153,9 @@ public interface CreateClaimMapperInterface {
         }
     }
 
-    default List<ClaimAmountBreakup> claimAmount(CreateClaimSDT createClaimSDT) {
+    default BigDecimal claimAmount(CreateClaimSDT createClaimSDT) {
         BigDecimal bigDecimal = new BigDecimal(createClaimSDT.getClaimAmount());
-        List<ClaimAmountBreakup> claimAmountBreakup = new ArrayList<>();
-        claimAmountBreakup.add(ClaimAmountBreakup.builder()
-                                   .value(ClaimAmountBreakupDetails.builder()
-                                              .claimAmount(bigDecimal)
-                                              .claimReason("Test reason1")
-                                              .build()).build());
-
-        return claimAmountBreakup;
+        return  MonetaryConversions.penniesToPounds(bigDecimal);
     }
 
     default YesOrNo claimInterest(CreateClaimSDT createClaimSDT) {
@@ -170,6 +164,22 @@ public interface CreateClaimMapperInterface {
         } else {
             return YesOrNo.NO;
         }
+    }
+
+    // TODO populate with actual data from PRD
+    default IdamUserDetails populateIdamDetails() {
+        IdamUserDetails idamUserDetails = new IdamUserDetails();
+        idamUserDetails.setEmail("hmcts.civil+organisation.1.solicitor.1@gmail.com");
+        idamUserDetails.setId("089543e2-31fe-4cfb-984e-b82879195e78");
+        return idamUserDetails;
+    }
+
+    // TODO implement fee service
+    default Fee calculateClaimFee(CreateClaimSDT createClaimSDT) {
+        BigDecimal bigDecimal = new BigDecimal(createClaimSDT.getClaimAmount());
+        Fee claimFee = new Fee();
+        claimFee.setCalculatedAmountInPence(MonetaryConversions.penniesToPounds(bigDecimal));
+        return claimFee;
     }
 
 }

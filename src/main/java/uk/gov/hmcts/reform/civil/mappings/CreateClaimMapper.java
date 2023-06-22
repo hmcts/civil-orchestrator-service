@@ -19,12 +19,7 @@ public class CreateClaimMapper {
     public CreateClaimCCD mappedCreateClaim(CreateClaimSDT createClaimSDT) {
         createClaimCCD = CreateClaimMapperInterface.INSTANCE.claimToDto(createClaimSDT);
 
-        createClaimCCD.setInterestFromSpecificDateDescription("test description interest from");
-
-        System.out.println(createClaimCCD);
         return  createClaimCCD;
     }
-
-
 
 }
