@@ -102,8 +102,7 @@ public class CreateClaimFromSdtService {
             return new ResponseEntity<>(
                 response,
                 HttpStatus.BAD_REQUEST);
-        }
-        else {
+        } else {
             return submitCreateClaim.submitClaim(processSdtClaim(createClaimSDT));
         }
 
