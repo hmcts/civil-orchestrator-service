@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.civil.mappings;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,23 +29,25 @@ public class CreateClaimCCD {
 
     private SolicitorReferences solicitorReferences;
     private Party applicant1;
-    // TODO: CorrectEmail has a YesNoValue field, which is causing issues
     private CorrectEmail applicantSolicitor1CheckEmail;
     // TODO: civil service has two organsationpolicy classes, one from civil-commons, so mock that one.
     private MockOrgPolicy applicant1OrganisationPolicy;
     private Party respondent1;
     // TODO: Random issue with mapStruct, not accepting actual value of "addRespondent2"
+    @JsonProperty("addRespondent2")
     private YesOrNo adddRespondent2;
     private Party respondent2;
     private String detailsOfClaim;
     private BigDecimal totalClaimAmount;
-    // TODO: YesNoValue field, which is causing issues
     private YesOrNo claimInterest;
     private LocalDate interestFromSpecificDate;
     private String interestFromSpecificDateDescription;
     private StatementOfTruth uiStatementOfTruth;
     private IdamUserDetails applicantSolicitor1UserDetails;
-    // TODO: Fee has a MoneyGBP field, causing issues e.g. "1999 is not valid MoneyGBP"
     private Fee claimFee;
+    // TODO: Add in fields if interest was requested
+    // private InterestClaimOptions interestClaimOptions;
+    // private SameRateInterestSelection sameRateInterestSelection;
+    // etc
 
 }

@@ -2,10 +2,10 @@ package uk.gov.hmcts.reform.civil.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,33 +29,21 @@ public class SubmitCreateClaim {
     private String authorisation = "";
     private String serviceAuthorization = "";
     private String eventToken = "";
+    private String userID = "";
+    private String jsonCaseData;
+    private final ObjectMapper objectMapper;
 
     public ResponseEntity<CreateSDTResponse> submitClaim(CreateClaimCCD createClaimCCD) {
 
-        JSONObject caseDataJsonObj = new JSONObject(createClaimCCD);
+        try {
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            jsonCaseData = objectMapper.writeValueAsString(createClaimCCD);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
-        // workaround, MoneyGBP validation error
-        caseDataJsonObj.getJSONObject("claimFee").put("calculatedAmountInPence", "10099");
-        // workaround, YesOrNo validation error
-        caseDataJsonObj.getJSONObject("applicantSolicitor1CheckEmail").put("correct", "Yes");
-        caseDataJsonObj.remove("adddRespondent2");
-        caseDataJsonObj.put("addRespondent2", "Yes");
-        caseDataJsonObj.put("claimInterest", "Yes");
-
-        // workaround, validation expects orgPolicyCaseAssignedRole to be capital O OrgPolicyCaseAssignedRole, as with other fields
-        caseDataJsonObj.getJSONObject("applicant1OrganisationPolicy").remove("orgPolicyCaseAssignedRole");
-        caseDataJsonObj.getJSONObject("applicant1OrganisationPolicy").remove("organisation");
-        caseDataJsonObj.getJSONObject("applicant1OrganisationPolicy").put("OrgPolicyCaseAssignedRole", "[APPLICANTSOLICITORONE]");
-        // caseDataJsonObj.getJSONObject("applicant1OrganisationPolicy").put("OrgPolicyReference", "null");
-        // caseDataJsonObj.getJSONObject("applicant1OrganisationPolicy").put("PrepopulateToUsersOrganisation", "No");
-        caseDataJsonObj.getJSONObject("applicant1OrganisationPolicy").put("Organisation", "");
-        JSONObject organisation = new JSONObject();
-        // organisation.put("OrganisationName", "Civil - Organisation 1");
-        organisation.put("OrganisationID", "Q1KOKP2");
-        caseDataJsonObj.getJSONObject("applicant1OrganisationPolicy").put("Organisation", organisation);
-        System.out.println("the updated json obj" + caseDataJsonObj);
-
-        String url = "http://localhost:4452/caseworkers/2da31af3-f5c9-411b-9ea3-b5f80c994fd1/jurisdictions/CIVIL/case-types/CIVIL/cases";
+        String url = "http://localhost:4452/caseworkers/" + userID + "/jurisdictions/CIVIL/case-types/CIVIL/cases";
 
         // Create HttpHeaders
         HttpHeaders header = new HttpHeaders();
@@ -64,8 +52,7 @@ public class SubmitCreateClaim {
         header.set("ServiceAuthorization", "" + serviceAuthorization + "");
 
         // Set body
-        var caseData =  caseDataJsonObj.toString();
-        String requestBody = "{\"data\":" + caseData + ","
+        String requestBody = "{\"data\":" + jsonCaseData + ","
             + "\"event\": {\"id\": \"CREATE_CLAIM_SPEC\"},"
             + "\"event_data\": {},"
             + "\"event_token\": \"" + eventToken + "\"}";
@@ -99,6 +86,15 @@ public class SubmitCreateClaim {
                 var validationResponse = createSDTResponse.toBuilder()
                     .errorText("422: Case validation error: " + e)
                     .errorCode("422")
+                    .build();
+                return new ResponseEntity<>(
+                    validationResponse,
+                    HttpStatus.BAD_REQUEST);
+            }
+            if (e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
+                var validationResponse = createSDTResponse.toBuilder()
+                    .errorText("403: Forbidden access Denied: " + e)
+                    .errorCode("403")
                     .build();
                 return new ResponseEntity<>(
                     validationResponse,

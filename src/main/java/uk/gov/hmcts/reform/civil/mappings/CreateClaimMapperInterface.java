@@ -178,7 +178,7 @@ public interface CreateClaimMapperInterface {
     default Fee calculateClaimFee(CreateClaimSDT createClaimSDT) {
         BigDecimal bigDecimal = new BigDecimal(createClaimSDT.getClaimAmount());
         Fee claimFee = new Fee();
-        claimFee.setCalculatedAmountInPence(MonetaryConversions.penniesToPounds(bigDecimal));
+        claimFee.setCalculatedAmountInPence(bigDecimal);
         return claimFee;
     }
 
