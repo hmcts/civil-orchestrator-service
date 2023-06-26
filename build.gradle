@@ -113,7 +113,7 @@ checkstyle {
 }
 
 
-project.tasks['sonarqube'].dependsOn jacocoTestReport
+project.tasks['sonarqube'].dependsOn test,jacocoTestReport
 project.tasks['check'].dependsOn integration
 
 sonarqube {
@@ -134,8 +134,12 @@ jacocoTestReport {
     sourceSets it.sourceSets.main
   }
   reports {
-    xml.enabled = true
-    csv.enabled = false
+    xml {
+        enabled true
+      }
+    csv {
+      enabled false
+    }
     xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
   }
 }
