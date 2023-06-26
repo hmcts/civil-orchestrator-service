@@ -106,14 +106,6 @@ checkstyle {
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
-jacocoTestReport {
-  executionData(test, integration)
-  reports {
-    xml.required = true
-    csv.required = false
-    html.required = true
-  }
-}
 
 project.tasks['sonarqube'].dependsOn jacocoTestReport
 project.tasks['check'].dependsOn integration
@@ -127,6 +119,23 @@ sonarqube {
     property "sonar.cpd.exclusions", "**/*DocumentManagementService.java"
     property "sonar.host.url", "https://sonar.reform.hmcts.net/"
   }
+}
+
+jacocoTestReport {
+  executionData(test, integration)
+  executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+  subprojects.each {
+    sourceSets it.sourceSets.main
+  }
+  reports {
+    xml.enabled = true
+    csv.enabled = false
+    xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+  }
+}
+
+jacocoTestReport.dependsOn {
+  subprojects*.test
 }
 
 // before committing a change, make sure task still works
