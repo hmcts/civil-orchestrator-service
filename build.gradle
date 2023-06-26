@@ -18,6 +18,12 @@ java {
   }
 }
 
+jacoco {
+  toolVersion = '0.8.8' // jacocoMavenPluginVersion
+  reportsDirectory = file("$buildDir/reports/jacoco")
+}
+
+
 sourceSets {
   functionalTest {
     java {
