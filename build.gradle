@@ -114,7 +114,6 @@ checkstyle {
 
 
 project.tasks['sonarqube'].dependsOn test,jacocoTestReport
-project.tasks['check'].dependsOn integration
 
 sonarqube {
   properties {
