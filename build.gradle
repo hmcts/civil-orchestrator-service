@@ -1,7 +1,6 @@
 plugins {
   id 'application'
   id 'checkstyle'
-  id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.0'
   id 'org.springframework.boot' version '3.1.1'
@@ -107,15 +106,6 @@ checkstyle {
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
-pmd {
-  toolVersion = "6.55.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest, sourceSets.smokeTest]
-  reportsDir = file("$project.buildDir/reports/pmd")
-  // https://github.com/pmd/pmd/issues/876
-  ruleSets = []
-  ruleSetFiles = files("config/pmd/ruleset.xml")
-}
-
 jacocoTestReport {
   executionData(test, integration)
   reports {
@@ -161,7 +151,6 @@ dependencyCheck {
   skipConfigurations = [
     "checkstyle",
     "compileOnly",
-    "pmd",
     "integrationTest",
     "functionalTest",
     "smokeTest",
@@ -173,7 +162,16 @@ dependencyCheck {
 repositories {
   mavenLocal()
   mavenCentral()
-  maven { url 'https://jitpack.io' }
+  maven {
+    url "https://jitpack.io"
+  }
+  maven {
+    url  "https://repo.spring.io/libs-milestone"
+  }
+  maven {
+    url "https://jitpack.io"
+  }
+  jcenter()
 }
 
 ext {
@@ -182,6 +180,11 @@ ext {
 
 ext['snakeyaml.version'] = '2.0'
 
+ext {
+  mapstructVersion = '1.5.3.Final'
+  lombokVersion = '1.18.26'
+}
+
 dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
@@ -189,12 +192,24 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
   implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
+  implementation 'com.github.hmcts:payments-java-client:1.6.4'
+  implementation 'javax.ws.rs:jsr311-api:1.1.1'
+  implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+  implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.0'
+  implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '4.0.2'
+  implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
 
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
 
-  implementation group: 'io.rest-assured', name: 'rest-assured'
+  implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.3.0'
+  implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+  implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-jre'
+  implementation group: 'org.json', name: 'json', version: '20230227'
+  implementation group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '6.5.1'
+  implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '6.2.0'
 
   testImplementation(platform('org.junit:junit-bom:5.9.3'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -202,6 +217,19 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.6'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '3.1.6'
+
+  implementation group: 'com.github.hmcts', name: 'ccd-client', version: '4.9.1'
+
+  implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+  implementation "org.projectlombok:lombok:${lombokVersion}"
+  annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+  annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
 }
 
 mainClassName = 'uk.gov.hmcts.reform.civil.Application'
@@ -220,5 +248,5 @@ rootProject.tasks.named("processSmokeTestResources") {
 }
 
 wrapper {
-    distributionType = Wrapper.DistributionType.ALL
+  distributionType = Wrapper.DistributionType.ALL
 }
