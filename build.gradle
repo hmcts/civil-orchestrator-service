@@ -1,3 +1,4 @@
+import org.gradle.api.Task
 import org.gradle.api.tasks.Exec
 
 plugins {
@@ -100,6 +101,13 @@ task integration(type: Test) {
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
   failFast = true
+}
+
+def inStrictOrder(Task... tasks) {
+  for (int i = 0; i < tasks.size() - 1; i++) {
+    tasks[i + 1].mustRunAfter(tasks[i])
+  }
+  return tasks
 }
 
 task awaitApplicationReadiness(type: Exec, description: 'Awaits until application is ready.') {
