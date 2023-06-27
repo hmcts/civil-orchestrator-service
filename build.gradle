@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.Exec
+
 plugins {
   id 'application'
   id 'checkstyle'
@@ -100,10 +102,24 @@ task integration(type: Test) {
   failFast = true
 }
 
-task smoke(type: Test) {
-  description = "Runs Smoke Tests"
-  testClassesDirs = sourceSets.smokeTest.output.classesDirs
-  classpath = sourceSets.smokeTest.runtimeClasspath
+task awaitApplicationReadiness(type: Exec, description: 'Awaits until application is ready.') {
+  commandLine './bin/wait-for.sh'
+}
+
+task runApiTests(type: Exec, description: 'Runs Api tests.') {
+  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:api'
+}
+
+task runSmokeTests(type: Exec, description: 'Runs smoke tests.') {
+  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:ga-smoke'
+}
+
+task smoke(description: 'Runs the smoke tests.') {
+  dependsOn(inStrictOrder(awaitApplicationReadiness, runSmokeTests))
+}
+
+task functional(description: 'Runs the functional tests.') {
+  dependsOn(inStrictOrder(awaitApplicationReadiness, runApiTests))
 }
 
 checkstyle {
