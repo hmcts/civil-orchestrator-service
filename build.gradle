@@ -108,11 +108,12 @@ task awaitApplicationReadiness(type: Exec, description: 'Awaits until applicatio
 }
 
 task runApiTests(type: Exec, description: 'Runs Api tests.') {
-  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:api'
+  // temporarily adding test unspec until we add our tests
+  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:api-unspec'
 }
 
 task runSmokeTests(type: Exec, description: 'Runs smoke tests.') {
-  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:ga-smoke'
+  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:smoke'
 }
 
 task smoke(description: 'Runs the smoke tests.') {
