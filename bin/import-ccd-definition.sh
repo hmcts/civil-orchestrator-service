@@ -18,7 +18,7 @@ git checkout ${branchName}
 cd ..
 
 #Copy ccd definition files  to civil-ccd-def which contians bpmn files
-cp -r ./civil-ccd-definition/civil-ccd-definition .
+cp -r ./civil-ccd-definition/ccd-definition .
 cp -r ./civil-ccd-definition/e2e .
 cp -r ./civil-ccd-definition/package.json .
 cp -r ./civil-ccd-definition/yarn.lock .
