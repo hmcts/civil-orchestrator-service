@@ -1,3 +1,6 @@
+import org.gradle.api.Task
+import org.gradle.api.tasks.Exec
+
 plugins {
   id 'application'
   id 'checkstyle'
@@ -17,6 +20,12 @@ java {
     languageVersion = JavaLanguageVersion.of(17)
   }
 }
+
+jacoco {
+  toolVersion = '0.8.8' // jacocoMavenPluginVersion
+  reportsDirectory = file("$buildDir/reports/jacoco")
+}
+
 
 sourceSets {
   functionalTest {
@@ -79,13 +88,6 @@ test {
   failFast = true
 }
 
-task functional(type: Test) {
-  description = "Runs functional tests"
-  group = "Verification"
-  testClassesDirs = sourceSets.functionalTest.output.classesDirs
-  classpath = sourceSets.functionalTest.runtimeClasspath
-}
-
 task integration(type: Test) {
   description = "Runs integration tests"
   group = "Verification"
@@ -94,10 +96,32 @@ task integration(type: Test) {
   failFast = true
 }
 
-task smoke(type: Test) {
-  description = "Runs Smoke Tests"
-  testClassesDirs = sourceSets.smokeTest.output.classesDirs
-  classpath = sourceSets.smokeTest.runtimeClasspath
+def inStrictOrder(Task... tasks) {
+  for (int i = 0; i < tasks.size() - 1; i++) {
+    tasks[i + 1].mustRunAfter(tasks[i])
+  }
+  return tasks
+}
+
+task awaitApplicationReadiness(type: Exec, description: 'Awaits until application is ready.') {
+  commandLine './bin/wait-for.sh'
+}
+
+task runApiTests(type: Exec, description: 'Runs Api tests.') {
+  // temporarily adding test unspec until we add our tests
+  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:api-unspec'
+}
+
+task runSmokeTests(type: Exec, description: 'Runs smoke tests.') {
+  commandLine '/usr/bin/yarn', '--silent', 'run', 'test:smoke'
+}
+
+task smoke(description: 'Runs the smoke tests.') {
+  dependsOn(inStrictOrder(awaitApplicationReadiness, runSmokeTests))
+}
+
+task functional(description: 'Runs the functional tests.') {
+  dependsOn(inStrictOrder(awaitApplicationReadiness, runApiTests))
 }
 
 checkstyle {
@@ -106,23 +130,39 @@ checkstyle {
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
-jacocoTestReport {
-  executionData(test, integration)
-  reports {
-    xml.required = true
-    csv.required = false
-    html.required = true
-  }
-}
 
-project.tasks['sonarqube'].dependsOn jacocoTestReport
-project.tasks['check'].dependsOn integration
+project.tasks['sonarqube'].dependsOn test,jacocoTestReport
 
 sonarqube {
   properties {
     property "sonar.projectName", "Reform :: civil-orchestrator-service"
     property "sonar.projectKey", "uk.gov.hmcts.reform:civil-orchestrator-service"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
+    property "sonar.coverage.exclusions", "**/model/**, **/config/**/*Configuration.java, **/testingsupport/**, **/*ExternalTaskListener.java, **/stereotypes/**, **/*Exception.java"
+    property "sonar.cpd.exclusions", "**/*DocumentManagementService.java"
+    property "sonar.host.url", "https://sonar.reform.hmcts.net/"
   }
+}
+
+jacocoTestReport {
+  executionData(test, integration)
+  executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+  subprojects.each {
+    sourceSets it.sourceSets.main
+  }
+  reports {
+    xml {
+        enabled true
+      }
+    csv {
+      enabled false
+    }
+    xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+  }
+}
+
+jacocoTestReport.dependsOn {
+  subprojects*.test
 }
 
 // before committing a change, make sure task still works
