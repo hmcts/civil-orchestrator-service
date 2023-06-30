@@ -10,7 +10,7 @@ data "azurerm_user_assigned_identity" "civil-mi" {
 
 module "key-vault" {
   source                      = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
-  name                        = "${var.product}-gen-apps-${var.env}" # NAME HAS BEEN ABBREVIATED DUE TO 24 LIMIT MAX ON KV NAMES
+  name                        = "${var.product}-orch-serv-${var.env}" # NAME HAS BEEN ABBREVIATED DUE TO 24 LIMIT MAX ON KV NAMES
   product                     = var.product
   env                         = var.env
   tenant_id                   = var.tenant_id
