@@ -1,9 +1,9 @@
 apiVersion: v2
 appVersion: "1.0"
 description: A Helm chart for civil-orchestrator-service App
-name: civil-civil-orchestrator-service
+name: civil-orchestrator-service
 home: https://github.com/hmcts/civil-orchestrator-service
-version: 0.0.9
+version: 0.0.10
 maintainers:
   - name: HMCTS civil team
 dependencies:
@@ -19,7 +19,7 @@ dependencies:
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: ccd.enabled
   - name: xui-webapp
-    version: ~1.0.0
+    version: ~1.0.8
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: xui-webapp.enabled
   - name: idam-pr
