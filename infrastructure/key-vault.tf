@@ -1,9 +1,3 @@
-resource "azurerm_resource_group" "rg" {
-  name     = "${var.product}-${var.component}-${var.env}"
-  location = var.location
-
-  tags = var.common_tags
-}
 
 data "azuread_group" "dts_civil" {
   display_name     = "DTS Civil"
