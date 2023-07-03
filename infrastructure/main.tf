@@ -10,6 +10,6 @@ resource "azurerm_resource_group" "rg" {
 }
 
 data "azurerm_key_vault" "civil" {
-  name                = "${var.product}-${var.env}"
-  resource_group_name = "${var.product}-service-${var.env}"
+  name                = "civil-${var.env}"
+  resource_group_name = "civil-service-${var.env}"
 }
