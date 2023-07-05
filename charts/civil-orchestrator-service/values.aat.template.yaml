@@ -27,7 +27,7 @@ java:
 
 
 civil-service:
-  enabled: false
+  enabled: true
   java:
     applicationPort: 4000
     releaseNameOverride: ${SERVICE_NAME}-civil-service
@@ -100,7 +100,7 @@ idam-pr:
       - https://civil-orchestrator-service-xui-staging.aat.platform.hmcts.net/oauth2/callback
 
 xui-webapp:
-  enabled: false
+  enabled: true
   nodejs:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-xui-webapp
