@@ -107,6 +107,7 @@ xui-webapp:
     image: hmctspublic.azurecr.io/xui/webapp:latest
     devmemoryRequests: 2048Mi
     devmemoryLimits: 4096Mi
+    ingressHost: xui-${SERVICE_FQDN}
     environment:
       HEALTH_CCD_COMPONENT_API: http://${SERVICE_NAME}-ccd-api-gw/health
       HEALTH_CCD_DATA_API: http://${SERVICE_NAME}-ccd-data-store-api/health
