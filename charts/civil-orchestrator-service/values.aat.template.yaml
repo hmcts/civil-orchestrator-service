@@ -97,7 +97,7 @@ civil-service:
 idam-pr:
   redirect_uris:
     XUI:
-      - https://civil-orchestrator-service-xui-staging.aat.platform.hmcts.net/oauth2/callback
+      - https://xui-civil-orchestrator-service-staging.aat.platform.hmcts.net/oauth2/callback
 
 xui-webapp:
   enabled: true
@@ -153,6 +153,7 @@ ccd:
   ccd-api-gateway-web:
     nodejs:
       imagePullPolicy: Always
+      ingressHost: gateway-${SERVICE_FQDN}
       environment:
         ADDRESS_LOOKUP_TOKEN: ${ADDRESS_LOOKUP_TOKEN}
         IDAM_SERVICE_KEY: ${CCD_API_GATEWAY_S2S_SECRET}
@@ -167,6 +168,7 @@ ccd:
       devcpuRequests: 2000m
       devmemoryLimits: "8Gi"
       devcpuLimits: 4000m
+      ingressHost: civil-orchestrator-service-data-store-staging-aat.service.core-compute-aat.internal
       environment:
         CASE_DOCUMENT_AM_API_ATTACH_DOCUMENT_ENABLED: false
         DATA_STORE_DB_HOST: ${SERVICE_NAME}-postgresql
@@ -190,6 +192,7 @@ ccd:
       devcpuRequests: 1000m
       devmemoryLimits: "8Gi"
       devcpuLimits: 2000m
+      ingressHost: civil-orchestrator-service-definition-store-staging-aat.service.core-compute-aat.internal
       environment:
         DEFINITION_STORE_DB_HOST: ${SERVICE_NAME}-postgresql
         DEFINITION_STORE_IDAM_KEY: ${CCD_DEFINITION_STORE_S2S_SECRET}
@@ -204,6 +207,7 @@ camunda-bpm:
   java:
     disableKeyVaults: true
     releaseNameOverride: ${SERVICE_NAME}-camunda
+    ingressHost: civil-orchestrator-service-camunda-staging-aat.service.core-compute-aat.internal
     environment:
       CAMUNDA_API_AUTH_ENABLED: false
       CAMUNDA_DB_HOST: ${SERVICE_NAME}-postgresql
