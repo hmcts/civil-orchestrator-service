@@ -1,26 +1,27 @@
 package uk.gov.hmcts.reform.civil.modelsdt;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Builder(toBuilder = true)
-@Value
 @AllArgsConstructor
+@Data
 public class CreateClaimSDT {
 
     // TODO remove bulkCustomerId, not part of payload, believe it is sent as header
-    private final String bulkCustomerId;
-    private final String claimantReference;
-    private final ClaimantType claimant;
-    private final DefendantType defendant1;
-    private final DefendantType defendant2;
-    private final String particulars;
-    private final Long claimAmount;
-    private final Boolean reserveRightToClaimInterest;
-    private final String sotSignature;
+    private String bulkCustomerId;
+    private String claimantReference;
+    private ClaimantType claimant;
+    private DefendantType defendant1;
+    private DefendantType defendant2;
+    private String particulars;
+    private Long claimAmount;
+    private Boolean reserveRightToClaimInterest;
+    private String sotSignature;
 
     @NotNull
-    private final String sotSignatureRole;
-    private final Interest interest;
+    private String sotSignatureRole;
+    private Interest interest;
 
 }

@@ -5,14 +5,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import uk.gov.hmcts.reform.civil.model.SdtErrorResponse;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @ControllerAdvice
@@ -24,7 +33,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
-    public ResponseEntity<Object> handleConstraintViolationException(final HttpServletRequest request,
+    public ResponseEntity<SdtErrorResponse> handleConstraintViolationException(final HttpServletRequest request,
                                                                      final Exception exception) {
         LOG.error(exception.getMessage());
 
@@ -34,6 +43,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             .status(HttpStatus.BAD_REQUEST)
             .body(sdtErrorResponse);
     }
+
+/*    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        List<String> errorList = ex
+            .getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .map(fieldError -> fieldError.getDefaultMessage())
+            .collect(Collectors.toList());
+        final SdtErrorResponse sdtErrorResponse = new SdtErrorResponse().builder()
+            .errorText(ex.getLocalizedMessage()).errorCode("002").build();
+        return handleExceptionInternal(ex, sdtErrorResponse, headers, HttpStatus.BAD_REQUEST, request);
+    }*/
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
