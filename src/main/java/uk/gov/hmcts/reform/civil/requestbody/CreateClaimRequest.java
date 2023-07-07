@@ -1,7 +1,17 @@
 package uk.gov.hmcts.reform.civil.requestbody;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 
 @Getter
 @Setter
@@ -14,17 +24,18 @@ public class CreateClaimRequest {
     // TODO remove bulkCustomerId, not part of payload, believe it is sent as header
     @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
     private String bulkCustomerId;
-    @NotNull
+    @NotNull (message = "claimant Reference should not be null")
     private String claimantReference;
     private ClaimantType claimant;
     private DefendantType defendant1;
     private DefendantType defendant2;
-    @Max(45) @NotNull
+    @NotNull @Size(max = 45, message = "particulars value should be less than or equal to 45")
     private String particulars;
-    @Min(0) @Max(99999)
+    @Min(value = 0, message = "claim amount should not be less than 0")
+    @Max(value = 99999, message = "claim amount should not be more than 99999")
     private Long claimAmount;
     private Boolean reserveRightToClaimInterest;
-    @NotNull
+    @NotNull (message = "sotSignature value should not be null")
     private String sotSignature;
     private final String sotSignatureRole = "bulk issuer role";
     private Interest interest;

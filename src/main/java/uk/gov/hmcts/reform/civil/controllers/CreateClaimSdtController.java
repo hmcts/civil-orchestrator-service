@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
+import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
 
 @Slf4j

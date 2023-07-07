@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Interest {
 
     private String interestDailyAmount;
-    @NotNull
+    @NotNull(message = "Interest Owed Date should not be null")
     private LocalDate interestOwedDate;
     private LocalDate interestClaimDate;
     private String claimAmountInterestBase;

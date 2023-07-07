@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapper;
-import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
+import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 
 @Slf4j
 @Service

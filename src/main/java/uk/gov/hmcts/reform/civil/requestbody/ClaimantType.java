@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 public class ClaimantType {
 
-    @NotNull(message = "")
+    @NotNull(message = "Claimant name should not be null")
     private String name;
     private AddressType address;
 
