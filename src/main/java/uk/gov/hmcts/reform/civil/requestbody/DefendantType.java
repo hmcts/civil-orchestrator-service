@@ -1,5 +1,6 @@
-package uk.gov.hmcts.reform.civil.modelsdt;
+package uk.gov.hmcts.reform.civil.requestbody;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.ToString;
 @ToString
 public class DefendantType {
 
+    @NotNull
     private String name;
     private AddressType address;
 

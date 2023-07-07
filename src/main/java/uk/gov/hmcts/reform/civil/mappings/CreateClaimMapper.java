@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
+import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 
 @Getter
 @Setter
@@ -16,8 +16,8 @@ public class CreateClaimMapper {
 
     private CreateClaimCCD createClaimCCD;
 
-    public CreateClaimCCD mappedCreateClaim(CreateClaimSDT createClaimSDT) {
-        createClaimCCD = CreateClaimMapperInterface.INSTANCE.claimToDto(createClaimSDT);
+    public CreateClaimCCD mappedCreateClaim(CreateClaimRequest createClaimRequest) {
+        createClaimCCD = CreateClaimMapperInterface.INSTANCE.claimToDto(createClaimRequest);
 
         return  createClaimCCD;
     }

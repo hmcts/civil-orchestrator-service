@@ -1,5 +1,6 @@
-package uk.gov.hmcts.reform.civil.modelsdt;
+package uk.gov.hmcts.reform.civil.requestbody;
 
+import jakarta.validation.constraints.Max;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +15,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AddressType {
-
-    private String line1;
-    private String line2;
-    private String line3;
-    private String line4;
+    @Max(150)
+    private String addressLine1;
+    @Max(50)
+    private String addressLine2;
+    @Max(50)
+    private String addressLine3;
+    @Max(50)
+    private String addressLine4;
+    @Max(14)
     private String postcode;
 }

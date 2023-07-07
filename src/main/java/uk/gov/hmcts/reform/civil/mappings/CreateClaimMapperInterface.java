@@ -3,9 +3,9 @@ package uk.gov.hmcts.reform.civil.mappings;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import uk.gov.hmcts.reform.civil.model.MockOrg;
-import uk.gov.hmcts.reform.civil.model.MockOrgPolicy;
-import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
+import uk.gov.hmcts.reform.civil.responsebody.MockOrg;
+import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
+import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.utils.MonetaryConversions;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.CorrectEmail;
@@ -40,10 +40,10 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "applicant1.partyPhone", expression = "java(null)")
     @Mapping(target = "applicant1.unavailableDates", expression = "java(null)")
     @Mapping(target = "applicant1.flags", expression = "java(null)")
-    @Mapping(target = "applicant1.primaryAddress.addressLine1", source = "claimant.address.line1")
-    @Mapping(target = "applicant1.primaryAddress.addressLine2", source = "claimant.address.line2")
-    @Mapping(target = "applicant1.primaryAddress.addressLine3", source = "claimant.address.line3")
-    @Mapping(target = "applicant1.primaryAddress.postTown", source = "claimant.address.line4")
+    @Mapping(target = "applicant1.primaryAddress.addressLine1", source = "claimant.address.addressLine1")
+    @Mapping(target = "applicant1.primaryAddress.addressLine2", source = "claimant.address.addressLine2")
+    @Mapping(target = "applicant1.primaryAddress.addressLine3", source = "claimant.address.addressLine3")
+    @Mapping(target = "applicant1.primaryAddress.postTown", source = "claimant.address.addressLine4")
     @Mapping(target = "applicant1.primaryAddress.county", expression = "java(null)")
     @Mapping(target = "applicant1.primaryAddress.country", expression = "java(null)")
     @Mapping(target = "applicant1.primaryAddress.postCode", source = "claimant.address.postcode")
@@ -70,15 +70,15 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent1.partyPhone", expression = "java(null)")
     @Mapping(target = "respondent1.unavailableDates", expression = "java(null)")
     @Mapping(target = "respondent1.flags", expression = "java(null)")
-    @Mapping(target = "respondent1.primaryAddress.addressLine1", source = "defendant1.address.line1")
-    @Mapping(target = "respondent1.primaryAddress.addressLine2", source = "defendant1.address.line2")
-    @Mapping(target = "respondent1.primaryAddress.addressLine3", source = "defendant1.address.line3")
-    @Mapping(target = "respondent1.primaryAddress.postTown", source = "defendant1.address.line4")
+    @Mapping(target = "respondent1.primaryAddress.addressLine1", source = "defendant1.address.addressLine1")
+    @Mapping(target = "respondent1.primaryAddress.addressLine2", source = "defendant1.address.addressLine2")
+    @Mapping(target = "respondent1.primaryAddress.addressLine3", source = "defendant1.address.addressLine3")
+    @Mapping(target = "respondent1.primaryAddress.postTown", source = "defendant1.address.addressLine4")
     @Mapping(target = "respondent1.primaryAddress.county", expression = "java(null)")
     @Mapping(target = "respondent1.primaryAddress.country", expression = "java(null)")
     @Mapping(target = "respondent1.primaryAddress.postCode", source = "defendant1.address.postcode")
 
-    @Mapping(target = "adddRespondent2", expression = "java(checkRespondent2(createClaimSDT))")
+    @Mapping(target = "adddRespondent2", expression = "java(checkRespondent2(createClaimRequest))")
 
     @Mapping(target = "respondent2.type", expression = "java(setDefendantType())")
     @Mapping(target = "respondent2.partyID", expression = "java(null)")
@@ -99,26 +99,26 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent2.partyPhone", expression = "java(null)")
     @Mapping(target = "respondent2.unavailableDates", expression = "java(null)")
     @Mapping(target = "respondent2.flags", expression = "java(null)")
-    @Mapping(target = "respondent2.primaryAddress.addressLine1", source = "defendant2.address.line1")
-    @Mapping(target = "respondent2.primaryAddress.addressLine2", source = "defendant2.address.line2")
-    @Mapping(target = "respondent2.primaryAddress.addressLine3", source = "defendant2.address.line3")
-    @Mapping(target = "respondent2.primaryAddress.postTown", source = "defendant2.address.line4")
+    @Mapping(target = "respondent2.primaryAddress.addressLine1", source = "defendant2.address.addressLine1")
+    @Mapping(target = "respondent2.primaryAddress.addressLine2", source = "defendant2.address.addressLine2")
+    @Mapping(target = "respondent2.primaryAddress.addressLine3", source = "defendant2.address.addressLine3")
+    @Mapping(target = "respondent2.primaryAddress.postTown", source = "defendant2.address.addressLine4")
     @Mapping(target = "respondent2.primaryAddress.county", expression = "java(null)")
     @Mapping(target = "respondent2.primaryAddress.country", expression = "java(null)")
     @Mapping(target = "respondent2.primaryAddress.postCode", source = "defendant2.address.postcode")
 
     @Mapping(target = "detailsOfClaim", source = "particulars")
-    @Mapping(target = "totalClaimAmount", expression = "java(claimAmount(createClaimSDT))")
-    @Mapping(target = "claimInterest", expression = "java(claimInterest(createClaimSDT))")
-    @Mapping(target = "interestFromSpecificDate", source = "interest.owedDate")
+    @Mapping(target = "totalClaimAmount", expression = "java(claimAmount(createClaimRequest))")
+    @Mapping(target = "claimInterest", expression = "java(claimInterest(createClaimRequest))")
+    @Mapping(target = "interestFromSpecificDate", source = "interest.interestOwedDate")
     @Mapping(target = "interestFromSpecificDateDescription", expression = "java(null)")
     @Mapping(target = "uiStatementOfTruth.name", source = "sotSignature")
     @Mapping(target = "uiStatementOfTruth.role", source = "sotSignatureRole")
     @Mapping(target = "applicantSolicitor1UserDetails", expression = "java(populateIdamDetails())")
-    @Mapping(target = "claimFee", expression = "java(calculateClaimFee(createClaimSDT))")
+    @Mapping(target = "claimFee", expression = "java(calculateClaimFee(createClaimRequest))")
 
 
-    CreateClaimCCD claimToDto(CreateClaimSDT createClaimSDT);
+    CreateClaimCCD claimToDto(CreateClaimRequest createClaimRequest);
 
     default Party.Type setClaimantType() {
 
@@ -145,21 +145,21 @@ public interface CreateClaimMapperInterface {
         return organisationPolicy;
     }
 
-    default YesOrNo checkRespondent2(CreateClaimSDT createClaimSDT) {
-        if (createClaimSDT.getDefendant2() != null) {
+    default YesOrNo checkRespondent2(CreateClaimRequest createClaimRequest) {
+        if (createClaimRequest.getDefendant2() != null) {
             return YesOrNo.YES;
         } else {
             return YesOrNo.NO;
         }
     }
 
-    default BigDecimal claimAmount(CreateClaimSDT createClaimSDT) {
-        BigDecimal bigDecimal = new BigDecimal(createClaimSDT.getClaimAmount());
+    default BigDecimal claimAmount(CreateClaimRequest createClaimRequest) {
+        BigDecimal bigDecimal = new BigDecimal(createClaimRequest.getClaimAmount());
         return  MonetaryConversions.penniesToPounds(bigDecimal);
     }
 
-    default YesOrNo claimInterest(CreateClaimSDT createClaimSDT) {
-        if (createClaimSDT.getReserveRightToClaimInterest().equals(true)) {
+    default YesOrNo claimInterest(CreateClaimRequest createClaimRequest) {
+        if (createClaimRequest.getReserveRightToClaimInterest().equals(true)) {
             return YesOrNo.YES;
         } else {
             return YesOrNo.NO;
@@ -175,8 +175,8 @@ public interface CreateClaimMapperInterface {
     }
 
     // TODO implement fee service
-    default Fee calculateClaimFee(CreateClaimSDT createClaimSDT) {
-        BigDecimal bigDecimal = new BigDecimal(createClaimSDT.getClaimAmount());
+    default Fee calculateClaimFee(CreateClaimRequest createClaimRequest) {
+        BigDecimal bigDecimal = new BigDecimal(createClaimRequest.getClaimAmount());
         Fee claimFee = new Fee();
         claimFee.setCalculatedAmountInPence(bigDecimal);
         return claimFee;

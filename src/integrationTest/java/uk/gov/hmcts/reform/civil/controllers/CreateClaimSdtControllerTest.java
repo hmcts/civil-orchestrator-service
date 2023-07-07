@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import uk.gov.hmcts.reform.civil.modelsdt.AddressType;
+import uk.gov.hmcts.reform.civil.requestbody.AddressType;
 import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
 
 import java.io.StringWriter;

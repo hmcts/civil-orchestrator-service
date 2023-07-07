@@ -1,5 +1,7 @@
-package uk.gov.hmcts.reform.civil.model;
+package uk.gov.hmcts.reform.civil.responsebody;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +13,9 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class CreateSDTResponse {
+public class CreateClaimErrorResponse {
 
+    @NotNull @Pattern(regexp = "[\\dA-Za-z]{8}")
     private String claimNumber;
     private String errorCode;
     private String errorText;

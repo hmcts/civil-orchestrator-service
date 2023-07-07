@@ -1,5 +1,6 @@
-package uk.gov.hmcts.reform.civil.modelsdt;
+package uk.gov.hmcts.reform.civil.requestbody;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,9 +18,10 @@ import java.time.LocalDate;
 @ToString
 public class Interest {
 
-    private String dailyAmount;
-    private LocalDate owedDate;
-    private LocalDate claimDate;
+    private String interestDailyAmount;
+    @NotNull
+    private LocalDate interestOwedDate;
+    private LocalDate interestClaimDate;
     private String claimAmountInterestBase;
 
 }
