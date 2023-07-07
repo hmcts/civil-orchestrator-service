@@ -35,7 +35,7 @@ public class CreateClaimErrorResponseTest {
 
     @Test
     void shouldThrowErrorMessageWhenErrorCodeIsNull() {
-        claimErrorResponse = CreateClaimErrorResponse.builder().claimNumber("123678789")
+        claimErrorResponse = CreateClaimErrorResponse.builder().claimNumber("123678AZ")
             .errorText("Unknown user")
             .build();
         constraintViolations = validator.validate(claimErrorResponse);
@@ -44,7 +44,7 @@ public class CreateClaimErrorResponseTest {
 
     @Test
     void shouldThrowErrorMessageWhenErrorTextIsNull() {
-        claimErrorResponse = CreateClaimErrorResponse.builder().claimNumber("123678789")
+        claimErrorResponse = CreateClaimErrorResponse.builder().claimNumber("12367878")
             .errorCode("401")
             .build();
         constraintViolations = validator.validate(claimErrorResponse);

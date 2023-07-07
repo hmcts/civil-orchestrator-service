@@ -90,4 +90,16 @@ public class AddressTypeTest {
         constraintViolations = validator.validate(addressType);
         assertEquals(constraintViolations.iterator().next().getMessage(), "PostCode value should be less than or equal to 14 characters");
     }
+
+    @Test
+    void shouldThrowErrorMessageWhenPostCodeIsNull() {
+
+        addressType = AddressType.builder().addressLine1("Site Name000000 - Address9999999 - 28000 UnitedKingdom")
+            .addressLine2("SiteName Street ")
+            .addressLine3("SiteName Road ")
+            .addressLine4("Site Name000000")
+            .build();
+        constraintViolations = validator.validate(addressType);
+        assertEquals(constraintViolations.iterator().next().getMessage(), "Postcode value should not be null");
+    }
 }

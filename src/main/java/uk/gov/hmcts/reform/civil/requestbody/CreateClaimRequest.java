@@ -22,15 +22,17 @@ import lombok.ToString;
 public class CreateClaimRequest {
 
     // TODO remove bulkCustomerId, not part of payload, believe it is sent as header
+    @NotNull(message = "Bulk Customer Id should not be null")
     @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
     private String bulkCustomerId;
-    @NotNull (message = "claimant Reference should not be null")
+    @NotNull(message = "claimant Reference should not be null")
     private String claimantReference;
     private ClaimantType claimant;
     private DefendantType defendant1;
     private DefendantType defendant2;
     @NotNull @Size(max = 45, message = "particulars value should be less than or equal to 45")
     private String particulars;
+    @NotNull(message = "Claim amount should not be null")
     @Min(value = 0, message = "claim amount should not be less than 0")
     @Max(value = 99999, message = "claim amount should not be more than 99999")
     private Long claimAmount;

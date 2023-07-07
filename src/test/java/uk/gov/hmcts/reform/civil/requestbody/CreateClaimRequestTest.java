@@ -36,6 +36,18 @@ class CreateClaimRequestTest {
     }
 
     @Test
+    void shouldThrowErrorMessageWhenBulkClaimIdIsNull() {
+        claimRequest = CreateClaimRequest.builder()
+            .claimAmount(Long.valueOf(7890))
+            .claimantReference("1568h8992334")
+            .particulars("particulars")
+            .sotSignature("sotSignatureExample")
+            .build();
+        constraintViolations = validator.validate(claimRequest);
+        assertEquals(constraintViolations.iterator().next().getMessage(), "Bulk Customer Id should not be null");
+    }
+
+    @Test
     void shouldThrowErrorMessageWhenClaimantReferenceIsNull() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
@@ -70,6 +82,18 @@ class CreateClaimRequestTest {
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "sotSignature value should not be null");
+    }
+
+    @Test
+    void shouldThrowErrorMessageWhenClaimAmountIsNull() {
+
+        claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .particulars("particulars")
+            .claimantReference("1568h8992334")
+            .sotSignature("sotSignatureExample")
+            .build();
+        constraintViolations = validator.validate(claimRequest);
+        assertEquals(constraintViolations.iterator().next().getMessage(), "Claim amount should not be null");
     }
 
     @Test
