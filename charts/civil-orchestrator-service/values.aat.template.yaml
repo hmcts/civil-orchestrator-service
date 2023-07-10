@@ -98,7 +98,7 @@ civil-service:
 idam-pr:
   redirect_uris:
     XUI:
-      - https://civil-orch-xui-staging.service.core-compute-aat.internal/oauth2/callback
+      - https://civil-orch-xui-staging.aat.platform.hmcts.net/oauth2/callback
 
 xui-webapp:
   enabled: true
