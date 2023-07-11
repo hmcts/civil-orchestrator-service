@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import uk.gov.hmcts.reform.civil.customvalidator.ValidateFields;
 
 
 @Getter
@@ -19,6 +20,12 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ValidateFields(
+    field = "defendant1.name",
+    parentField = "defendant2",
+    fieldMatch = "defendant2.name",
+    message = "Second defendant cannot have an identical name to the first defendant"
+)
 public class CreateClaimRequest {
 
     // TODO remove bulkCustomerId, not part of payload, believe it is sent as header

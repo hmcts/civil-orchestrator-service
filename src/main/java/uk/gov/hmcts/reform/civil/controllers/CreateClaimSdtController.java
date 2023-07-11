@@ -7,10 +7,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
@@ -29,9 +31,12 @@ public class CreateClaimSdtController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Callback processed."),
         @ApiResponse(responseCode = "400", description = "Bad Request")})
-    public ResponseEntity<CreateClaimErrorResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest) {
 
-        return createClaimFromSdtService.buildResponse(createClaimRequest);
+    public ResponseEntity<CreateClaimErrorResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest,
+                                                                   @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+                                                                   @RequestHeader("SdtRequestId") String sdtRequestId) {
+
+        return createClaimFromSdtService.buildResponse(authorization,sdtRequestId,createClaimRequest);
     }
 }
 

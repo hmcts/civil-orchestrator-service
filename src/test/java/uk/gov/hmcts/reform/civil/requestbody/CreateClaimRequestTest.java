@@ -28,6 +28,8 @@ class CreateClaimRequestTest {
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("abc123678")
              .claimAmount(Long.valueOf(7890))
              .claimantReference("1568h8992334")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
              .particulars("particulars")
              .sotSignature("sotSignatureExample")
             .build();
@@ -42,6 +44,8 @@ class CreateClaimRequestTest {
             .claimantReference("1568h8992334")
             .particulars("particulars")
             .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "Bulk Customer Id should not be null");
@@ -54,6 +58,8 @@ class CreateClaimRequestTest {
             .claimAmount(Long.valueOf(7890))
             .particulars("particulars")
             .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "claimant Reference should not be null");
@@ -67,6 +73,8 @@ class CreateClaimRequestTest {
             .particulars("particulars length should ne less than or equal to forty five. testing is in progress")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "particulars value should be less than or equal to 45");
@@ -79,6 +87,8 @@ class CreateClaimRequestTest {
             .claimAmount(Long.valueOf(8000))
             .particulars("particulars")
             .claimantReference("1568h8992334")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "sotSignature value should not be null");
@@ -91,6 +101,8 @@ class CreateClaimRequestTest {
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "Claim amount should not be null");
@@ -104,6 +116,8 @@ class CreateClaimRequestTest {
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "claim amount should not be less than 0");
@@ -117,8 +131,58 @@ class CreateClaimRequestTest {
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
         assertEquals(constraintViolations.iterator().next().getMessage(), "claim amount should not be more than 99999");
+    }
+
+    @Test
+    void shouldThrowCustomErrorWhenDefendant1NameIsEqualToDefendant2Name() {
+
+        claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .claimAmount(Long.valueOf(9999))
+            .particulars("particulars")
+            .claimantReference("1568h8992334")
+            .claimant(ClaimantType.builder().name("claimant").build())
+            .defendant1(DefendantType.builder().name("defendant").build())
+            .defendant2(DefendantType.builder().name("defendant").build())
+            .sotSignature("sotSignatureExample")
+            .build();
+        constraintViolations = validator.validate(claimRequest);
+        assertEquals(constraintViolations.iterator().next().getMessage(),
+                     "Second defendant cannot have an identical name to the first defendant");
+    }
+
+    @Test
+    void shouldNotThrowErrorWhenDefendant1NameIsNotEqualToDefendant2Name() {
+
+        claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .claimAmount(Long.valueOf(9999))
+            .particulars("particulars")
+            .claimantReference("1568h8992334")
+            .claimant(ClaimantType.builder().name("claimant").build())
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
+            .sotSignature("sotSignatureExample")
+            .build();
+        constraintViolations = validator.validate(claimRequest);
+        assertEquals(constraintViolations.isEmpty(), true);
+    }
+
+    @Test
+    void shouldProceedWithoutErrorsWhenDefendant2DoesNotExist() {
+
+        claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .claimAmount(Long.valueOf(9999))
+            .particulars("particulars")
+            .claimantReference("1568h8992334")
+            .claimant(ClaimantType.builder().name("claimant").build())
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .sotSignature("sotSignatureExample")
+            .build();
+        constraintViolations = validator.validate(claimRequest);
+        assertEquals(constraintViolations.isEmpty(), true);
     }
 }

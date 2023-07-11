@@ -16,9 +16,11 @@ import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 public class CreateClaimFromSdtService {
 
     private final CreateClaimErrorResponse createClaimErrorResponse;
+    private final UserService userService;
     private final SubmitCreateClaim submitCreateClaim;
 
-    public ResponseEntity<CreateClaimErrorResponse> buildResponse(CreateClaimRequest createClaimRequest) {
+    public ResponseEntity<CreateClaimErrorResponse> buildResponse(String authorization, String sdtRequestId, CreateClaimRequest createClaimRequest) {
+
 
         // TODO Index new field stdRequestId, if it exists, claim is duplicate, otherwise new claim requires new caseData field
         var stdRequestId = "unique";
