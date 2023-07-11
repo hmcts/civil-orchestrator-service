@@ -15,13 +15,12 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Interest {
 
-    private String interestDailyAmount;
+    private Integer interestDailyAmount;
     @NotNull(message = "Interest Owed Date should not be null")
     private LocalDate interestOwedDate;
     private LocalDate interestClaimDate;
-    private String claimAmountInterestBase;
+    private Integer claimAmountInterestBase;
 
 }
