@@ -33,6 +33,7 @@ civil-service:
     releaseNameOverride: ${SERVICE_NAME}-civil-service
     image: 'hmctspublic.azurecr.io/civil/service:latest'
     imagePullPolicy: Always
+    ingressHost: civil-orch-civil-service-staging.aat.platform.hmcts.net
     keyVaults:
       civil:
         resourceGroup: civil
@@ -97,7 +98,7 @@ civil-service:
 idam-pr:
   redirect_uris:
     XUI:
-      - https://xui-civil-orchestrator-service-staging.aat.platform.hmcts.net/oauth2/callback
+      - https://civil-orch-xui-staging.aat.platform.hmcts.net/oauth2/callback
 
 xui-webapp:
   enabled: true
@@ -107,7 +108,7 @@ xui-webapp:
     image: hmctspublic.azurecr.io/xui/webapp:latest
     devmemoryRequests: 2048Mi
     devmemoryLimits: 4096Mi
-    ingressHost: xui-${SERVICE_FQDN}
+    ingressHost: civil-orch-xui-staging.aat.platform.hmcts.net
     environment:
       HEALTH_CCD_COMPONENT_API: http://${SERVICE_NAME}-ccd-api-gw/health
       HEALTH_CCD_DATA_API: http://${SERVICE_NAME}-ccd-data-store-api/health
@@ -168,7 +169,7 @@ ccd:
       devcpuRequests: 2000m
       devmemoryLimits: "8Gi"
       devcpuLimits: 4000m
-      ingressHost: civil-orchestrator-service-data-store-staging-aat.service.core-compute-aat.internal
+      ingressHost: civil-orch-data-store-staging.aat.platform.hmcts.net
       environment:
         CASE_DOCUMENT_AM_API_ATTACH_DOCUMENT_ENABLED: false
         DATA_STORE_DB_HOST: ${SERVICE_NAME}-postgresql
@@ -192,7 +193,7 @@ ccd:
       devcpuRequests: 1000m
       devmemoryLimits: "8Gi"
       devcpuLimits: 2000m
-      ingressHost: civil-orchestrator-service-definition-store-staging-aat.service.core-compute-aat.internal
+      ingressHost: civil-orch-definition-store-staging.aat.platform.hmcts.net
       environment:
         DEFINITION_STORE_DB_HOST: ${SERVICE_NAME}-postgresql
         DEFINITION_STORE_IDAM_KEY: ${CCD_DEFINITION_STORE_S2S_SECRET}
@@ -207,7 +208,7 @@ camunda-bpm:
   java:
     disableKeyVaults: true
     releaseNameOverride: ${SERVICE_NAME}-camunda
-    ingressHost: civil-orchestrator-service-camunda-staging-aat.service.core-compute-aat.internal
+    ingressHost: civil-orch-camunda-staging.aat.platform.hmcts.net
     environment:
       CAMUNDA_API_AUTH_ENABLED: false
       CAMUNDA_DB_HOST: ${SERVICE_NAME}-postgresql
