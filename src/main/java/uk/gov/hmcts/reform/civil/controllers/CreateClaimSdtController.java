@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.reform.civil.exceptions.BadRequestException;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
@@ -35,8 +36,15 @@ public class CreateClaimSdtController {
     public ResponseEntity<CreateClaimErrorResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest,
                                                                    @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
                                                                    @RequestHeader("SdtRequestId") String sdtRequestId) {
+        validateSdtRequestId(sdtRequestId);
+        return createClaimFromSdtService.buildResponse(authorization,createClaimRequest);
+    }
 
-        return createClaimFromSdtService.buildResponse(authorization,sdtRequestId,createClaimRequest);
+    private void validateSdtRequestId(String sdtRequestId) {
+        String sdtRequestIdFromCcd = createClaimFromSdtService.getSdtRequestId();
+        if (sdtRequestIdFromCcd.equalsIgnoreCase(sdtRequestId)) {
+            throw new BadRequestException(String.format("201 Request already processed"));
+        }
     }
 }
 
