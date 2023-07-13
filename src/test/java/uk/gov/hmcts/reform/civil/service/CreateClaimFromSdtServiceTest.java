@@ -5,17 +5,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.civil.exceptions.ClaimantValidationException;
 import uk.gov.hmcts.reform.civil.exceptions.InvalidUserException;
 import uk.gov.hmcts.reform.civil.exceptions.PaymentNotFoundException;
+import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.requestbody.AddressType;
 import uk.gov.hmcts.reform.civil.requestbody.ClaimantType;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.requestbody.DefendantType;
 import uk.gov.hmcts.reform.civil.requestbody.Interest;
-import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
+import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 
 import java.time.LocalDate;
 
@@ -93,7 +93,7 @@ class CreateClaimFromSdtServiceTest {
     }
 
     @Test
-    void shouldReturnResponseEntitySuccessfully() {
+    void shouldReturnCCDClaim() {
         CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("testIdamIDMatchesBulkId")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
@@ -106,7 +106,7 @@ class CreateClaimFromSdtServiceTest {
             .reserveRightToClaimInterest(true)
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
-        ResponseEntity<CreateClaimErrorResponse> errorResponse = createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT);
-        assertEquals(errorResponse.getBody().getErrorCode(), "401");
+        CreateClaimCCD claimCCD = createClaimFromSdtService.processSdtClaim(createClaimSDT);
+        assertEquals(claimCCD.getClaimInterest(), YesOrNo.YES);
     }
 }
