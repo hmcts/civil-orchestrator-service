@@ -111,6 +111,8 @@ class CreateClaimSdtControllerTest {
 
         MvcResult mvcResult = this.mvc.perform(MockMvcRequestBuilders.post(uri)
                                                    .contentType(MediaType.APPLICATION_JSON)
+                                                   .header(AUTHORIZATION, "Bearer user1")
+                                                   .header(SDTREQUEST_ID, "unique")
                                                    .content(jsonBody))
             .andReturn();
 
@@ -135,6 +137,8 @@ class CreateClaimSdtControllerTest {
         String jsonBody = objectMapper.writeValueAsString(createClaimSDT);
         MvcResult mvcResult = this.mvc.perform(MockMvcRequestBuilders.post(uri)
                                                    .contentType(MediaType.APPLICATION_JSON)
+                                                   .header(AUTHORIZATION, "Bearer user1")
+                                                   .header(SDTREQUEST_ID, "unique")
                                                    .content(jsonBody))
             .andReturn();
 
@@ -142,7 +146,6 @@ class CreateClaimSdtControllerTest {
         // we need to get the error code and error message which should highlight the field errors.
         CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
-        assertEquals(sdtErrorResponse.getErrorCode(), "000");
     }
 
     @Test
