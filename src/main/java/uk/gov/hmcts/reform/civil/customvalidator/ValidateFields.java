@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidateFields {
 
-    String message() default "Fields cannot be identical..!";
+    String message() default "";
 
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };

@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.civil.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
             .errorCode("002")
+            .errorText(exception.getCause().getMessage()).build();
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(error);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseBody
+    public ResponseEntity<CreateClaimErrorResponse> handleValidationException(final HttpServletRequest request,
+                                                                                       final Exception exception) {
+        LOG.error(exception.getMessage());
+
+        final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
+            .errorCode("001")
             .errorText(exception.getCause().getMessage()).build();
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
