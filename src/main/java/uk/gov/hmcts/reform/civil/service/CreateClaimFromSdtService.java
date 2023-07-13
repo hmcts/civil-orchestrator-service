@@ -34,13 +34,15 @@ public class CreateClaimFromSdtService {
 
         // TODO check if payment is valid
         var paymentValid = "valid";
-        if (paymentValid.equals("notValid")) {
+        if (paymentValid.equals(createClaimRequest.getClaimantReference())) {
             throw new PaymentNotFoundException("003 D/D facility not set");
         }
 
         // TODO Determine if customer is registered as solictor....customerID?
         Boolean customerIsSolicitor = true;
-        if (customerIsSolicitor.equals(false)) {
+        String customerName = "claimant";
+        if (customerName.equals(createClaimRequest.getClaimant().getName())) {
+            customerIsSolicitor = false;
             throw new ClaimantValidationException("005 claimant details missing");
         }
 
