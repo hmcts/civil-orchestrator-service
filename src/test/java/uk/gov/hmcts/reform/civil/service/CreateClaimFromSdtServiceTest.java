@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.civil.exceptions.ClaimantValidationException;
 import uk.gov.hmcts.reform.civil.exceptions.InvalidUserException;
@@ -14,6 +15,7 @@ import uk.gov.hmcts.reform.civil.requestbody.ClaimantType;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.requestbody.DefendantType;
 import uk.gov.hmcts.reform.civil.requestbody.Interest;
+import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 
 import java.time.LocalDate;
 
@@ -90,4 +92,21 @@ class CreateClaimFromSdtServiceTest {
         assertEquals(sdtRequestId,requestIdFromCCD);
     }
 
+    @Test
+    void shouldReturnResponseEntitySuccessfully() {
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("testIdamIDMatchesBulkId")
+            .claimAmount(Long.valueOf(9999))
+            .particulars("particulars")
+            .claimantReference("1568h8992334")
+            .claimant(ClaimantType.builder().name("claimant1").address(AddressType.builder().postcode("BR11LS").build())
+                          .build())
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
+            .sotSignature("sotSignatureExample")
+            .reserveRightToClaimInterest(true)
+            .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
+            .build();
+        ResponseEntity<CreateClaimErrorResponse> errorResponse = createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT);
+        assertEquals(errorResponse.getBody().getErrorCode(), "401");
+    }
 }
