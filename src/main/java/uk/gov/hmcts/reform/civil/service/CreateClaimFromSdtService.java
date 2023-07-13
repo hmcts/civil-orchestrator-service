@@ -29,19 +29,19 @@ public class CreateClaimFromSdtService {
 
         var idamId = "testIdamIDMatchesBulkId";
         if (!idamId.equals(createClaimRequest.getBulkCustomerId())) {
-            throw new InvalidUserException(String.format("401 Unknown useur"));
+            throw new InvalidUserException("Unknown useur");
         }
 
         // TODO check if payment is valid
         var paymentValid = "valid";
         if (paymentValid.equals("notValid")) {
-            throw new PaymentNotFoundException(String.format("003 D/D facility not set"));
+            throw new PaymentNotFoundException("003 D/D facility not set");
         }
 
         // TODO Determine if customer is registered as solictor....customerID?
         Boolean customerIsSolicitor = true;
         if (customerIsSolicitor.equals(false)) {
-            throw new ClaimantValidationException(String.format("005 claimant details missing"));
+            throw new ClaimantValidationException("005 claimant details missing");
         }
 
     }
@@ -53,7 +53,6 @@ public class CreateClaimFromSdtService {
     }
 
     public String getSdtRequestId() {
-        var stdRequestId = "unique";
-        return stdRequestId;
+        return "unique";
     }
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AddressTypeTest {
+class AddressTypeTest {
 
     private Validator validator;
     private AddressType addressType;

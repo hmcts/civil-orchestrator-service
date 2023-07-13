@@ -138,7 +138,7 @@ sonarqube {
     property "sonar.projectName", "Reform :: civil-orchestrator-service"
     property "sonar.projectKey", "uk.gov.hmcts.reform:civil-orchestrator-service"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-    property "sonar.coverage.exclusions", "**/model/**, **/config/**/*Configuration.java, **/testingsupport/**, **/*ExternalTaskListener.java, **/stereotypes/**, **/*Exception.java"
+    property "sonar.coverage.exclusions", "**/requestbody/**", "**/responsebody/**", "**/config/**/*Configuration.java, **/stereotypes/**, **/exceptions/**, **/*Exception.java"
     property "sonar.cpd.exclusions", "**/*DocumentManagementService.java"
     property "sonar.host.url", "https://sonar.reform.hmcts.net/"
   }
@@ -258,6 +258,8 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+  testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.6'
@@ -265,12 +267,13 @@ dependencies {
 
   implementation group: 'com.github.hmcts', name: 'ccd-client', version: '4.9.1'
 
+  annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
   implementation "org.mapstruct:mapstruct:${mapstructVersion}"
   implementation "org.projectlombok:lombok:${lombokVersion}"
   annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
 }
 
 mainClassName = 'uk.gov.hmcts.reform.civil.Application'

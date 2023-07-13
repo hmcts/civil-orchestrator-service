@@ -28,7 +28,6 @@ import uk.gov.hmcts.reform.civil.customvalidator.ValidateFields;
 )
 public class CreateClaimRequest {
 
-    // TODO remove bulkCustomerId, not part of payload, believe it is sent as header
     @NotNull(message = "Bulk Customer Id should not be null")
     @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
     private String bulkCustomerId;

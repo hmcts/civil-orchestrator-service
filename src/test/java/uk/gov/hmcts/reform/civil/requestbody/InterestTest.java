@@ -12,7 +12,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InterestTest {
+class InterestTest {
 
     private Validator validator;
     private Interest interest;

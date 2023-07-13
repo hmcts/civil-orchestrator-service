@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ClaimantTypeTest {
+class ClaimantTypeTest {
     private Validator validator;
     private ClaimantType claimantType;
     private Set<ConstraintViolation<ClaimantType>> constraintViolations;
