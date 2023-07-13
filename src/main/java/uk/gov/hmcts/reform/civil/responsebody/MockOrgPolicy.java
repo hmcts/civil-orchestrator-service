@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.civil.model;
+package uk.gov.hmcts.reform.civil.responsebody;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

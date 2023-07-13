@@ -18,14 +18,14 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
-import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
+import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SubmitCreateClaim {
 
-    private final CreateSDTResponse createSDTResponse;
+    private final CreateClaimErrorResponse createClaimErrorResponse;
     private String authorisation = "";
     private String serviceAuthorization = "";
     private String eventToken = "";
@@ -33,7 +33,7 @@ public class SubmitCreateClaim {
     private String jsonCaseData;
     private final ObjectMapper objectMapper;
 
-    public ResponseEntity<CreateSDTResponse> submitClaim(CreateClaimCCD createClaimCCD) {
+    public ResponseEntity<CreateClaimErrorResponse> submitClaim(CreateClaimCCD createClaimCCD) {
 
         try {
             objectMapper.registerModule(new JavaTimeModule());
@@ -74,7 +74,7 @@ public class SubmitCreateClaim {
             System.out.println("error message of " + e);
             log.error(e.getMessage());
             if (e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(401))) {
-                var response = createSDTResponse.toBuilder()
+                var response = createClaimErrorResponse.toBuilder()
                     .errorText("401: UNAUTHORIZED")
                     .errorCode("401")
                     .build();
@@ -83,7 +83,7 @@ public class SubmitCreateClaim {
                     HttpStatus.BAD_REQUEST);
             }
             if (e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(422))) {
-                var validationResponse = createSDTResponse.toBuilder()
+                var validationResponse = createClaimErrorResponse.toBuilder()
                     .errorText("422: Case validation error: " + e)
                     .errorCode("422")
                     .build();
@@ -92,7 +92,7 @@ public class SubmitCreateClaim {
                     HttpStatus.BAD_REQUEST);
             }
             if (e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
-                var validationResponse = createSDTResponse.toBuilder()
+                var validationResponse = createClaimErrorResponse.toBuilder()
                     .errorText("403: Forbidden access Denied: " + e)
                     .errorCode("403")
                     .build();
@@ -104,12 +104,12 @@ public class SubmitCreateClaim {
         return null;
     }
 
-    public ResponseEntity<CreateSDTResponse> getClaimNumber(ResponseEntity<String> response) {
+    public ResponseEntity<CreateClaimErrorResponse> getClaimNumber(ResponseEntity<String> response) {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         try {
             CaseDetails caseDetails;
             caseDetails = objectMapper.readValue(response.getBody(), CaseDetails.class);
-            var responseNum = createSDTResponse.toBuilder()
+            var responseNum = createClaimErrorResponse.toBuilder()
                 .claimNumber(caseDetails.getId().toString())
                 .build();
             return new ResponseEntity<>(
