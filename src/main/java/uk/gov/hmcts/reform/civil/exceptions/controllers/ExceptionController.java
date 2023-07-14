@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.civil.controllers;
+package uk.gov.hmcts.reform.civil.exceptions.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
