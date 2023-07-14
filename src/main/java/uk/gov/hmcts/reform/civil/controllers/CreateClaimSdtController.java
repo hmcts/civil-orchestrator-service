@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import uk.gov.hmcts.reform.civil.exceptions.Payload;
 import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
 import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
 import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @Slf4j
@@ -38,7 +36,7 @@ public class CreateClaimSdtController {
         return createClaimFromSdtService.buildResponse(createClaimSDT);
     }
 
-    @PostMapping(path ="/exception/{testId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/exception/{testId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateSDTResponse> welcome(@PathVariable("testId") int testId,
                                                      @RequestBody @Valid Payload payload) {
         return createClaimFromSdtService.buildException(testId);

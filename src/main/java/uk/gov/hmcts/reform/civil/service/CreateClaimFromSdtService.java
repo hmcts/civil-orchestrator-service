@@ -1,20 +1,19 @@
 package uk.gov.hmcts.reform.civil.service;
 
-import static uk.gov.hmcts.reform.civil.exceptions.ErrorDetails.INVALID_DATA;
-import static uk.gov.hmcts.reform.civil.exceptions.ErrorDetails.INVALID_DATA_CUSTOM;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
 import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapper;
 import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
 import uk.gov.hmcts.reform.civil.modelsdt.CreateClaimSDT;
+
+import static uk.gov.hmcts.reform.civil.exceptions.ErrorDetails.INVALID_DATA;
+import static uk.gov.hmcts.reform.civil.exceptions.ErrorDetails.INVALID_DATA_CUSTOM;
 
 @Slf4j
 @Service
