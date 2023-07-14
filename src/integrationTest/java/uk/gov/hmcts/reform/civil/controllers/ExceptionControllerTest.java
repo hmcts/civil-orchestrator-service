@@ -1,16 +1,12 @@
 package uk.gov.hmcts.reform.civil.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import uk.gov.hmcts.reform.civil.Application;
 import uk.gov.hmcts.reform.civil.exceptions.ApiError;
 import uk.gov.hmcts.reform.civil.exceptions.Payload;
 import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
 
-import java.io.StringWriter;
-
-import jakarta.xml.bind.JAXB;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
