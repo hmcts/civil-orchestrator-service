@@ -1,18 +1,17 @@
 package uk.gov.hmcts.reform.civil.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import uk.gov.hmcts.reform.civil.Application;
-import uk.gov.hmcts.reform.civil.exceptions.ApiError;
-import uk.gov.hmcts.reform.civil.exceptions.Payload;
-import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
+import uk.gov.hmcts.reform.civil.Application;
+import uk.gov.hmcts.reform.civil.exceptions.ApiError;
+import uk.gov.hmcts.reform.civil.exceptions.Payload;
+import uk.gov.hmcts.reform.civil.model.CreateSDTResponse;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ExceptionControllerTest {
