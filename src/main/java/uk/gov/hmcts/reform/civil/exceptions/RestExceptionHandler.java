@@ -24,7 +24,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     @ExceptionHandler({
-            ApplicationException.class,
+        ApplicationException.class,
     })
     public ResponseEntity<?> handleApplicationException(ApplicationException ex) {
         LOG.error("ApplicationException thrown. Cause: {}",
@@ -39,7 +39,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({
-            MethodArgumentNotValidException.class,
+        MethodArgumentNotValidException.class,
     })
     public ResponseEntity<?> handleException(MethodArgumentNotValidException ex) {
         List<String> messages = new ArrayList<String>();
