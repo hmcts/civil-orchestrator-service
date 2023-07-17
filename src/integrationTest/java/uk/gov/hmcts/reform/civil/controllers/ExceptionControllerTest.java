@@ -42,7 +42,7 @@ public class ExceptionControllerTest {
                 .postForEntity("http://localhost:" + port + "/exception/3",
                         payload, ApiError.class);
         assertEquals(400, responseEntity.getStatusCodeValue());
-        assertEquals("1001", responseEntity.getBody().getErrorId());
+        assertEquals("1001", responseEntity.getBody().getErrorCode());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ExceptionControllerTest {
                 .postForEntity("http://localhost:" + port + "/exception/1",
                         payload, ApiError.class);
         assertEquals(400, responseEntity.getStatusCodeValue());
-        assertEquals("1001", responseEntity.getBody().getErrorId());
+        assertEquals("1001", responseEntity.getBody().getErrorCode());
     }
 
     @Test
@@ -68,6 +68,6 @@ public class ExceptionControllerTest {
                 .postForEntity("http://localhost:" + port + "/exception/2",
                         payload, ApiError.class);
         assertEquals(400, responseEntity.getStatusCodeValue());
-        assertEquals("1003", responseEntity.getBody().getErrorId());
+        assertEquals("1003", responseEntity.getBody().getErrorCode());
     }
 }
