@@ -22,14 +22,14 @@ public class CreateClaimFromSdtService {
     public ResponseEntity<CreateClaimErrorResponse> buildResponse(String authorization, CreateClaimRequest createClaimRequest) {
 
         validateRequestParams(createClaimRequest);
-        return submitCreateClaim.submitClaim(processSdtClaim(createClaimRequest));
+        return submitCreateClaim.submitClaim(authorization, processSdtClaim(createClaimRequest));
     }
 
     private void validateRequestParams(CreateClaimRequest createClaimRequest) {
 
-        var idamId = "testIdamIDMatchesBulkId";
+        var idamId = "1234567";
         if (!idamId.equals(createClaimRequest.getBulkCustomerId())) {
-            throw new InvalidUserException("Unknown useur");
+            throw new InvalidUserException("Unknown user");
         }
 
         // TODO check if payment is valid
@@ -54,6 +54,7 @@ public class CreateClaimFromSdtService {
         return createClaimMapper.getCreateClaimCCD();
     }
 
+    // TODO search query, for stdRef if stdRequestId exists, request is duplicate
     public String getSdtRequestId() {
         return "unique";
     }

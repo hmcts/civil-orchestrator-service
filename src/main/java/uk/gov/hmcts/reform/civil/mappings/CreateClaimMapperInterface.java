@@ -9,7 +9,6 @@ import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
 import uk.gov.hmcts.reform.civil.utils.MonetaryConversions;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.CorrectEmail;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Fee;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.IdamUserDetails;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Party;
 
@@ -115,7 +114,7 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "uiStatementOfTruth.name", source = "sotSignature")
     @Mapping(target = "uiStatementOfTruth.role", source = "sotSignatureRole")
     @Mapping(target = "applicantSolicitor1UserDetails", expression = "java(populateIdamDetails())")
-    @Mapping(target = "claimFee", expression = "java(calculateClaimFee(createClaimRequest))")
+    @Mapping(target = "bulkRequestId", source = "bulkRequestId")
 
 
     CreateClaimCCD claimToDto(CreateClaimRequest createClaimRequest);
@@ -172,14 +171,6 @@ public interface CreateClaimMapperInterface {
         idamUserDetails.setEmail("hmcts.civil+organisation.1.solicitor.1@gmail.com");
         idamUserDetails.setId("089543e2-31fe-4cfb-984e-b82879195e78");
         return idamUserDetails;
-    }
-
-    // TODO implement fee service
-    default Fee calculateClaimFee(CreateClaimRequest createClaimRequest) {
-        BigDecimal bigDecimal = new BigDecimal(createClaimRequest.getClaimAmount());
-        Fee claimFee = new Fee();
-        claimFee.setCalculatedAmountInPence(bigDecimal);
-        return claimFee;
     }
 
 }

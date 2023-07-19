@@ -28,8 +28,10 @@ import uk.gov.hmcts.reform.civil.customvalidator.ValidateFields;
 )
 public class CreateClaimRequest {
 
+    @NotNull(message = "Bulk request Id should not be null")
+    private String bulkRequestId;
     @NotNull(message = "Bulk Customer Id should not be null")
-    @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
+  //  @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
     private String bulkCustomerId;
     @NotNull(message = "claimant Reference should not be null")
     private String claimantReference;
@@ -40,7 +42,7 @@ public class CreateClaimRequest {
     private String particulars;
     @NotNull(message = "Claim amount should not be null")
     @Min(value = 0, message = "claim amount should not be less than 0")
-    @Max(value = 99999, message = "claim amount should not be more than 99999")
+    @Max(value = 999999, message = "claim amount should not be more than 99999")
     private Long claimAmount;
     private Boolean reserveRightToClaimInterest;
     @NotNull (message = "sotSignature value should not be null")

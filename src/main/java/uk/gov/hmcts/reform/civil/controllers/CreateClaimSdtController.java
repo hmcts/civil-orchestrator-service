@@ -43,7 +43,7 @@ public class CreateClaimSdtController {
     private void validateSdtRequestId(String sdtRequestId) {
         String sdtRequestIdFromCcd = createClaimFromSdtService.getSdtRequestId();
         if (sdtRequestIdFromCcd.equalsIgnoreCase(sdtRequestId)) {
-            throw new BadRequestException(" Request already processed");
+            throw new BadRequestException("Create claim request already processed");
         }
     }
 }

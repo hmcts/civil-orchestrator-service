@@ -26,14 +26,11 @@ import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 public class SubmitCreateClaim {
 
     private final CreateClaimErrorResponse createClaimErrorResponse;
-    private String authorisation = "";
-    private String serviceAuthorization = "";
-    private String eventToken = "";
-    private String userID = "";
+    private String userID = "ecb256c5-cac3-4c3a-b6e0-f8de10147f58";
     private String jsonCaseData;
     private final ObjectMapper objectMapper;
 
-    public ResponseEntity<CreateClaimErrorResponse> submitClaim(CreateClaimCCD createClaimCCD) {
+    public ResponseEntity<CreateClaimErrorResponse> submitClaim(String authorization, CreateClaimCCD createClaimCCD) {
 
         try {
             objectMapper.registerModule(new JavaTimeModule());
@@ -43,20 +40,13 @@ public class SubmitCreateClaim {
             e.printStackTrace();
         }
 
-        String url = "http://localhost:4452/caseworkers/" + userID + "/jurisdictions/CIVIL/case-types/CIVIL/cases";
-
+        String url = "http://localhost:4000/cases/caseworkers/" + userID + "/jurisdictions/CIVIL/case-types/CIVIL/cases";
         // Create HttpHeaders
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
-        header.set("Authorization", "" + authorisation + "");
-        header.set("ServiceAuthorization", "" + serviceAuthorization + "");
-
+        header.set(HttpHeaders.AUTHORIZATION, authorization);
         // Set body
-        String requestBody = "{\"data\":" + jsonCaseData + ","
-            + "\"event\": {\"id\": \"CREATE_CLAIM_SPEC\"},"
-            + "\"event_data\": {},"
-            + "\"event_token\": \"" + eventToken + "\"}";
-
+        String requestBody = "{\"data\":" + jsonCaseData + "," + "\"event\": \"CREATE_CLAIM_SPEC\"}";
         //  HttpEntity
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, header);
         // RestTemplate
@@ -68,7 +58,7 @@ public class SubmitCreateClaim {
             if (response.getStatusCode().is2xxSuccessful()) {
                 System.out.println("Request was a success");
                 System.out.println("Response Body: " + response.getBody());
-                return getClaimNumber(response);
+                return getBulkCaseManClaimNumber(response);
             }
         } catch (HttpClientErrorException e) {
             System.out.println("error message of " + e);
@@ -104,13 +94,14 @@ public class SubmitCreateClaim {
         return null;
     }
 
-    public ResponseEntity<CreateClaimErrorResponse> getClaimNumber(ResponseEntity<String> response) {
+    public ResponseEntity<CreateClaimErrorResponse> getBulkCaseManClaimNumber(ResponseEntity<String> response) {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         try {
             CaseDetails caseDetails;
             caseDetails = objectMapper.readValue(response.getBody(), CaseDetails.class);
             var responseNum = createClaimErrorResponse.toBuilder()
-                .claimNumber(caseDetails.getId().toString())
+                // TODO Bulk claims require new casman number to be generated, similar to legacyCaseReference https://tools.hmcts.net/jira/browse/CIV-4463
+                .claimNumber(caseDetails.getData().get("legacyCaseReference").toString())
                 .build();
             return new ResponseEntity<>(
                 responseNum,

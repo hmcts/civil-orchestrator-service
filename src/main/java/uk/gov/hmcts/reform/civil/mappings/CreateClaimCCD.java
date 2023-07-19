@@ -10,7 +10,6 @@ import lombok.ToString;
 import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.CorrectEmail;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Fee;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.IdamUserDetails;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Party;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.SolicitorReferences;
@@ -44,7 +43,7 @@ public class CreateClaimCCD {
     private String interestFromSpecificDateDescription;
     private StatementOfTruth uiStatementOfTruth;
     private IdamUserDetails applicantSolicitor1UserDetails;
-    private Fee claimFee;
+    private String bulkRequestId;
     // TODO: Add in fields if interest was requested
     // private InterestClaimOptions interestClaimOptions;
     // private SameRateInterestSelection sameRateInterestSelection;
