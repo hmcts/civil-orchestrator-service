@@ -6,9 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.reform.civil.exceptions.ClaimantValidationException;
-import uk.gov.hmcts.reform.civil.exceptions.InvalidUserException;
-import uk.gov.hmcts.reform.civil.exceptions.PaymentNotFoundException;
+import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.requestbody.AddressType;
 import uk.gov.hmcts.reform.civil.requestbody.ClaimantType;
@@ -46,7 +44,7 @@ class CreateClaimFromSdtServiceTest {
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
         assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
-            .isInstanceOf(InvalidUserException.class);
+            .isInstanceOf(ApplicationException.class);
     }
 
     @Test
@@ -64,7 +62,7 @@ class CreateClaimFromSdtServiceTest {
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
         assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
-            .isInstanceOf(PaymentNotFoundException.class);
+            .isInstanceOf(ApplicationException.class);
     }
 
     @Test
@@ -82,7 +80,7 @@ class CreateClaimFromSdtServiceTest {
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
         assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
-            .isInstanceOf(ClaimantValidationException.class);
+            .isInstanceOf(ApplicationException.class);
     }
 
     @Test

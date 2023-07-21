@@ -8,13 +8,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.civil.exceptions.BadRequestException;
+import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
+import uk.gov.hmcts.reform.civil.exceptions.ErrorDetails;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
@@ -43,7 +45,7 @@ public class CreateClaimSdtController {
     private void validateSdtRequestId(String sdtRequestId) {
         String sdtRequestIdFromCcd = createClaimFromSdtService.getSdtRequestId();
         if (sdtRequestIdFromCcd.equalsIgnoreCase(sdtRequestId)) {
-            throw new BadRequestException(" Request already processed");
+            throw new ApplicationException(ErrorDetails.INVALID_DATA, HttpStatus.BAD_REQUEST, "Request already processed");
         }
     }
 }

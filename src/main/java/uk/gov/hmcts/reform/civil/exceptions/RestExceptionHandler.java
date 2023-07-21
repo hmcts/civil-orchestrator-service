@@ -1,7 +1,5 @@
 package uk.gov.hmcts.reform.civil.exceptions;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +27,7 @@ public class RestExceptionHandler {
         ApiError apiError =
                 new ApiError(
                         ex.getErrorDetails().getErrorCode().toString(),
-                        ex.getErrorDetails().getErrorText()
+                        ex.getErrorDetails().getErrorText() + ", "
                                 + (Objects.nonNull(ex.getCustomMessage())
                                 ? ex.getCustomMessage() : ""));
         return new ResponseEntity<>(apiError, ex.getStatus());
@@ -53,84 +49,17 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseBody
-    public ResponseEntity<CreateClaimErrorResponse> handleConstraintViolationException(final HttpServletRequest request,
-                                                                                       final Exception exception) {
-        LOG.error(exception.getMessage());
-
-        final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
-            .errorCode("002")
-            .errorText(exception.getCause().getMessage()).build();
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(error);
+    @ExceptionHandler({
+        ValidationException.class,
+    })
+    public ResponseEntity<?> handleValidationException(ValidationException ex) {
+        String messages = ex.getMessage();
+        LOG.error("Handling ValidationException | " + messages);
+        LOG.error("local message | " + ex.getLocalizedMessage());
+        ApiError apiError =
+            new ApiError(
+                ErrorDetails.INVALID_DATA.getErrorCode().toString(),
+                ex.getCause().getMessage());
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler(ValidationException.class)
-    @ResponseBody
-    public ResponseEntity<CreateClaimErrorResponse> handleValidationException(final HttpServletRequest request,
-                                                                                       final Exception exception) {
-        LOG.error(exception.getMessage());
-
-        final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
-            .errorCode("001")
-            .errorText(exception.getCause().getMessage()).build();
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(error);
-    }
-
-    @ExceptionHandler(InvalidUserException.class)
-    @ResponseBody
-    public ResponseEntity<CreateClaimErrorResponse> handleInvalidUserException(HttpServletRequest request, Exception exception) {
-        LOG.warn(exception.getMessage(), exception);
-
-        final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
-            .errorCode("401")
-            .errorText(exception.getCause().getMessage()).build();
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(error);
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    @ResponseBody
-    public ResponseEntity<CreateClaimErrorResponse> handleBadRequestException(HttpServletRequest request, Exception exception) {
-        LOG.warn(exception.getMessage(), exception);
-
-        final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
-            .errorCode("201")
-            .errorText(exception.getCause().getMessage()).build();
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(error);
-    }
-
-    @ExceptionHandler(ClaimantValidationException.class)
-    @ResponseBody
-    public ResponseEntity<CreateClaimErrorResponse> handleClaimantValidationRequestException(HttpServletRequest request, Exception exception) {
-        LOG.warn(exception.getMessage(), exception);
-
-        final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
-            .errorCode("005")
-            .errorText(exception.getCause().getMessage()).build();
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(error);
-    }
-
-    @ExceptionHandler(PaymentNotFoundException.class)
-    @ResponseBody
-    public ResponseEntity<CreateClaimErrorResponse> handlePaymentException(HttpServletRequest request, Exception exception) {
-        LOG.warn(exception.getMessage(), exception);
-
-        final CreateClaimErrorResponse error = new CreateClaimErrorResponse().toBuilder()
-            .errorCode("003")
-            .errorText(exception.getCause().getMessage()).build();
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(error);
-    }
-
 }

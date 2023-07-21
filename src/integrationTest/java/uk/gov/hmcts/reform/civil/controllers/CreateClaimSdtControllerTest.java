@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.civil.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,13 +101,18 @@ class CreateClaimSdtControllerTest {
             .andReturn();
 
         int status = mvcResult.getResponse().getStatus();
+        CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
+        Assertions.assertThat(sdtErrorResponse.getErrorText().contains("Request already processed"));
     }
 
 
     @Test
     public void inValidRequestWithJsonContent() throws Exception {
-        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("123123").sotSignature("roleAs").build();
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder()
+            .bulkCustomerId("123123")
+            .defendant1(DefendantType.builder().name("Defendant1").build())
+            .sotSignature("roleAs").build();
         String jsonBody = objectMapper.writeValueAsString(createClaimSDT);
 
         MvcResult mvcResult = this.mvc.perform(MockMvcRequestBuilders.post(uri)
@@ -120,18 +126,20 @@ class CreateClaimSdtControllerTest {
         // we need to get the error code and error message which should highlight the field errors.
         CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
-        assertEquals(sdtErrorResponse.getErrorCode(), "001");
+        assertEquals(sdtErrorResponse.getErrorCode().toString(), "0");
+        assertEquals(sdtErrorResponse.getErrorCode().toString(), "Bad data");
     }
 
     @Test
-    public void inValidRequestBodyWithJsonContent() throws Exception {
+    public void inValidRequestBodyWithSameNameOfDefendant1AndDefendant2() throws Exception {
         CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .claimant(ClaimantType.builder().name("claimant").build())
             .defendant1(DefendantType.builder().name("defendant1").build())
-            .defendant2(DefendantType.builder().name("defendant2").build())
+            .defendant2(DefendantType.builder().name("defendant1").build())
+            .sotSignature("bulk issuer role")
             .build();
 
         String jsonBody = objectMapper.writeValueAsString(createClaimSDT);
@@ -146,6 +154,8 @@ class CreateClaimSdtControllerTest {
         // we need to get the error code and error message which should highlight the field errors.
         CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
+        assertEquals("0", sdtErrorResponse.getErrorCode());
+        assertEquals("Bad data", sdtErrorResponse.getErrorText());
     }
 
     @Test
