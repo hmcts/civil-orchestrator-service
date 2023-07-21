@@ -127,7 +127,7 @@ class CreateClaimSdtControllerTest {
         CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
         assertEquals(sdtErrorResponse.getErrorCode().toString(), "0");
-        assertEquals(sdtErrorResponse.getErrorCode().toString(), "Bad data");
+        assertEquals(sdtErrorResponse.getErrorText().toString(), "Bad data");
     }
 
     @Test
