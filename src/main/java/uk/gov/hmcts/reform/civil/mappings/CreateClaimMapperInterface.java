@@ -4,15 +4,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
-import uk.gov.hmcts.reform.civil.responsebody.MockOrg;
-import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
-import uk.gov.hmcts.reform.civil.utils.MonetaryConversions;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.CorrectEmail;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.IdamUserDetails;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Party;
-
-import java.math.BigDecimal;
 
 @Mapper
 public interface CreateClaimMapperInterface {
@@ -48,7 +43,7 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "applicant1.primaryAddress.postCode", source = "claimant.address.postcode")
 
     @Mapping(target = "applicantSolicitor1CheckEmail", expression = "java(checkCorrectEmail())")
-    @Mapping(target = "applicant1OrganisationPolicy", expression = "java(applicantOrganisation())")
+    @Mapping(target = "applicant1OrganisationPolicy", expression = "java(null)")
 
     @Mapping(target = "respondent1.type", expression = "java(setDefendantType())")
     @Mapping(target = "respondent1.partyID", expression = "java(null)")
@@ -107,7 +102,7 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent2.primaryAddress.postCode", source = "defendant2.address.postcode")
 
     @Mapping(target = "detailsOfClaim", source = "particulars")
-    @Mapping(target = "totalClaimAmount", expression = "java(claimAmount(createClaimRequest))")
+    @Mapping(target = "totalClaimAmount", expression = "java(ClaimMappingUtils.claimAmount(createClaimRequest))")
     @Mapping(target = "claimInterest", expression = "java(claimInterest(createClaimRequest))")
     @Mapping(target = "interestFromSpecificDate", source = "interest.interestOwedDate")
     @Mapping(target = "interestFromSpecificDateDescription", expression = "java(null)")
@@ -135,26 +130,12 @@ public interface CreateClaimMapperInterface {
         return correctEmail;
     }
 
-    default MockOrgPolicy applicantOrganisation() {
-        MockOrgPolicy organisationPolicy = new MockOrgPolicy();
-        organisationPolicy.setOrgPolicyCaseAssignedRole("[APPLICANTSOLICITORONE]");
-        organisationPolicy.setOrgPolicyReference(null);
-        organisationPolicy.setOrganisation(MockOrg.builder().organisationID("Q1KOKP2").build());
-
-        return organisationPolicy;
-    }
-
     default YesOrNo checkRespondent2(CreateClaimRequest createClaimRequest) {
         if (createClaimRequest.getDefendant2() != null) {
             return YesOrNo.YES;
         } else {
             return YesOrNo.NO;
         }
-    }
-
-    default BigDecimal claimAmount(CreateClaimRequest createClaimRequest) {
-        BigDecimal bigDecimal = new BigDecimal(createClaimRequest.getClaimAmount());
-        return  MonetaryConversions.penniesToPounds(bigDecimal);
     }
 
     default YesOrNo claimInterest(CreateClaimRequest createClaimRequest) {

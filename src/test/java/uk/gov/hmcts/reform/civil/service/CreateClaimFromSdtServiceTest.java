@@ -52,7 +52,7 @@ class CreateClaimFromSdtServiceTest {
     @Test
     void shouldThrowPaymentExceptionWhenPaymentNotMadeInCCD() {
 
-        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("testIdamIDMatchesBulkId")
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("12345678")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
             .claimantReference("valid")
@@ -70,7 +70,7 @@ class CreateClaimFromSdtServiceTest {
     @Test
     void shouldThrowClaimantValidationExceptionWhenClaimantInCCD() {
 
-        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("testIdamIDMatchesBulkId")
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("12345678")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
             .claimantReference("1568h8992334")
@@ -94,7 +94,7 @@ class CreateClaimFromSdtServiceTest {
 
     @Test
     void shouldReturnCCDClaim() {
-        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("testIdamIDMatchesBulkId")
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("12345678")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
             .claimantReference("1568h8992334")

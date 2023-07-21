@@ -31,7 +31,7 @@ public class CreateClaimRequest {
     @NotNull(message = "Bulk request Id should not be null")
     private String bulkRequestId;
     @NotNull(message = "Bulk Customer Id should not be null")
-  //  @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
+    @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
     private String bulkCustomerId;
     @NotNull(message = "claimant Reference should not be null")
     private String claimantReference;
@@ -42,6 +42,7 @@ public class CreateClaimRequest {
     private String particulars;
     @NotNull(message = "Claim amount should not be null")
     @Min(value = 0, message = "claim amount should not be less than 0")
+    // TODO Check max claim amount, create claim spec specifies "errors.add("Total Claim Amount cannot exceed £ 25,000");"
     @Max(value = 999999, message = "claim amount should not be more than 99999")
     private Long claimAmount;
     private Boolean reserveRightToClaimInterest;

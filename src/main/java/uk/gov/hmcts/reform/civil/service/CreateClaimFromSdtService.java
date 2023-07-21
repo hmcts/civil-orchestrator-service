@@ -27,9 +27,9 @@ public class CreateClaimFromSdtService {
 
     private void validateRequestParams(CreateClaimRequest createClaimRequest) {
 
-        var idamId = "1234567";
+        var idamId = "12345678";
         if (!idamId.equals(createClaimRequest.getBulkCustomerId())) {
-            throw new InvalidUserException("Unknown user");
+            throw new InvalidUserException("Unknown useur");
         }
 
         // TODO check if payment is valid
@@ -45,7 +45,6 @@ public class CreateClaimFromSdtService {
             customerIsSolicitor = false;
             throw new ClaimantValidationException("005 claimant details missing");
         }
-
     }
 
     public CreateClaimCCD processSdtClaim(CreateClaimRequest createClaimRequest) {

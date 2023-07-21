@@ -18,7 +18,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
+import uk.gov.hmcts.reform.civil.prd.model.Organisation;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
+import uk.gov.hmcts.reform.civil.responsebody.MockOrg;
+import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -29,8 +34,14 @@ public class SubmitCreateClaim {
     private String userID = "ecb256c5-cac3-4c3a-b6e0-f8de10147f58";
     private String jsonCaseData;
     private final ObjectMapper objectMapper;
+    private final OrganisationService organisationService;
 
     public ResponseEntity<CreateClaimErrorResponse> submitClaim(String authorization, CreateClaimCCD createClaimCCD) {
+
+        // Organisation policy not sent by SDT,  built manually via PRD organisationApi.findUserOrganisation
+        // to retrieve org id
+        // TODO: PRD adding new endpoint for bulk claims to retrieve IDs using a customer id
+        createClaimCCD.setApplicant1OrganisationPolicy(populateApplicant1OrgPolicy(authorization));
 
         try {
             objectMapper.registerModule(new JavaTimeModule());
@@ -111,6 +122,17 @@ public class SubmitCreateClaim {
             log.error(e.getMessage());
         }
         return null;
+    }
+
+    public MockOrgPolicy populateApplicant1OrgPolicy(String authorization) {
+        Optional<Organisation> organisation = organisationService.findOrganisation(authorization);
+        MockOrgPolicy organisationPolicy = new MockOrgPolicy();
+        organisationPolicy.setOrgPolicyCaseAssignedRole("[APPLICANTSOLICITORONE]");
+        organisationPolicy.setOrgPolicyReference(null);
+        organisationPolicy.setOrganisation(MockOrg.builder()
+                                               .organisationID(organisation.get().getOrganisationIdentifier()).build());
+
+        return organisationPolicy;
     }
 
 }
