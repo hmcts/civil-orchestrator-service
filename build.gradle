@@ -5,7 +5,7 @@ plugins {
   id 'application'
   id 'checkstyle'
   id 'jacoco'
-  id 'io.spring.dependency-management' version '1.1.0'
+  id 'io.spring.dependency-management' version '1.1.2'
   id 'org.springframework.boot' version '3.1.2'
   id 'org.owasp.dependencycheck' version '8.3.1'
   id 'com.github.ben-manes.versions' version '0.47.0'
@@ -259,8 +259,8 @@ dependencies {
   }
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.6'
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '3.1.6'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.8'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '3.1.8'
 
   implementation group: 'com.github.hmcts', name: 'ccd-client', version: '4.9.2'
 
