@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
 import uk.gov.hmcts.reform.civil.exceptions.ErrorDetails;
-import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapperInterface;
+import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 
