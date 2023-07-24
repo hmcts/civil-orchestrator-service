@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
 import uk.gov.hmcts.reform.civil.exceptions.ErrorDetails;
-import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
-import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapper;
+import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
+import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapperInterface;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 
@@ -49,9 +49,7 @@ public class CreateClaimFromSdtService {
     }
 
     public CreateClaimCCD processSdtClaim(CreateClaimRequest createClaimRequest) {
-        CreateClaimMapper createClaimMapper = new CreateClaimMapper();
-        createClaimMapper.mappedCreateClaim(createClaimRequest);
-        return createClaimMapper.getCreateClaimCCD();
+        return CreateClaimMapperInterface.INSTANCE.claimToDto(createClaimRequest);
     }
 
     public String getSdtRequestId() {

@@ -103,6 +103,7 @@ class CreateClaimSdtControllerTest {
         int status = mvcResult.getResponse().getStatus();
         CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
+        assertEquals(sdtErrorResponse.getErrorCode(), "000");
         Assertions.assertThat(sdtErrorResponse.getErrorText().contains("Request already processed"));
     }
 
@@ -126,8 +127,8 @@ class CreateClaimSdtControllerTest {
         // we need to get the error code and error message which should highlight the field errors.
         CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
-        assertEquals(sdtErrorResponse.getErrorCode().toString(), "0");
-        assertEquals(sdtErrorResponse.getErrorText().toString(), "Bad data");
+        assertEquals(sdtErrorResponse.getErrorCode(), "000");
+        assertEquals(sdtErrorResponse.getErrorText(), "Bad data");
     }
 
     @Test
@@ -154,7 +155,7 @@ class CreateClaimSdtControllerTest {
         // we need to get the error code and error message which should highlight the field errors.
         CreateClaimErrorResponse sdtErrorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CreateClaimErrorResponse.class);
         assertEquals(400, status);
-        assertEquals("0", sdtErrorResponse.getErrorCode());
+        assertEquals("000", sdtErrorResponse.getErrorCode());
         assertEquals("Bad data", sdtErrorResponse.getErrorText());
     }
 

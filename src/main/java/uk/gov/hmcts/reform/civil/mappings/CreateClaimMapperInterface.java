@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.civil.mappings;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.MockOrg;
 import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
@@ -116,8 +117,6 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "uiStatementOfTruth.role", source = "sotSignatureRole")
     @Mapping(target = "applicantSolicitor1UserDetails", expression = "java(populateIdamDetails())")
     @Mapping(target = "claimFee", expression = "java(calculateClaimFee(createClaimRequest))")
-
-
     CreateClaimCCD claimToDto(CreateClaimRequest createClaimRequest);
 
     default Party.Type setClaimantType() {
