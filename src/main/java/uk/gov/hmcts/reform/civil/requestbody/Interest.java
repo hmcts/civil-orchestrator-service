@@ -26,7 +26,7 @@ public class Interest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Schema(example = "2023-07-25")
     private LocalDate interestClaimDate;
-    @Schema(example="6")
+    @Schema(example = "6")
     private Integer claimAmountInterestBase;
 
 }

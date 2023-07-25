@@ -32,7 +32,7 @@ public class CreateClaimRequest {
 
     @NotNull(message = "Bulk Customer Id should not be null")
     @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
-    @Schema( description = "Bulk customer Id that should be in [1-9]\\d{7} format ", example = "15678908")
+    @Schema(description = "Bulk customer Id that should be in [1-9]\\d{7} format ", example = "15678908")
     private String bulkCustomerId;
     @NotNull(message = "claimant Reference should not be null")
     @Schema(example = "1568h8992334")
@@ -53,9 +53,9 @@ public class CreateClaimRequest {
     private Long claimAmount;
     private Boolean reserveRightToClaimInterest;
     @NotNull (message = "sotSignature value should not be null")
-    @Schema(example ="signature")
+    @Schema(example = "signature")
     private String sotSignature;
-    @Schema(example="bulkIssuerRole")
+    @Schema(example = "bulkIssuerRole")
     private final String sotSignatureRole = "bulk issuer role";
     @Schema(implementation = Interest.class)
     private Interest interest;
