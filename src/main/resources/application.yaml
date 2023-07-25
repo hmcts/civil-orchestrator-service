@@ -65,7 +65,7 @@ rd_professional:
   api:
     url: http://localhost:8765
 
-rd_professional1:
-  api:
-    url: http://fake-prd-api
+civil-service:
+  create_claim:
+    url: http://localhost:4000/cases/caseworkers/jurisdictions/CIVIL/case-types/CIVIL/cases/
 

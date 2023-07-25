@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
+import uk.gov.hmcts.reform.civil.config.CreateClaimConfiguration;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.prd.model.Organisation;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
@@ -31,10 +32,11 @@ import java.util.Optional;
 public class SubmitCreateClaim {
 
     private final CreateClaimErrorResponse createClaimErrorResponse;
-    private String userID = "ecb256c5-cac3-4c3a-b6e0-f8de10147f58";
     private String jsonCaseData;
     private final ObjectMapper objectMapper;
     private final OrganisationService organisationService;
+    private final UserService userService;
+    private final CreateClaimConfiguration createClaimConfiguration;
 
     public ResponseEntity<CreateClaimErrorResponse> submitClaim(String authorization, CreateClaimCCD createClaimCCD) {
 
@@ -50,8 +52,8 @@ public class SubmitCreateClaim {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
-        String url = "http://localhost:4000/cases/caseworkers/" + userID + "/jurisdictions/CIVIL/case-types/CIVIL/cases";
+        //retrieve UserId
+        String userId = userService.getUserInfo(authorization).getUid();
         // Create HttpHeaders
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
@@ -64,7 +66,8 @@ public class SubmitCreateClaim {
         RestTemplate restTemplate = new RestTemplate();
         // POST request
         try {
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            ResponseEntity<String> response = restTemplate
+                .exchange(createClaimConfiguration.getUrl() + userId, HttpMethod.POST, requestEntity, String.class);
             // Process the response
             if (response.getStatusCode().is2xxSuccessful()) {
                 System.out.println("Request was a success");
