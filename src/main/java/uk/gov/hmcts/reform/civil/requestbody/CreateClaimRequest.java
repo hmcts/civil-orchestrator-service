@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.civil.requestbody;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -38,10 +39,13 @@ public class CreateClaimRequest {
     @Schema(example = "1568h8992334")
     private String claimantReference;
     @Schema(implementation = ClaimantType.class, description = "Applicant/Claimant details")
+    @Valid
     private ClaimantType claimant;
     @Schema(implementation = DefendantType.class, description = "Defendant1 details")
+    @Valid
     private DefendantType defendant1;
     @Schema(implementation = DefendantType.class, description = "Defendent2 details if exists")
+    @Valid
     private DefendantType defendant2;
     @NotNull @Size(max = 45, message = "particulars value should be less than or equal to 45")
     @Schema(description = "particulars value should always be less than or equal to 45 characters", example = "particularsValue")
@@ -58,6 +62,7 @@ public class CreateClaimRequest {
     @Schema(example = "bulkIssuerRole")
     private final String sotSignatureRole = "bulk issuer role";
     @Schema(implementation = Interest.class)
+    @Valid
     private Interest interest;
 
 }

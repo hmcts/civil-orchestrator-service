@@ -110,7 +110,6 @@ public class SubmitCreateClaim {
             CaseDetails caseDetails;
             caseDetails = objectMapper.readValue(response.getBody(), CaseDetails.class);
             var responseNum = createClaimErrorResponse.toBuilder()
-                .claimNumber(caseDetails.getId().toString())
                 .build();
             return new ResponseEntity<>(
                 responseNum,

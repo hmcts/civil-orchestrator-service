@@ -81,6 +81,36 @@ class CreateClaimRequestTest {
     }
 
     @Test
+    void shouldThrowErrorMessageWhenDefendantNameIsNull() {
+
+        claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .claimAmount(Long.valueOf(8000))
+            .particulars("particulars length")
+            .claimantReference("1568h8992334")
+            .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name(null).build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
+            .build();
+        constraintViolations = validator.validate(claimRequest);
+        assertEquals(constraintViolations.iterator().next().getMessage(), "Defendant name should not be null");
+    }
+
+    @Test
+    void shouldThrowErrorMessageWhenDefendant2NameIsNull() {
+
+        claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .claimAmount(Long.valueOf(8000))
+            .particulars("particulars length")
+            .claimantReference("1568h8992334")
+            .sotSignature("sotSignatureExample")
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name(null).build())
+            .build();
+        constraintViolations = validator.validate(claimRequest);
+        assertEquals(constraintViolations.iterator().next().getMessage(), "Defendant name should not be null");
+    }
+
+    @Test
     void shouldThrowErrorMessageWhenSotSignatureIsNull() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
