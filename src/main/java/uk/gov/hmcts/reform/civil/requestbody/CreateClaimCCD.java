@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.civil.mappings;
+package uk.gov.hmcts.reform.civil.requestbody;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import uk.gov.hmcts.reform.civil.model.MockOrgPolicy;
+import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.CorrectEmail;
 import uk.gov.hmcts.reform.civilcommonsmock.civil.model.Fee;

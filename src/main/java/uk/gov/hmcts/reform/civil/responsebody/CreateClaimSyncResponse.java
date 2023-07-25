@@ -1,20 +1,19 @@
-package uk.gov.hmcts.reform.civil.model;
+package uk.gov.hmcts.reform.civil.responsebody;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Builder(toBuilder = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
-public class CreateSDTResponse {
+public class CreateClaimSyncResponse {
 
     private String claimNumber;
-    private String errorCode;
-    private String errorText;
-
+    private LocalDate issueDate;
+    private LocalDate serviceDate;
 }

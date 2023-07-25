@@ -131,14 +131,14 @@ checkstyle {
 }
 
 
-project.tasks['sonarqube'].dependsOn test,jacocoTestReport
+project.tasks['sonarqube'].dependsOn test,integration,jacocoTestReport
 
 sonarqube {
   properties {
     property "sonar.projectName", "Reform :: civil-orchestrator-service"
     property "sonar.projectKey", "uk.gov.hmcts.reform:civil-orchestrator-service"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-    property "sonar.coverage.exclusions", "**/model/**, **/config/**/*Configuration.java, **/testingsupport/**, **/*ExternalTaskListener.java, **/stereotypes/**, **/*Exception.java"
+    property "sonar.coverage.exclusions", "**/requestbody/**, **/responsebody/**,**/exceptions/*, **/config/**/*Configuration.java, **/stereotypes/**, **/*Exception.java"
     property "sonar.cpd.exclusions", "**/*DocumentManagementService.java"
     property "sonar.host.url", "https://sonar.reform.hmcts.net/"
   }
@@ -230,6 +230,7 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
   implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
   implementation 'com.github.hmcts:payments-java-client:1.6.4'
@@ -257,6 +258,8 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+  testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.8'
@@ -264,12 +267,13 @@ dependencies {
 
   implementation group: 'com.github.hmcts', name: 'ccd-client', version: '4.9.2'
 
+  annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
   implementation "org.mapstruct:mapstruct:${mapstructVersion}"
   implementation "org.projectlombok:lombok:${lombokVersion}"
   annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
 }
 
 mainClassName = 'uk.gov.hmcts.reform.civil.Application'
