@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestController;;
 import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
 import uk.gov.hmcts.reform.civil.exceptions.ErrorDetails;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
@@ -32,7 +32,7 @@ public class CreateClaimSdtController {
     @PostMapping(path = "/createSDTClaim", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create claim from SDT")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Callback processed."),
+        @ApiResponse(responseCode = "201", description = "Callback processed."),
         @ApiResponse(responseCode = "400", description = "Bad Request")})
 
     public ResponseEntity<CreateClaimErrorResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest,
