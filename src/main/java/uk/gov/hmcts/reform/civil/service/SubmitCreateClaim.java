@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.civil.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +18,10 @@ import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.civil.config.CreateClaimConfiguration;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
+import uk.gov.hmcts.reform.civil.model.casedata.OrganisationPolicy;
 import uk.gov.hmcts.reform.civil.prd.model.Organisation;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
-import uk.gov.hmcts.reform.civil.responsebody.MockOrg;
-import uk.gov.hmcts.reform.civil.responsebody.MockOrgPolicy;
+import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponseBody;
 
 import java.util.Optional;
 
@@ -32,26 +31,17 @@ import java.util.Optional;
 public class SubmitCreateClaim {
 
     private final CreateClaimErrorResponse createClaimErrorResponse;
-    private String jsonCaseData;
-    private final ObjectMapper objectMapper;
     private final OrganisationService organisationService;
     private final UserService userService;
     private final CreateClaimConfiguration createClaimConfiguration;
 
     public ResponseEntity<CreateClaimErrorResponse> submitClaim(String authorization, CreateClaimCCD createClaimCCD) {
 
+        System.out.println(createClaimCCD);
         // Organisation policy not sent by SDT,  built manually via PRD organisationApi.findUserOrganisation
         // to retrieve org id
         // TODO: PRD adding new endpoint for bulk claims to retrieve IDs using a customer id
         createClaimCCD.setApplicant1OrganisationPolicy(populateApplicant1OrgPolicy(authorization));
-
-        try {
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-            jsonCaseData = objectMapper.writeValueAsString(createClaimCCD);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         //retrieve UserId
         String userId = userService.getUserInfo(authorization).getUid();
         // Create HttpHeaders
@@ -59,9 +49,9 @@ public class SubmitCreateClaim {
         header.setContentType(MediaType.APPLICATION_JSON);
         header.set(HttpHeaders.AUTHORIZATION, authorization);
         // Set body
-        String requestBody = "{\"data\":" + jsonCaseData + "," + "\"event\": \"CREATE_CLAIM_SPEC\"}";
+        CreateClaimResponseBody responseBody = new CreateClaimResponseBody(createClaimCCD, "CREATE_CLAIM_SPEC");
         //  HttpEntity
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, header);
+        HttpEntity<CreateClaimResponseBody> requestEntity = new HttpEntity<>(responseBody, header);
         // RestTemplate
         RestTemplate restTemplate = new RestTemplate();
         // POST request
@@ -75,7 +65,6 @@ public class SubmitCreateClaim {
                 return getBulkCaseManClaimNumber(response);
             }
         } catch (HttpClientErrorException e) {
-            System.out.println("error message of " + e);
             log.error(e.getMessage());
             if (e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(401))) {
                 var response = createClaimErrorResponse.toBuilder()
@@ -114,12 +103,12 @@ public class SubmitCreateClaim {
             CaseDetails caseDetails;
             caseDetails = objectMapper.readValue(response.getBody(), CaseDetails.class);
             var responseNum = createClaimErrorResponse.toBuilder()
-                // TODO Bulk claims require new casman number to be generated, similar to legacyCaseReference https://tools.hmcts.net/jira/browse/CIV-4463
+                // TODO Bulk claims require new caseman number to be generated, similar to legacyCaseReference https://tools.hmcts.net/jira/browse/CIV-4463
                 .claimNumber(caseDetails.getData().get("legacyCaseReference").toString())
                 .build();
             return new ResponseEntity<>(
                 responseNum,
-                HttpStatus.OK);
+                HttpStatus.CREATED);
 
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
@@ -127,12 +116,12 @@ public class SubmitCreateClaim {
         return null;
     }
 
-    public MockOrgPolicy populateApplicant1OrgPolicy(String authorization) {
+    public OrganisationPolicy populateApplicant1OrgPolicy(String authorization) {
         Optional<Organisation> organisation = organisationService.findOrganisation(authorization);
-        MockOrgPolicy organisationPolicy = new MockOrgPolicy();
+        OrganisationPolicy organisationPolicy = new OrganisationPolicy();
         organisationPolicy.setOrgPolicyCaseAssignedRole("[APPLICANTSOLICITORONE]");
         organisationPolicy.setOrgPolicyReference(null);
-        organisationPolicy.setOrganisation(MockOrg.builder()
+        organisationPolicy.setOrganisation(uk.gov.hmcts.reform.civil.model.casedata.Organisation.builder()
                                                .organisationID(organisation.get().getOrganisationIdentifier()).build());
 
         return organisationPolicy;

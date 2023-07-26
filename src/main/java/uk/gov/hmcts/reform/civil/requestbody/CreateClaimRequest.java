@@ -28,8 +28,7 @@ import uk.gov.hmcts.reform.civil.customvalidator.ValidateFields;
 )
 public class CreateClaimRequest {
 
-    @NotNull(message = "Bulk request Id should not be null")
-    private String bulkRequestId;
+    private String sdtRequestId;
     @NotNull(message = "Bulk Customer Id should not be null")
     @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
     private String bulkCustomerId;

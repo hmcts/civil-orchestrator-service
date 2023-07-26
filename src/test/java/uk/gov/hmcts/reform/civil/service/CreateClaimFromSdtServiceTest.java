@@ -10,12 +10,12 @@ import uk.gov.hmcts.reform.civil.exceptions.ClaimantValidationException;
 import uk.gov.hmcts.reform.civil.exceptions.InvalidUserException;
 import uk.gov.hmcts.reform.civil.exceptions.PaymentNotFoundException;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
+import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
 import uk.gov.hmcts.reform.civil.requestbody.AddressType;
 import uk.gov.hmcts.reform.civil.requestbody.ClaimantType;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.requestbody.DefendantType;
 import uk.gov.hmcts.reform.civil.requestbody.Interest;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 
 import java.time.LocalDate;
 
@@ -30,6 +30,7 @@ class CreateClaimFromSdtServiceTest {
     private CreateClaimFromSdtService createClaimFromSdtService;
 
     private static final String AUTHORIZATION = "Bearer user1";
+    private static final String sdtRequestId = "sdtRequestId";
 
     @Test
     void shouldSendInvalidUserWhenBulkIdFromSDTPresentInCCD() {
@@ -45,7 +46,7 @@ class CreateClaimFromSdtServiceTest {
             .sotSignature("sotSignatureExample")
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
-        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
+        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT, sdtRequestId))
             .isInstanceOf(InvalidUserException.class);
     }
 
@@ -63,7 +64,7 @@ class CreateClaimFromSdtServiceTest {
             .sotSignature("sotSignatureExample")
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
-        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
+        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT, sdtRequestId))
             .isInstanceOf(PaymentNotFoundException.class);
     }
 
@@ -81,7 +82,7 @@ class CreateClaimFromSdtServiceTest {
             .sotSignature("sotSignatureExample")
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
-        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
+        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT, sdtRequestId))
             .isInstanceOf(ClaimantValidationException.class);
     }
 

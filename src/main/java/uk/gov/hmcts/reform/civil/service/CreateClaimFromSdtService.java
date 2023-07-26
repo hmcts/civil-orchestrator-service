@@ -19,8 +19,9 @@ public class CreateClaimFromSdtService {
 
     private final SubmitCreateClaim submitCreateClaim;
 
-    public ResponseEntity<CreateClaimErrorResponse> buildResponse(String authorization, CreateClaimRequest createClaimRequest) {
-
+    public ResponseEntity<CreateClaimErrorResponse> buildResponse(String authorization, CreateClaimRequest createClaimRequest,
+                                                                  String sdtRequestId) {
+        createClaimRequest.setSdtRequestId(sdtRequestId);
         validateRequestParams(createClaimRequest);
         return submitCreateClaim.submitClaim(authorization, processSdtClaim(createClaimRequest));
     }

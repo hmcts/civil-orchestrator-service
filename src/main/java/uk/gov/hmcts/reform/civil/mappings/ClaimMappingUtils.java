@@ -15,4 +15,5 @@ public class ClaimMappingUtils {
         BigDecimal bigDecimal = new BigDecimal(createClaimRequest.getClaimAmount());
         return MonetaryConversions.penniesToPounds(bigDecimal);
     }
+
 }

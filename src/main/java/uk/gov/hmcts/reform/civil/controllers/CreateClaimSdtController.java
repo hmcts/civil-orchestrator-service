@@ -37,7 +37,7 @@ public class CreateClaimSdtController {
                                                                    @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
                                                                    @RequestHeader("SdtRequestId") String sdtRequestId) {
         validateSdtRequestId(sdtRequestId);
-        return createClaimFromSdtService.buildResponse(authorization,createClaimRequest);
+        return createClaimFromSdtService.buildResponse(authorization,createClaimRequest, sdtRequestId);
     }
 
     private void validateSdtRequestId(String sdtRequestId) {
