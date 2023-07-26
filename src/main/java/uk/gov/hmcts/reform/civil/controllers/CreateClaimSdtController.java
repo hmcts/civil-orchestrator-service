@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;;
+import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
 import uk.gov.hmcts.reform.civil.exceptions.ErrorDetails;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
