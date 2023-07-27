@@ -113,7 +113,7 @@ public class SubmitCreateClaim {
                 .build();
             return new ResponseEntity<>(
                 responseNum,
-                HttpStatus.OK);
+                HttpStatus.CREATED);
 
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
