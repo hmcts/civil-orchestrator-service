@@ -42,7 +42,6 @@ class CreateClaimSdtControllerTest {
     @MockBean
     private MockMvc mvc;
     @MockBean
-    @Autowired
     private CreateClaimFromSdtService createClaimFromSdtService;
     @Autowired
     WebApplicationContext webApplicationContext;
