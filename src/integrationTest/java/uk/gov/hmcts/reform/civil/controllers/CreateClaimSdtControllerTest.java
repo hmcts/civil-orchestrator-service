@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -25,8 +28,12 @@ import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest(controllers = {CreateClaimSdtController.class, RestExceptionHandler.class})
@@ -60,21 +67,22 @@ class CreateClaimSdtControllerTest {
             .claimantReference("1568h8992334")
             .claimant(ClaimantType.builder().name("claimant").address(AddressType.builder().postcode("BR11LS").build())
                           .build())
-            .defendant1(DefendantType.builder().name("defendant1").build())
-            .defendant2(DefendantType.builder().name("defendant2").build())
+            .defendant1(DefendantType.builder().name("defendant1").address(AddressType.builder().postcode("BR11LS").build()).build())
+            .defendant2(DefendantType.builder().name("defendant2").address(AddressType.builder().postcode("BR11LS").build()).build())
             .sotSignature("sotSignatureExample")
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
+
+        given(this.createClaimFromSdtService.buildResponse(any(String.class), any(CreateClaimRequest.class))).willReturn(new ResponseEntity<>(
+            CreateClaimErrorResponse.builder().build(),HttpStatus.CREATED));
         String jsonBody = objectMapper.writeValueAsString(createClaimSDT);
-        MvcResult mvcResult = this.mvc.perform(MockMvcRequestBuilders.post(uri)
-                                                   .contentType(MediaType.APPLICATION_JSON)
+        ResultActions mvcResult = this.mvc.perform(post(uri)
                                                    .header(AUTHORIZATION, "Bearer user1")
                                                    .header(SDTREQUEST_ID, "unique")
-                                                   .content(jsonBody))
-            .andReturn();
+                                                       .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                       .content(jsonBody));
 
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(200, status);
+        mvcResult.andExpect(status().isCreated());
     }
 
     @Test

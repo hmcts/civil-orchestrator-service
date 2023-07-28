@@ -32,7 +32,7 @@ public class CreateClaimSdtController {
     @PostMapping(path = "/createSDTClaim", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create claim from SDT")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Callback processed."),
+        @ApiResponse(responseCode = "201", description = "Callback processed."),
         @ApiResponse(responseCode = "400", description = "Bad Request")})
 
     public ResponseEntity<CreateClaimErrorResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest,
