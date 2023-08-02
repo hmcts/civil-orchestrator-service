@@ -8,22 +8,23 @@ import uk.gov.hmcts.reform.civil.exceptions.ClaimantValidationException;
 import uk.gov.hmcts.reform.civil.exceptions.InvalidUserException;
 import uk.gov.hmcts.reform.civil.exceptions.PaymentNotFoundException;
 import uk.gov.hmcts.reform.civil.mappings.CreateClaimCCD;
-import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapper;
+import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapperInterface;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
-import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
+import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreateClaimFromSdtService {
 
-    private final SubmitCreateClaim submitCreateClaim;
+    private final SubmitCreateClaimService submitCreateClaimService;
+    private CreateClaimCCD createClaimCCD;
 
-    public ResponseEntity<CreateClaimErrorResponse> buildResponse(String authorization, CreateClaimRequest createClaimRequest,
-                                                                  String sdtRequestId) {
+    public ResponseEntity<CreateClaimResponse> buildResponse(String authorization, CreateClaimRequest createClaimRequest,
+                                                             String sdtRequestId) {
         createClaimRequest.setSdtRequestId(sdtRequestId);
         validateRequestParams(createClaimRequest);
-        return submitCreateClaim.submitClaim(authorization, processSdtClaim(createClaimRequest));
+        return submitCreateClaimService.submitClaim(authorization, processSdtClaim(createClaimRequest));
     }
 
     private void validateRequestParams(CreateClaimRequest createClaimRequest) {
@@ -49,9 +50,9 @@ public class CreateClaimFromSdtService {
     }
 
     public CreateClaimCCD processSdtClaim(CreateClaimRequest createClaimRequest) {
-        CreateClaimMapper createClaimMapper = new CreateClaimMapper();
-        createClaimMapper.mappedCreateClaim(createClaimRequest);
-        return createClaimMapper.getCreateClaimCCD();
+        createClaimCCD = CreateClaimMapperInterface.INSTANCE.claimToDto(createClaimRequest);
+
+        return createClaimCCD;
     }
 
     // TODO search query, for stdRef if stdRequestId exists, request is duplicate

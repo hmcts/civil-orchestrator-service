@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class CreateClaimErrorResponse {
+public class CreateClaimErrorResponse implements CreateClaimResponse {
 
     @NotNull @Pattern(regexp = "[\\dA-Za-z]{8}", message = "Claim Reference number is in Incorrect format")
     private String claimNumber;
