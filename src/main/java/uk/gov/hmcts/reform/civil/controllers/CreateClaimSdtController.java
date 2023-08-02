@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
 import uk.gov.hmcts.reform.civil.exceptions.ErrorDetails;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
-import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
+import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
 import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
 
 @Tag(name = "Create Claim From SDT Controller")
@@ -35,11 +35,11 @@ public class CreateClaimSdtController {
         @ApiResponse(responseCode = "201", description = "Callback processed."),
         @ApiResponse(responseCode = "400", description = "Bad Request")})
 
-    public ResponseEntity<CreateClaimErrorResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest,
-                                                                   @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-                                                                   @RequestHeader("SdtRequestId") String sdtRequestId) {
+    public ResponseEntity<CreateClaimResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest,
+                                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+                                                              @RequestHeader("SdtRequestId") String sdtRequestId) {
         validateSdtRequestId(sdtRequestId);
-        return createClaimFromSdtService.buildResponse(authorization,createClaimRequest);
+        return createClaimFromSdtService.buildResponse(authorization,createClaimRequest, sdtRequestId);
     }
 
     private void validateSdtRequestId(String sdtRequestId) {

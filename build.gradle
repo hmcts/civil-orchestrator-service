@@ -233,7 +233,6 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
   implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
-  implementation 'com.github.hmcts:payments-java-client:1.6.4'
   implementation 'javax.ws.rs:jsr311-api:1.1.1'
   implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
   implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.0'
@@ -262,10 +261,11 @@ dependencies {
   testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.8'
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '3.1.8'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.0.3'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '4.0.3'
 
-  implementation group: 'com.github.hmcts', name: 'ccd-client', version: '4.9.2'
+  implementation group: 'com.github.hmcts', name: 'ccd-client', version: '4.9.1'
+  implementation group: 'com.github.hmcts', name: 'idam-java-client', version: '3.0.1'
 
   annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
   compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
@@ -274,6 +274,9 @@ dependencies {
   implementation "org.projectlombok:lombok:${lombokVersion}"
   annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+  implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '4.0.0'
+
 }
 
 mainClassName = 'uk.gov.hmcts.reform.civil.Application'

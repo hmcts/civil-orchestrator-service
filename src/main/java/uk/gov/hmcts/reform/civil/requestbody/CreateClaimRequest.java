@@ -31,6 +31,7 @@ import uk.gov.hmcts.reform.civil.customvalidator.ValidateFields;
 @Schema(description = "Schema for Create Claim Request Object")
 public class CreateClaimRequest {
 
+    private String sdtRequestId;
     @NotNull(message = "Bulk Customer Id should not be null")
     @Pattern(regexp = "[1-9]\\d{7}", message = "Bulk customer Id is in wrong format")
     @Schema(description = "Bulk customer Id that should be in [1-9]\\d{7} format ", example = "15678908")

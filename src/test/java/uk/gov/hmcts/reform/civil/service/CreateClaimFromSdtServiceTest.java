@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.civil.exceptions.ApplicationException;
+import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
 import uk.gov.hmcts.reform.civil.requestbody.AddressType;
 import uk.gov.hmcts.reform.civil.requestbody.ClaimantType;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.requestbody.DefendantType;
 import uk.gov.hmcts.reform.civil.requestbody.Interest;
-import uk.gov.hmcts.reform.civilcommonsmock.civil.enums.YesOrNo;
 
 import java.time.LocalDate;
 
@@ -28,6 +28,7 @@ class CreateClaimFromSdtServiceTest {
     private CreateClaimFromSdtService createClaimFromSdtService;
 
     private static final String AUTHORIZATION = "Bearer user1";
+    private static final String sdtRequestId = "sdtRequestId";
 
     @Test
     void shouldSendInvalidUserWhenBulkIdFromSDTPresentInCCD() {
@@ -43,7 +44,7 @@ class CreateClaimFromSdtServiceTest {
             .sotSignature("sotSignatureExample")
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
-        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
+        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT,sdtRequestId))
             .isInstanceOf(ApplicationException.class);
     }
 
@@ -61,7 +62,7 @@ class CreateClaimFromSdtServiceTest {
             .sotSignature("sotSignatureExample")
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
-        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
+        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT,sdtRequestId))
             .isInstanceOf(ApplicationException.class);
     }
 
@@ -79,7 +80,7 @@ class CreateClaimFromSdtServiceTest {
             .sotSignature("sotSignatureExample")
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
-        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT))
+        assertThatThrownBy(() -> createClaimFromSdtService.buildResponse(AUTHORIZATION,createClaimSDT,sdtRequestId))
             .isInstanceOf(ApplicationException.class);
     }
 

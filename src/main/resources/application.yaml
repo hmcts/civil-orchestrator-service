@@ -46,3 +46,26 @@ spring:
 azure:
   application-insights:
     instrumentation-key: ${civil.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
+
+idam:
+  web:
+    url: http://localhost:9002
+  api:
+    url: http://localhost:5000
+  s2s-auth:
+    url: http://localhost:4502
+    totp_secret: AABBCCDDEEFFGGHH
+    microservice: civil_service
+  client:
+    id: civil
+    redirect_uri: https://localhost:9000/oauth2/callback
+    secret: OOOOOOOOOOOOOOOO
+
+rd_professional:
+  api:
+    url: http://localhost:8765
+
+civil-service:
+  create_claim:
+    url: http://localhost:4000/cases/caseworkers/jurisdictions/CIVIL/case-types/CIVIL/cases/
+
