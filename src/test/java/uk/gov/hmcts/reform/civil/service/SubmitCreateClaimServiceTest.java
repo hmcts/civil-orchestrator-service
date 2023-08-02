@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.civil.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SubmitCreateClaimServiceTest {
@@ -42,18 +42,19 @@ class SubmitCreateClaimServiceTest {
     @Mock
     CreateClaimConfiguration createClaimConfiguration;
     @Mock
-    private ObjectMapper objectMapper;
+    ObjectMapper objectMapper;
 
     SubmitCreateClaimService submitCreateClaimService;
 
     private String authorization = "Bearer 123";
-    private String caseDetailsJson;
+    private String caseDetails;
+    private CaseDetails civilResponseCaseDetails;
 
 
     @BeforeEach
-    void setup() throws JsonProcessingException {
+    void setup() {
         submitCreateClaimService = new SubmitCreateClaimService(restTemplate, organisationService,
-                                                                userService, createClaimConfiguration);
+                                                                userService, createClaimConfiguration, objectMapper);
 
         given(userService.getUserInfo(anyString())).willReturn(UserInfo.builder().uid("uid").build());
 
@@ -64,19 +65,18 @@ class SubmitCreateClaimServiceTest {
 
         given(createClaimConfiguration.getUrl()).willReturn("testUrl");
 
-        CaseDetails responseCaseDetails = CaseDetails.builder().build();
-        responseCaseDetails.setData(new HashMap<>());
+        civilResponseCaseDetails = CaseDetails.builder().build();
+        civilResponseCaseDetails.setData(new HashMap<>());
         String legacyCaseReference = "CIV12345";
-        responseCaseDetails.getData().put("legacyCaseReference", legacyCaseReference);
+        civilResponseCaseDetails.getData().put("legacyCaseReference", legacyCaseReference);
 
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        caseDetailsJson = objectMapper.writeValueAsString(responseCaseDetails);
     }
 
     @Test
     void shouldCreateClaimSuccessFully_whenInvoked() throws JsonProcessingException {
         // Given
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(caseDetailsJson, HttpStatus.OK);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(caseDetails, HttpStatus.OK);
+        given(objectMapper.readValue(caseDetails, CaseDetails.class)).willReturn(civilResponseCaseDetails);
         given(restTemplate.exchange(eq("testUrl" + "uid"), eq(HttpMethod.POST), any(), eq(String.class)))
             .willReturn(responseEntity);
 
@@ -127,6 +127,25 @@ class SubmitCreateClaimServiceTest {
         ResponseEntity<CreateClaimResponse> response = submitCreateClaimService.submitClaim(authorization, createClaimCCD);
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+
+    }
+
+    @Test
+    void shouldNotCreateClaimSuccessFully_whenInvokedAndJsonException() throws JsonProcessingException {
+        // Given
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(caseDetails, HttpStatus.OK);
+        given(objectMapper.readValue(caseDetails, CaseDetails.class)).willReturn(civilResponseCaseDetails);
+        given(restTemplate.exchange(eq("testUrl" + "uid"), eq(HttpMethod.POST), any(), eq(String.class)))
+            .willReturn(responseEntity);
+
+        CreateClaimCCD createClaimCCD = CreateClaimCCD.builder().build();
+        // When
+        when(objectMapper.readValue(responseEntity.getBody(), CaseDetails.class))
+            .thenThrow(new JsonProcessingException("Test Exception") {});
+
+        ResponseEntity<CreateClaimResponse> response = submitCreateClaimService.submitClaim(authorization, createClaimCCD);
+        // Then
+        assertThat(response).isNull();
 
     }
 

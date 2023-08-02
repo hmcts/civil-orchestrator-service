@@ -37,6 +37,7 @@ public class SubmitCreateClaimService {
     private final OrganisationService organisationService;
     private final UserService userService;
     private final CreateClaimConfiguration createClaimConfiguration;
+    private final ObjectMapper objectMapper;
 
     public ResponseEntity<CreateClaimResponse> submitClaim(String authorization, CreateClaimCCD createClaimCCD) {
 
@@ -95,7 +96,7 @@ public class SubmitCreateClaimService {
     }
 
     public ResponseEntity<CreateClaimResponse> getBulkCaseManClaimNumber(ResponseEntity<String> response) {
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        objectMapper.registerModule(new JavaTimeModule());
         try {
             CaseDetails caseDetails;
             caseDetails = objectMapper.readValue(response.getBody(), CaseDetails.class);
