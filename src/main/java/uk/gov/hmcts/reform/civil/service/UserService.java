@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.idam.client.IdamClient;
-import uk.gov.hmcts.reform.idam.client.models.UserDetails;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 @Service
@@ -25,10 +24,6 @@ public class UserService {
     @Cacheable(value = "accessTokenCache")
     public String getAccessToken(String username, String password) {
         return idamClient.getAccessToken(username, password);
-    }
-
-    public UserDetails getUserDetails(String bearerToken) {
-        return idamClient.getUserDetails(bearerToken);
     }
 }
 
