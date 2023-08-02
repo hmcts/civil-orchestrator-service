@@ -18,7 +18,7 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.civil.config.CreateClaimConfiguration;
 import uk.gov.hmcts.reform.civil.model.casedata.IdamUserDetails;
 import uk.gov.hmcts.reform.civil.model.casedata.OrganisationPolicy;
-import uk.gov.hmcts.reform.civil.prd.model.Organisation;
+import uk.gov.hmcts.reform.civil.model.prd.model.Organisation;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
