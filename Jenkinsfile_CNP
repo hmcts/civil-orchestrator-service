@@ -29,6 +29,7 @@ static Map<String, Object> secret(String secretName, String envVariable) {
 def secrets = [
   's2s-${env}': [
     secret('microservicekey-ccd-gw', 'CCD_API_GATEWAY_S2S_SECRET'),
+    secret('microservicekey-civil-service', 'S2S_SECRET'),
     secret('microservicekey-ccd-data', 'CCD_DATA_STORE_S2S_SECRET'),
     secret('microservicekey-ccd-definition', 'CCD_DEFINITION_STORE_S2S_SECRET')
   ],
@@ -89,6 +90,7 @@ withPipeline(type, product, component) {
 
     before('functionalTest:preview') {
       env.IDAM_API_URL = "https://idam-api.aat.platform.hmcts.net"
+      env.CCD_DATA_STORE_URL = "https://ccd-data-store-api-civil-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
       env.CIVIL_ORCHESTRATOR_SERVICE_URL="https://civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
       env.URL = "https://xui-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
       env.CIVIL_SERVICE_URL="https://civil-service-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
