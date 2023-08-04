@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    propertiesvolume:
+      enabled: true
+      prefixed: false
+      paths: /mnt/secrets/civil
+      aliases:
+        microservicekey-civil-service: idam.s2s-auth.totp_secret
+        system-update-user-password: CIVIL_SYSTEM_UPDATE_PASSWORD
+        system-update-user-username: CIVIL_SYSTEM_UPDATE_USERNAME
+        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
+        cmc-db-password-v11: CMC_DB_PASSWORD
+        docmosis-api-key: docmosis.tornado.key
+        civil-idam-client-secret: idam.client.secret
