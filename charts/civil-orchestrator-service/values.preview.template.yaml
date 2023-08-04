@@ -24,8 +24,18 @@ java:
     auth:
       username: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
-
-
+  environment:
+    CORE_CASE_DATA_API_URL: http://${SERVICE_NAME}-ccd-data-store-api
+    IDAM_CLIENT_ID: civil-service
+    IDAM_CLIENT_REDIRECT_URI: https://civil-general-applications-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/oauth2/callback
+    IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    IDAM_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net
+    IDAM_S2S_AUTH_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SPRING_SECURITY_ENABLED: true
+  civil:
+    secrets:
+      - microservicekey-civil-service
+    
 civil-service:
   enabled: true
   java:
