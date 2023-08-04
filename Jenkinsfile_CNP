@@ -9,7 +9,7 @@ def type = "java"
 def product = "civil"
 def component = "orchestrator-service"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
-def camundaBranch = "master"
+def camundaBranch = "civ-9253_create_claim_request"
 def ccddefbranch = "CIV-9253-test"
 
 def checkForEnableHelmLabel(branch_name) {
