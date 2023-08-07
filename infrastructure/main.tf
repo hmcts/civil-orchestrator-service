@@ -10,6 +10,24 @@ resource "azurerm_resource_group" "rg" {
 }
 
 data "azurerm_key_vault" "civil" {
-  name                = "civil-${var.env}"
-  resource_group_name = "civil-service-${var.env}"
+    name                = "${var.product}-${var.env}"
+   resource_group_name = "${var.product}-service-${var.env}"
+
 }
+
+data "azurerm_key_vault" "s2s_vault" {
+  name                = "s2s-${var.env}"
+  resource_group_name = "rpe-service-auth-provider-${var.env}"
+}
+
+data "azurerm_key_vault_secret" "s2s_secret" {
+  key_vault_id = data.azurerm_key_vault.s2s_vault.id
+  name         = "microservicekey-civil-service"
+}
+
+data "azurerm_key_vault" "s2s_vault" {
+  name                = "s2s-${var.env}"
+  resource_group_name = "rpe-service-auth-provider-${var.env}"
+}
+
+
