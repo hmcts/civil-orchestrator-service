@@ -63,6 +63,7 @@ class CreateClaimMapperInterfaceTest {
 
                                                 .build())
                             .build())
+            .adddApplicant2(YesOrNo.NO)
             .applicantSolicitor1CheckEmail(CorrectEmail.builder()
                                                .correct(YesOrNo.NO)
                                                .build())
@@ -78,6 +79,7 @@ class CreateClaimMapperInterfaceTest {
                                                  .postCode("Mr Defendant1 postcode")
                                                  .build())
                              .build())
+            .specRespondent1Represented(YesOrNo.NO)
             .adddRespondent2(YesOrNo.NO)
             .interestFromSpecificDate(null)
             .interestFromSpecificDateDescription(null)

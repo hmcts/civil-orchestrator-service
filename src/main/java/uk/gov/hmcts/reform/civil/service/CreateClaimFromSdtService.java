@@ -49,7 +49,7 @@ public class CreateClaimFromSdtService {
             throw new ApplicationException(ErrorDetails.INVALID_CLAIMANT_DETAILS, HttpStatus.BAD_REQUEST);
         }
 
-        postcodeValidate(createClaimRequest);
+        //postcodeValidate(createClaimRequest);
 
     }
 

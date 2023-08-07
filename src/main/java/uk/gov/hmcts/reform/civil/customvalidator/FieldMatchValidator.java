@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.civil.customvalidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapperImpl;
+import uk.gov.hmcts.reform.civil.validation.PostcodeValidator;
 
 public class FieldMatchValidator implements ConstraintValidator<ValidateFields, Object> {
 

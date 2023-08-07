@@ -40,11 +40,27 @@ public class RestExceptionHandler {
         List<String> messages = new ArrayList<String>();
         for (Object error : ex.getDetailMessageArguments()) {
             messages.add(error.toString());
+            if (error.toString().contains("Defendant 1")){
+                LOG.error("Handling MethodArgumentNotValidException|" + messages);
+                ApiError apiError =
+                    new ApiError(
+                        ErrorDetails.INVALID_DEFENDANT1_POSTCODE.getErrorCode(),
+                        ErrorDetails.INVALID_DEFENDANT1_POSTCODE.getErrorText());
+                return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+            }
+            if (error.toString().contains("Defendant 2")){
+                LOG.error("Handling MethodArgumentNotValidException|" + messages);
+                ApiError apiError =
+                    new ApiError(
+                        ErrorDetails.INVALID_DEFENDANT2_POSTCODE.getErrorCode(),
+                        ErrorDetails.INVALID_DEFENDANT2_POSTCODE.getErrorText());
+                return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+            }
         }
         LOG.error("Handling MethodArgumentNotValidException|" + messages);
         ApiError apiError =
                 new ApiError(
-                        ErrorDetails.INVALID_DATA.getErrorCode().toString(),
+                        ErrorDetails.INVALID_DATA.getErrorCode(),
                         ErrorDetails.INVALID_DATA.getErrorText());
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }

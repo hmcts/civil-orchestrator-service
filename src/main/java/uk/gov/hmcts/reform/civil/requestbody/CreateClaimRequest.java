@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import uk.gov.hmcts.reform.civil.customvalidator.ValidateFields;
+import uk.gov.hmcts.reform.civil.customvalidator.ValidatePostcodeFields;
 import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
 
 
@@ -29,6 +30,9 @@ import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
     fieldMatch = "defendant2.name",
     message = "Second defendant cannot have an identical name to the first defendant"
 )
+@ValidatePostcodeFields(field = "address.postcode", message = "Defendant 1 postcode invalid")
+//@ValidatePostcodeFields(field = "address.postcode", message = "Defendant 2 postcode invalid")
+
 @Schema(description = "Schema for Create Claim Request Object")
 public class CreateClaimRequest {
 
