@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.civil.mappings.CreateClaimMapperInterface;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
+import uk.gov.hmcts.reform.civil.validation.PostcodeValidator;
 
 @Slf4j
 @Service
@@ -18,6 +19,7 @@ import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
 public class CreateClaimFromSdtService {
 
     private final SubmitCreateClaimService submitCreateClaimService;
+    private final PostcodeValidator postcodeValidator;
 
     public ResponseEntity<CreateClaimResponse> buildResponse(String authorization, CreateClaimRequest createClaimRequest,
                                                              String sdtRequestId) {
@@ -26,7 +28,7 @@ public class CreateClaimFromSdtService {
         return submitCreateClaimService.submitClaim(authorization, processSdtClaim(createClaimRequest));
     }
 
-    private void validateRequestParams(CreateClaimRequest createClaimRequest) {
+    public void validateRequestParams(CreateClaimRequest createClaimRequest) {
         // TODO use headers to check against prd endpoint
         var idamId = "12345678";
         if (!idamId.equals(createClaimRequest.getBulkCustomerId())) {
@@ -47,6 +49,19 @@ public class CreateClaimFromSdtService {
             throw new ApplicationException(ErrorDetails.INVALID_CLAIMANT_DETAILS, HttpStatus.BAD_REQUEST);
         }
 
+        postcodeValidate(createClaimRequest);
+
+    }
+
+    public void postcodeValidate(CreateClaimRequest createClaimRequest) {
+        if (createClaimRequest.getDefendant1() != null &&
+            !postcodeValidator.validate(createClaimRequest.getDefendant1().getAddress().getPostcode()).isEmpty()) {
+            throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT1_POSTCODE, HttpStatus.BAD_REQUEST);
+        }
+        if (createClaimRequest.getDefendant2() != null &&
+            !postcodeValidator.validate(createClaimRequest.getDefendant2().getAddress().getPostcode()).isEmpty()) {
+            throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT2_POSTCODE, HttpStatus.BAD_REQUEST);
+        }
     }
 
     public CreateClaimCCD processSdtClaim(CreateClaimRequest createClaimRequest) {
