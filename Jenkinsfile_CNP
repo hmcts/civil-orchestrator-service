@@ -10,7 +10,7 @@ def product = "civil"
 def component = "orchestrator-service"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 def camundaBranch = "master"
-def ccddefbranch = "CIV-9329"
+def ccddefbranch = "master"
 
 def checkForEnableHelmLabel(branch_name) {
   return new GithubAPI(this).getLabelsbyPattern(branch_name, "enableHelm").contains("enableHelm")
