@@ -16,6 +16,5 @@ public class PostcodeLookupConfiguration {
         this.url = url;
         this.accessKey = accessKey;
 
-        System.out.println("the key is   "+accessKey);
     }
 }
