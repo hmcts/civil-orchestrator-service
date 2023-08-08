@@ -24,7 +24,6 @@ java:
     auth:
       username: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
-  environment:
   keyVaults:
     civil:
       resourceGroup: civil
