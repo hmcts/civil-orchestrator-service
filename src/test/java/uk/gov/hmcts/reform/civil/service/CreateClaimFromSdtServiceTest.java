@@ -90,4 +90,22 @@ class CreateClaimFromSdtServiceTest {
         String requestIdFromCCD = createClaimFromSdtService.getSdtRequestId();
         assertEquals(sdtRequestId,requestIdFromCCD);
     }
+
+    @Test
+    void shouldReturnCCDClaim() {
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("testIdamIDMatchesBulkId")
+            .claimAmount(Long.valueOf(9999))
+            .particulars("particulars")
+            .claimantReference("1568h8992334")
+            .claimant(ClaimantType.builder().name("claimant1").address(AddressType.builder().postcode("BR11LS").build())
+                          .build())
+            .defendant1(DefendantType.builder().name("defendant1").build())
+            .defendant2(DefendantType.builder().name("defendant2").build())
+            .sotSignature("sotSignatureExample")
+            .reserveRightToClaimInterest(true)
+            .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
+            .build();
+        CreateClaimCCD claimCCD = createClaimFromSdtService.processSdtClaim(createClaimSDT);
+        assertEquals(claimCCD.getClaimInterest(), YesOrNo.YES);
+    }
 }
