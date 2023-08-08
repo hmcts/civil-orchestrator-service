@@ -14,12 +14,14 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.civil.config.CreateClaimConfiguration;
+import uk.gov.hmcts.reform.civil.model.prd.model.Organisation;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
 import uk.gov.hmcts.reform.idam.client.models.UserDetails;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,6 +59,9 @@ class SubmitCreateClaimServiceTest {
         given(userService.getUserInfo(anyString())).willReturn(UserInfo.builder().uid("uid").build());
 
         given(userService.getUserDetails(authorization)).willReturn(UserDetails.builder().id("userId").email("Test@test.com").build());
+
+        given(organisationService.findOrganisation(anyString()))
+            .willReturn(Optional.of(Organisation.builder().organisationIdentifier("Test Org id").build()));
 
         given(createClaimConfiguration.getUrl()).willReturn("testUrl");
 
