@@ -25,10 +25,14 @@ java:
   keyVaults:
     civil:
       secrets:
-        - microservicekey-civil-service
-        - civil-idam-client-secret
-        - system-update-user-username
-        - system-update-user-password
+        - name: microservicekey-civil-service
+          alias: idam.s2s-auth.totp_secret
+        - name: civil-idam-client-secret
+          alias: idam.client.secret
+        - name: system-update-user-username
+          alias: CIVIL_SYSTEM_UPDATE_USERNAME
+        - name: system-update-user-password
+          alias: CIVIL_SYSTEM_UPDATE_PASSWORD
   environment:
     CORE_CASE_DATA_API_URL: http://${SERVICE_NAME}-ccd-data-store-api
     IDAM_CLIENT_ID: civil-service
