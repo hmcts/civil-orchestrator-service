@@ -18,12 +18,15 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.civil.config.CreateClaimConfiguration;
 import uk.gov.hmcts.reform.civil.model.casedata.IdamUserDetails;
 import uk.gov.hmcts.reform.civil.model.casedata.OrganisationPolicy;
+import uk.gov.hmcts.reform.civil.model.prd.model.Organisation;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimCCD;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimErrorResponse;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponseBody;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimSyncResponse;
 import uk.gov.hmcts.reform.idam.client.models.UserDetails;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -108,11 +111,12 @@ public class SubmitCreateClaimService {
     }
 
     public OrganisationPolicy populateApplicant1OrgPolicy(String authorization) {
+        Optional<Organisation> organisation = organisationService.findOrganisation(authorization);
         OrganisationPolicy organisationPolicy = new OrganisationPolicy();
         organisationPolicy.setOrgPolicyCaseAssignedRole("[APPLICANTSOLICITORONE]");
         organisationPolicy.setOrgPolicyReference(null);
         organisationPolicy.setOrganisation(uk.gov.hmcts.reform.civil.model.casedata.Organisation.builder()
-                                               .organisationID("test").build());
+                                               .organisationID(organisation.get().getOrganisationIdentifier()).build());
 
         return organisationPolicy;
     }
