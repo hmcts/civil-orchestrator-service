@@ -24,14 +24,6 @@ java:
     auth:
       username: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
-  keyVaults:
-    civil:
-      resourceGroup: civil
-      secrets:
-        - civil-idam-client-secret
-        - microservicekey-civil-service
-        - system-update-user-username
-        - system-update-user-password
 
 civil-service:
   enabled: true
