@@ -63,7 +63,7 @@ idam:
 
 rd_professional:
   api:
-    url: http://localhost:8765
+    url: ${RD_PROFESSIONAL_API_URL:}
 
 civil-service:
   create_claim:
@@ -75,7 +75,17 @@ civil:
     password: ${CIVIL_SYSTEM_UPDATE_PASSWORD:Password12!}
 
 ---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
 civil-service:
   create_claim:
     url: http://localhost:4000/cases/caseworkers/jurisdictions/CIVIL/case-types/CIVIL/cases
 
+rd_professional:
+  api:
+    url: http://localhost:8765
+---
