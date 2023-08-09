@@ -9,7 +9,7 @@ def type = "java"
 def product = "civil"
 def component = "orchestrator-service"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
-def camundaBranch = "civ-9253_create_claim_request"
+def camundaBranch = "master"
 def ccddefbranch = "CIV-9253-test"
 
 def checkForEnableHelmLabel(branch_name) {
@@ -89,7 +89,7 @@ withPipeline(type, product, component) {
 
     before('functionalTest:preview') {
       env.IDAM_API_URL = "https://idam-api.aat.platform.hmcts.net"
-      env.CCD_DATA_STORE_URL = "https://ccd-data-store-api-civil-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+      env.CCD_DATA_STORE_URL = "https://ccd-data-store-api-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
       env.CIVIL_ORCHESTRATOR_SERVICE_URL="https://civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
       env.URL = "https://xui-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
       env.CIVIL_SERVICE_URL="https://civil-service-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"

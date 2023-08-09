@@ -112,7 +112,6 @@ public class SubmitCreateClaimService {
 
     public OrganisationPolicy populateApplicant1OrgPolicy(String authorization) {
         Optional<Organisation> organisation = organisationService.findOrganisation(authorization);
-        System.out.println("org id: " + organisation.get().getOrganisationIdentifier());
         OrganisationPolicy organisationPolicy = new OrganisationPolicy();
         organisationPolicy.setOrgPolicyCaseAssignedRole("[APPLICANTSOLICITORONE]");
         organisationPolicy.setOrgPolicyReference(null);
