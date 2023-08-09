@@ -73,7 +73,7 @@ class CreateClaimSdtControllerTest {
             .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
             .build();
 
-        given(this.createClaimFromSdtService.buildResponse(any(String.class), any(CreateClaimRequest.class))).willReturn(new ResponseEntity<>(
+        given(this.createClaimFromSdtService.buildResponse(any(String.class), any(CreateClaimRequest.class), any())).willReturn(new ResponseEntity<>(
             CreateClaimErrorResponse.builder().build(),HttpStatus.CREATED));
         String jsonBody = objectMapper.writeValueAsString(createClaimSDT);
         ResultActions mvcResult = this.mvc.perform(post(uri)

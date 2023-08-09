@@ -26,8 +26,9 @@ class CreateClaimRequestTest {
     @Test
     void shouldThrowErrorMessageWhenBulkClaimIdIsNotInValidFormat() {
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("abc123678")
-             .claimAmount(Long.valueOf(7890))
-             .claimantReference("1568h8992334")
+            .sdtRequestId("testId")
+            .claimAmount(Long.valueOf(7890))
+            .claimantReference("1568h8992334")
             .defendant1(DefendantType.builder().name("defendant1").build())
             .defendant2(DefendantType.builder().name("defendant2").build())
              .particulars("particulars")
@@ -40,6 +41,7 @@ class CreateClaimRequestTest {
     @Test
     void shouldThrowErrorMessageWhenBulkClaimIdIsNull() {
         claimRequest = CreateClaimRequest.builder()
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(7890))
             .claimantReference("1568h8992334")
             .particulars("particulars")
@@ -55,6 +57,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenClaimantReferenceIsNull() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(7890))
             .particulars("particulars")
             .sotSignature("sotSignatureExample")
@@ -69,6 +72,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenParticularsExceedsMaximumLength() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(8000))
             .particulars("particulars length should ne less than or equal to forty five. testing is in progress")
             .claimantReference("1568h8992334")
@@ -114,6 +118,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenSotSignatureIsNull() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(8000))
             .particulars("particulars")
             .claimantReference("1568h8992334")
@@ -128,6 +133,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenClaimAmountIsNull() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
@@ -142,6 +148,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenClaimAmountIsLessThanZero() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(-1))
             .particulars("particulars")
             .claimantReference("1568h8992334")
@@ -157,7 +164,8 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenClaimAmountIsGreaterThanMaximumValue() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
-            .claimAmount(Long.valueOf(999999))
+            .sdtRequestId("testId")
+            .claimAmount(Long.valueOf(9999999))
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
@@ -172,6 +180,7 @@ class CreateClaimRequestTest {
     void shouldThrowCustomErrorWhenDefendant1NameIsEqualToDefendant2Name() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
             .claimantReference("1568h8992334")
@@ -189,6 +198,7 @@ class CreateClaimRequestTest {
     void shouldNotThrowErrorWhenDefendant1NameIsNotEqualToDefendant2Name() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
             .claimantReference("1568h8992334")
@@ -205,6 +215,7 @@ class CreateClaimRequestTest {
     void shouldProceedWithoutErrorsWhenDefendant2DoesNotExist() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
+            .sdtRequestId("testId")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
             .claimantReference("1568h8992334")

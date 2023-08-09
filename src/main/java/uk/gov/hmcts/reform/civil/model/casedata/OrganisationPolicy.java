@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.civil.responsebody;
+package uk.gov.hmcts.reform.civil.model.casedata;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,19 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.gov.hmcts.reform.civilcommonsmock.ccd.model.PreviousOrganisationCollectionItem;
 
-import java.util.List;
 
 @Data
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
-public class MockOrgPolicy {
+public class OrganisationPolicy {
 
     @JsonProperty("Organisation")
-    private MockOrg organisation;
+    private Organisation organisation;
 
     @JsonProperty("OrgPolicyReference")
     private String orgPolicyReference;
@@ -26,7 +24,7 @@ public class MockOrgPolicy {
     @JsonProperty("OrgPolicyCaseAssignedRole")
     private String orgPolicyCaseAssignedRole;
 
-    @JsonProperty("PreviousOrganisations")
-    private List<PreviousOrganisationCollectionItem> previousOrganisations;
+//    @JsonProperty("PreviousOrganisations")
+//    private List<PreviousOrganisationCollectionItem> previousOrganisations;
 
 }

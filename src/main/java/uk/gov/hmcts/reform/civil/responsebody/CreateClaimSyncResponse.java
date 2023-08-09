@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateClaimSyncResponse {
+public class CreateClaimSyncResponse implements CreateClaimResponse {
 
     private String claimNumber;
     private LocalDate issueDate;

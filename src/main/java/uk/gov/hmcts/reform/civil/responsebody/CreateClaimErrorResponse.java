@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class CreateClaimErrorResponse {
+public class CreateClaimErrorResponse implements CreateClaimResponse {
 
     private String errorCode;
     private String errorText;

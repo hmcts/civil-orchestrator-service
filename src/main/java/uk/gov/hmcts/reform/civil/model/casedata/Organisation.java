@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.civil.responsebody;
+package uk.gov.hmcts.reform.civil.model.casedata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class MockOrg {
+public class Organisation {
 
     @JsonProperty("OrganisationID")
     private String organisationID;
