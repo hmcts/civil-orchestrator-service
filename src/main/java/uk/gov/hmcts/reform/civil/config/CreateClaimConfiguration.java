@@ -13,7 +13,6 @@ public class CreateClaimConfiguration {
 
     public CreateClaimConfiguration(@Value("${civil-service.create_claim.url}") String url) {
 
-        System.out.println("civil url : " + url);
         this.url = url;
     }
 
