@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -140,7 +141,24 @@ class CreateClaimFromSdtServiceTest {
 
         assertEquals(ErrorDetails.INVALID_DEFENDANT1_POSTCODE, exception.getErrorDetails());
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
+    }
 
+    @Test
+    void shouldNotThrowPostcodeExceptionWhenPostcodeValid1v1() {
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("12345678")
+            .claimAmount(Long.valueOf(9999))
+            .particulars("particulars")
+            .claimantReference("isValid")
+            .claimant(ClaimantType.builder().name("validClaimant").address(AddressType.builder().postcode("BR1zz1LS").build())
+                          .build())
+            .defendant1(DefendantType.builder().name("defendant1").address(AddressType.builder().postcode("BR1zz1LS").build())
+                            .build())
+            .sotSignature("sotSignatureExample")
+            .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
+            .build();
+        when(postcodeValidator.validate(any())).thenReturn(List.of());
+
+        assertDoesNotThrow(() -> createClaimFromSdtService.postcodeValidate(createClaimSDT));
     }
 
     @Test
@@ -159,10 +177,28 @@ class CreateClaimFromSdtServiceTest {
         when(postcodeValidator.validate(any())).thenReturn(List.of("Postcode must be in England or Wales"));
 
         ApplicationException exception = assertThrows(ApplicationException.class, () -> createClaimFromSdtService
-            .validateRequestParams(createClaimSDT));
+            .postcodeValidate(createClaimSDT));
 
         assertEquals(ErrorDetails.INVALID_DEFENDANT2_POSTCODE, exception.getErrorDetails());
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
+    }
+
+    @Test
+    void shouldNotThrowPostcodeExceptionWhenPostcodeValid1v2() {
+        CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("12345678")
+            .claimAmount(Long.valueOf(9999))
+            .particulars("particulars")
+            .claimantReference("isValid")
+            .claimant(ClaimantType.builder().name("validClaimant").address(AddressType.builder().postcode("BR1zz1LS").build())
+                          .build())
+            .defendant2(DefendantType.builder().name("defendant2").address(AddressType.builder().postcode("BR1zz1LS").build())
+                            .build())
+            .sotSignature("sotSignatureExample")
+            .interest(Interest.builder().interestOwedDate(LocalDate.now()).build())
+            .build();
+        when(postcodeValidator.validate(any())).thenReturn(List.of());
+
+        assertDoesNotThrow(() -> createClaimFromSdtService.postcodeValidate(createClaimSDT));
     }
 
 }
