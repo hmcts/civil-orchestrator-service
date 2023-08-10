@@ -54,12 +54,12 @@ public class CreateClaimFromSdtService {
     }
 
     public void postcodeValidate(CreateClaimRequest createClaimRequest) {
-        if (createClaimRequest.getDefendant1() != null &&
-            !postcodeValidator.validate(createClaimRequest.getDefendant1().getAddress().getPostcode()).isEmpty()) {
+        if (createClaimRequest.getDefendant1() != null
+            && !postcodeValidator.validate(createClaimRequest.getDefendant1().getAddress().getPostcode()).isEmpty()) {
             throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT1_POSTCODE, HttpStatus.BAD_REQUEST);
         }
-        if (createClaimRequest.getDefendant2() != null &&
-            !postcodeValidator.validate(createClaimRequest.getDefendant2().getAddress().getPostcode()).isEmpty()) {
+        if (createClaimRequest.getDefendant2() != null
+            && !postcodeValidator.validate(createClaimRequest.getDefendant2().getAddress().getPostcode()).isEmpty()) {
             throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT2_POSTCODE, HttpStatus.BAD_REQUEST);
         }
     }

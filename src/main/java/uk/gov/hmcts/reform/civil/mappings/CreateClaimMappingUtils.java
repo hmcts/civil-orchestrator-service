@@ -1,6 +1,10 @@
 package uk.gov.hmcts.reform.civil.mappings;
 
-import uk.gov.hmcts.reform.civil.model.casedata.*;
+import uk.gov.hmcts.reform.civil.model.casedata.ClaimAmountBreakup;
+import uk.gov.hmcts.reform.civil.model.casedata.ClaimAmountBreakupDetails;
+import uk.gov.hmcts.reform.civil.model.casedata.CorrectEmail;
+import uk.gov.hmcts.reform.civil.model.casedata.Party;
+import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.utils.MonetaryConversions;
 
