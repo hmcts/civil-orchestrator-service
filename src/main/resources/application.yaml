@@ -74,7 +74,13 @@ civil:
     username: ${CIVIL_SYSTEM_UPDATE_USERNAME:civil-system-update@mailnesia.com}
     password: ${CIVIL_SYSTEM_UPDATE_PASSWORD:Password12!}
 
+os-postcode-lookup:
+  url: https://api.os.uk/search/names/v1/find
+  key: ${OS_POSTCODE_LOOKUP_API_KEY:}
+  offline-mode: false
+
 ---
+
 spring:
   config:
     activate:
