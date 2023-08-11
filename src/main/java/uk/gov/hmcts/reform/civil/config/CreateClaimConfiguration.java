@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class CreateClaimConfiguration {
 
     private final String url;
+
     public CreateClaimConfiguration(@Value("${civil_service.api.url}") String url) {
         this.url = url;
     }

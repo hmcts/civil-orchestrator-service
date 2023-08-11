@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.Validate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +20,6 @@ import uk.gov.hmcts.reform.civil.exceptions.ErrorDetails;
 import uk.gov.hmcts.reform.civil.requestbody.CreateClaimRequest;
 import uk.gov.hmcts.reform.civil.responsebody.CreateClaimResponse;
 import uk.gov.hmcts.reform.civil.service.CreateClaimFromSdtService;
-import uk.gov.hmcts.reform.civil.service.ValidateSdtRequestService;
 
 @Tag(name = "Create Claim From SDT Controller")
 @Slf4j
@@ -30,7 +28,6 @@ import uk.gov.hmcts.reform.civil.service.ValidateSdtRequestService;
 public class CreateClaimSdtController {
 
     private final CreateClaimFromSdtService createClaimFromSdtService;
-    private final ValidateSdtRequestService validateSdtRequestService;
 
     @PostMapping(path = "/createSDTClaim", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create claim from SDT")
@@ -46,7 +43,7 @@ public class CreateClaimSdtController {
     }
 
     private void validateSdtRequestId(String authorization, String sdtRequestId) {
-        boolean sdtRequestIdFromCcd = validateSdtRequestService.validateSdtRequest(authorization,sdtRequestId);
+        boolean sdtRequestIdFromCcd = createClaimFromSdtService.validateSdtRequest(authorization,sdtRequestId);
         if (!sdtRequestIdFromCcd) {
             throw new ApplicationException(ErrorDetails.INVALID_DATA, HttpStatus.BAD_REQUEST, "Request already processed");
         }
