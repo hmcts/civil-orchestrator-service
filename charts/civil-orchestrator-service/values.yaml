@@ -33,7 +33,7 @@ java:
           alias: CIVIL_SYSTEM_UPDATE_USERNAME
         - name: system-update-user-password
           alias: CIVIL_SYSTEM_UPDATE_PASSWORD
-        - name: os-postcode-lookup-api-key
+        - name: ordnance-survey-api-key
           alias: OS_POSTCODE_LOOKUP_API_KEY
   environment:
     CORE_CASE_DATA_API_URL: http://${SERVICE_NAME}-ccd-data-store-api
