@@ -96,7 +96,6 @@ civil-service:
       DOCUMENT_MANAGEMENT_SECURED: true
       RD_COMMONDATA_API_URL: http://rd-commondata-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
       SERVICE_REQUEST_UPDATE: https://${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update
-      CREATE_CLAIM_CIVIL_CASEWORKER: https://${SERVICE_NAME}.preview.platform.hmcts.net/cases/caseworkers/jurisdictions/CIVIL/case-types/CIVIL/cases/
       SERVICE_REQUEST_UPDATE_CLAIM_ISSUED: https://${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update-claim-issued
 ccd:
   enabled: true
