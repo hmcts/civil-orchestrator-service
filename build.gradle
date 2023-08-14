@@ -137,7 +137,7 @@ sonarqube {
     property "sonar.projectName", "Reform :: civil-orchestrator-service"
     property "sonar.projectKey", "uk.gov.hmcts.reform:civil-orchestrator-service"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-    property "sonar.coverage.exclusions", "**/requestbody/**, **/responsebody/**,**/exceptions/*, **/config/**/*Configuration.java, **/stereotypes/**, **/*Exception.java, **/model/**, **/postcode/**"
+    property "sonar.coverage.exclusions", "**/requestbody/**, **/responsebody/**,**/exceptions/*, **/config/**/*Configuration.java, **/stereotypes/**, **/*Exception.java, **/model/**"
     property "sonar.cpd.exclusions", "**/*DocumentManagementService.java"
     property "sonar.host.url", "https://sonar.reform.hmcts.net/"
   }

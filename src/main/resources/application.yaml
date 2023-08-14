@@ -65,19 +65,15 @@ rd_professional:
   api:
     url: http://localhost:8765
 
-civil-service:
-  create_claim:
-    url: ${CREATE_CLAIM_CIVIL_CASEWORKER:}
 civil:
   response-pack-url: https://formfinder.hmctsformfinder.justice.gov.uk/n9-eng.pdf
   system-update:
     username: ${CIVIL_SYSTEM_UPDATE_USERNAME:civil-system-update@mailnesia.com}
     password: ${CIVIL_SYSTEM_UPDATE_PASSWORD:Password12!}
 
----
-civil-service:
-  create_claim:
-    url: http://localhost:4000/cases/caseworkers/create-case/
+civil_service:
+  api:
+    url: http://localhost:4000
 
 os-postcode-lookup:
   url: https://api.os.uk/search/names/v1/find
