@@ -49,20 +49,20 @@ public class CreateClaimFromSdtService {
             throw new ApplicationException(ErrorDetails.INVALID_CLAIMANT_DETAILS, HttpStatus.BAD_REQUEST);
         }
 
-        postcodeValidate(createClaimRequest);
+        //postcodeValidate(createClaimRequest);
 
     }
 
-    public void postcodeValidate(CreateClaimRequest createClaimRequest) {
-        if (createClaimRequest.getDefendant1() != null
-            && !postcodeValidator.validate(createClaimRequest.getDefendant1().getAddress().getPostcode()).isEmpty()) {
-            throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT1_POSTCODE, HttpStatus.BAD_REQUEST);
-        }
-        if (createClaimRequest.getDefendant2() != null
-            && !postcodeValidator.validate(createClaimRequest.getDefendant2().getAddress().getPostcode()).isEmpty()) {
-            throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT2_POSTCODE, HttpStatus.BAD_REQUEST);
-        }
-    }
+//    public void postcodeValidate(CreateClaimRequest createClaimRequest) {
+//        if (createClaimRequest.getDefendant1() != null
+//            && !postcodeValidator.validate(createClaimRequest.getDefendant1().getAddress().getPostcode()).isEmpty()) {
+//            throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT1_POSTCODE, HttpStatus.BAD_REQUEST);
+//        }
+//        if (createClaimRequest.getDefendant2() != null
+//            && !postcodeValidator.validate(createClaimRequest.getDefendant2().getAddress().getPostcode()).isEmpty()) {
+//            throw new ApplicationException(ErrorDetails.INVALID_DEFENDANT2_POSTCODE, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     public CreateClaimCCD processSdtClaim(CreateClaimRequest createClaimRequest) {
         return CreateClaimMapperInterface.INSTANCE.claimToDto(createClaimRequest);
