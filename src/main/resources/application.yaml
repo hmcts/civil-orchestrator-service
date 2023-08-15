@@ -75,9 +75,4 @@ civil_service:
   api:
     url: http://localhost:4000
 
-os-postcode-lookup:
-  url: https://api.os.uk/search/names/v1/find
-  key: ${OS_POSTCODE_LOOKUP_API_KEY:}
-  offline-mode: false
-
 
