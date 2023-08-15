@@ -54,9 +54,6 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent2.primaryAddress.postCode", source = "defendant2.address.postcode")
 
     @Mapping(target = "detailsOfClaim", source = "particulars")
-    // Issues with claimAmountBreakup, in civil we have claimAmount as bigDecimal,
-    // in CCD it is actually Long, so we get validation error
-    //@Mapping(target = "claimAmountBreakup", expression = "java(CreateClaimMappingUtils.claimAmountDetails(createClaimRequest))")
     @Mapping(target = "totalClaimAmount", expression = "java(CreateClaimMappingUtils.totalClaimAmount(createClaimRequest))")
     @Mapping(target = "claimInterest", expression = "java(CreateClaimMappingUtils.claimInterest(createClaimRequest))")
     @Mapping(target = "interestFromSpecificDate", source = "interest.interestOwedDate")

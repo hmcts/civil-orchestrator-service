@@ -40,7 +40,6 @@ public class CreateClaimCCD {
     private YesOrNo adddRespondent2;
     private Party respondent2;
     private String detailsOfClaim;
-    //private List<ClaimAmountBreakup> claimAmountBreakup;
     private BigDecimal totalClaimAmount;
     private YesOrNo claimInterest;
     private LocalDate interestFromSpecificDate;
