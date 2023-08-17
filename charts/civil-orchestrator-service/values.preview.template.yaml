@@ -51,7 +51,7 @@ civil-service:
   java:
     applicationPort: 4000
     releaseNameOverride: ${SERVICE_NAME}-civil-service
-    image: 'feat/CIV-9256_sync_response_'
+    image: 'hmctspublic.azurecr.io/civil/service:pr-3133'
     imagePullPolicy: Always
     ingressHost: civil-service-${SERVICE_FQDN}
     keyVaults:
