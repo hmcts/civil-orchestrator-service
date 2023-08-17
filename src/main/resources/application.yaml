@@ -65,14 +65,18 @@ rd_professional:
   api:
     url: http://localhost:8765
 
+civil_service:
+  url: http://localhost:4000
+
 civil:
   response-pack-url: https://formfinder.hmctsformfinder.justice.gov.uk/n9-eng.pdf
   system-update:
     username: ${CIVIL_SYSTEM_UPDATE_USERNAME:civil-system-update@mailnesia.com}
     password: ${CIVIL_SYSTEM_UPDATE_PASSWORD:Password12!}
 
-civil_service:
-  api:
-    url: http://localhost:4000
+
+
+
+
 
 

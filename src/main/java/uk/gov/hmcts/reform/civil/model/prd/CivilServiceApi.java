@@ -15,14 +15,14 @@ import java.util.List;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-@FeignClient(name = "civil-service-api", url = "${civil_service.api.url}")
+@FeignClient(name = "civil-service", url = "${civil_service.url}")
 public interface CivilServiceApi {
 
     @GetMapping("/cases/caseworker/searchCaseForSDT/{userId}")
     Boolean searchCaseForCaseworker(
         @RequestHeader(AUTHORIZATION) String authorisation,
         @PathVariable String userId,
-        @RequestParam("searchParam") String searchParam);
+        @RequestParam("sdtRequestId") String searchParam);
 
     @PostMapping("/cases/caseworkers/create-case/{userId}")
     ResponseEntity<String> caseworkerSubmitEvent(
