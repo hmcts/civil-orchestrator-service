@@ -45,6 +45,17 @@ java:
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     RD_PROFESSIONAL_API_URL: http://rd-professional-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     CIVIL_SERVICE_URL: http://${SERVICE_NAME}-civil-service
+  keyVaults:
+    civil:
+      secrets:
+        - name: microservicekey-civil-service
+          alias: idam.s2s-auth.totp_secret
+        - name: civil-idam-client-secret
+          alias: idam.client.secret
+        - name: system-update-user-username
+          alias: CIVIL_SYSTEM_UPDATE_USERNAME
+        - name: system-update-user-password
+          alias: CIVIL_SYSTEM_UPDATE_PASSWORD
 
 civil-service:
   enabled: true
@@ -181,6 +192,11 @@ ccd:
         IDAM_DATA_STORE_SYSTEM_USER_USERNAME: ${IDAM_DATA_STORE_SYSTEM_USER_USERNAME}
         IDAM_DATA_STORE_SYSTEM_USER_PASSWORD: ${IDAM_DATA_STORE_SYSTEM_USER_PASSWORD}
         ROLE_ASSIGNMENT_URL: http://am-role-assignment-service-aat.service.core-compute-aat.internal
+        JAVA_TOOL_OPTIONS: '-XX:InitialRAMPercentage=30.0 -XX:MaxRAMPercentage=65.0 -XX:MinRAMPercentage=30.0 -XX:+UseConcMarkSweepGC -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005'
+      ports:
+        - 4452:4452
+        # Uncomment this and the JAVA_TOOL_OPTIONS flag for JVM debugging
+        - 5005:5005
       keyVaults: []
       ingressHost: ccd-data-store-api-${SERVICE_FQDN}
 
