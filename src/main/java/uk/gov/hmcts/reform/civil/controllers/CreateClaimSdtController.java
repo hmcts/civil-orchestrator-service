@@ -43,7 +43,7 @@ public class CreateClaimSdtController {
     }
 
     private void validateSdtRequestId(String authorization, String sdtRequestId) {
-        boolean sdtRequestIdFromCcd = true;
+        boolean sdtRequestIdFromCcd = createClaimFromSdtService.validateSdtRequest(authorization,sdtRequestId);
         if (!sdtRequestIdFromCcd) {
             throw new ApplicationException(ErrorDetails.INVALID_DATA, HttpStatus.BAD_REQUEST, "Request already processed");
         }
