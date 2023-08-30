@@ -38,7 +38,7 @@ public class CreateClaimRequest {
     @Schema(description = "Bulk customer Id that should be in [1-9]\\d{7} format ", example = "15678908")
     private String bulkCustomerId;
     @NotNull(message = "claimant Reference should not be null")
-    @Size(max = 24, message = "claimantReference should be less than or equal to 45")
+    @Size(max = 24, message = "claimantReference should be less than or equal to 24")
     @Schema(example = "1568h8992334")
     private String claimantReference;
     @Schema(implementation = ClaimantType.class, description = "Applicant/Claimant details")
