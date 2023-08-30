@@ -38,13 +38,13 @@ public class CreateClaimSdtController {
     public ResponseEntity<CreateClaimResponse> createClaimSdt(@Valid @RequestBody CreateClaimRequest createClaimRequest,
                                                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
                                                               @RequestHeader("SdtRequestId") String sdtRequestId) {
-        validateSdtRequestId(sdtRequestId);
+        validateSdtRequestId(authorization, sdtRequestId);
         return createClaimFromSdtService.buildResponse(authorization,createClaimRequest, sdtRequestId);
     }
 
-    private void validateSdtRequestId(String sdtRequestId) {
-        String sdtRequestIdFromCcd = createClaimFromSdtService.getSdtRequestId();
-        if (sdtRequestIdFromCcd.equalsIgnoreCase(sdtRequestId)) {
+    private void validateSdtRequestId(String authorization, String sdtRequestId) {
+        boolean sdtRequestIdFromCcd = createClaimFromSdtService.validateSdtRequest(authorization,sdtRequestId);
+        if (!sdtRequestIdFromCcd) {
             throw new ApplicationException(ErrorDetails.INVALID_DATA, HttpStatus.BAD_REQUEST, "Request already processed");
         }
     }

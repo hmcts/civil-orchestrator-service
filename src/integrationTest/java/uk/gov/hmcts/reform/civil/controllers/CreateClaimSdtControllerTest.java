@@ -29,6 +29,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -60,7 +61,7 @@ class CreateClaimSdtControllerTest {
     @Test
     public void validRequestWithJsonContent() throws Exception {
 
-        when(createClaimFromSdtService.getSdtRequestId()).thenReturn("SdtRequestIdFromccd");
+        when(createClaimFromSdtService.validateSdtRequest(anyString(),anyString())).thenReturn(true);
         CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")
@@ -88,7 +89,7 @@ class CreateClaimSdtControllerTest {
     @Test
     public void inValidHeaderWithJsonContent() throws Exception {
 
-        when(createClaimFromSdtService.getSdtRequestId()).thenReturn("unique");
+        when(createClaimFromSdtService.validateSdtRequest(anyString(),anyString())).thenReturn(false);
         CreateClaimRequest createClaimSDT = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .claimAmount(Long.valueOf(9999))
             .particulars("particulars")

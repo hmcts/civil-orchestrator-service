@@ -13,6 +13,8 @@ public enum ErrorDetails {
     INVALID_CLAIMANT_DETAILS("005", " claimant details missing"),
 
     INVALID_EXTERNAL_DATA("1002", "Invalid external data"),
+    INVALID_DEFENDANT1_POSTCODE("008", " First defendant’s postcode is not in England or Wales"),
+    INVALID_DEFENDANT2_POSTCODE("010", " Second defendant’s postcode is not in England or Wales"),
     INVALID_DATA_CUSTOM("1003", "Invalid data with following error: ");
 
     private final String errorCode;
