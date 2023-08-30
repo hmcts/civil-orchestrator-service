@@ -29,8 +29,6 @@ public class CreateClaimFromSdtService {
         return submitCreateClaimService.submitClaim(authorization, processSdtClaim(createClaimRequest));
     }
 
-
-
     private void validateRequestParams(CreateClaimRequest createClaimRequest, String authorization) {
 
         if (createClaimRequest.getDefendant1() != null
