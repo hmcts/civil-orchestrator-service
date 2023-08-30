@@ -24,6 +24,8 @@ java:
     auth:
       username: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
+  environment:
+    CIVIL_SERVICE_URL: http://${SERVICE_NAME}-civil-service
 
 civil-service:
   enabled: true
