@@ -96,8 +96,8 @@ civil-service:
       STITCHING_API_ENABLED: false
       DOCUMENT_MANAGEMENT_SECURED: true
       RD_COMMONDATA_API_URL: http://rd-commondata-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-      SERVICE_REQUEST_UPDATE: https://${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update
-      SERVICE_REQUEST_UPDATE_CLAIM_ISSUED: https://${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update-claim-issued
+      SERVICE_REQUEST_UPDATE: https://civil-service-${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update
+      SERVICE_REQUEST_UPDATE_CLAIM_ISSUED: https://civil-service-${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update-claim-issued
 ccd:
   enabled: true
   ccd:
