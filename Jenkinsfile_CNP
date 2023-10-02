@@ -10,7 +10,7 @@ def product = "civil"
 def component = "orchestrator-service"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 def camundaBranch = "master"
-def ccddefbranch = "master"
+def ccddefbranch = "bug/civ-10645_testing_api_bulk_claim"
 
 
 AppPipelineConfig pipelineConf
