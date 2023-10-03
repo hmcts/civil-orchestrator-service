@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import uk.gov.hmcts.reform.civil.customvalidator.ValidateFields;
+import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
 
 
 @Getter
@@ -37,14 +38,19 @@ public class CreateClaimRequest {
     @Schema(description = "Bulk customer Id that should be in [1-9]\\d{7} format ", example = "15678908")
     private String bulkCustomerId;
     @NotNull(message = "claimant Reference should not be null")
+    @Size(max = 24, message = "claimantReference should be less than or equal to 24")
     @Schema(example = "1568h8992334")
     private String claimantReference;
     @Schema(implementation = ClaimantType.class, description = "Applicant/Claimant details")
     @Valid
     private ClaimantType claimant;
+    // default value, bulk requests will either be 1v1 or 1v2.
+    private final YesOrNo addApplicant2 = YesOrNo.NO;
     @Schema(implementation = DefendantType.class, description = "Defendant1 details")
     @Valid
     private DefendantType defendant1;
+    // default value, bulk request respondents will not be represented on create claim.
+    private final YesOrNo specRespondent1Represented = YesOrNo.NO;
     @Schema(implementation = DefendantType.class, description = "Defendent2 details if exists")
     @Valid
     private DefendantType defendant2;
@@ -53,7 +59,7 @@ public class CreateClaimRequest {
     private String particulars;
     @NotNull(message = "Claim amount should not be null")
     @Min(value = 0, message = "claim amount should not be less than 0")
-    @Max(value = 99999, message = "claim amount should not be more than 99999")
+    @Max(value = 9999999, message = "claim amount should not be more than £99,999")
     @Schema(description = "claim amount should be between 0 and 99999", example = "87989")
     private Long claimAmount;
     private Boolean reserveRightToClaimInterest;

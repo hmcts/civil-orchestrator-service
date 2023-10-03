@@ -29,10 +29,13 @@ public class CreateClaimCCD {
     private String sdtRequestIdFromSdt;
     private SolicitorReferences solicitorReferences;
     private Party applicant1;
+    // TODO: Random issue with mapStruct, not accepting actual value of "addRespondent2"
+    @JsonProperty("addApplicant2")
+    private YesOrNo adddApplicant2;
     private CorrectEmail applicantSolicitor1CheckEmail;
     private OrganisationPolicy applicant1OrganisationPolicy;
     private Party respondent1;
-    // TODO: Random issue with mapStruct, not accepting actual value of "addRespondent2"
+    private YesOrNo specRespondent1Represented;
     @JsonProperty("addRespondent2")
     private YesOrNo adddRespondent2;
     private Party respondent2;
