@@ -125,7 +125,7 @@ task functional(description: 'Runs the functional tests.') {
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '10.12.1'
+  toolVersion = '10.12.4'
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
