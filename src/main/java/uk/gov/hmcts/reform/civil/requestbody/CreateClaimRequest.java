@@ -59,7 +59,7 @@ public class CreateClaimRequest {
     private String particulars;
     @NotNull(message = "Claim amount should not be null")
     @Min(value = 0, message = "claim amount should not be less than 0")
-    @Max(value = 99999, message = "claim amount should not be more than 99999")
+    @Max(value = 9999999, message = "claim amount should not be more than £99,999")
     @Schema(description = "claim amount should be between 0 and 99999", example = "87989")
     private Long claimAmount;
     private Boolean reserveRightToClaimInterest;

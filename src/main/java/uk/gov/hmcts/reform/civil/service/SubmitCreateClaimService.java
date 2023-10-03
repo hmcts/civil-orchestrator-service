@@ -52,6 +52,7 @@ public class SubmitCreateClaimService {
         try {
             ResponseEntity<String> response = civilServiceApi.caseworkerSubmitEvent(userId,authorization,requestBody);
             if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("Submission of claim successful");
                 return getBulkCaseManClaimNumber(response);
             }
         } catch (HttpClientErrorException e) {
