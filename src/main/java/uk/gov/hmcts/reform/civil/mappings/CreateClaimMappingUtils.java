@@ -14,7 +14,7 @@ public class CreateClaimMappingUtils {
         // private constructor for checkstyle
     }
 
-    public static BigDecimal claimAmount(CreateClaimRequest createClaimRequest) {
+    public static BigDecimal totalClaimAmount(CreateClaimRequest createClaimRequest) {
         BigDecimal bigDecimal = new BigDecimal(createClaimRequest.getClaimAmount());
         return MonetaryConversions.penniesToPounds(bigDecimal);
     }

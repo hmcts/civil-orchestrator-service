@@ -24,7 +24,8 @@ java:
     auth:
       username: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
-
+  environment:
+    CIVIL_SERVICE_URL: http://${SERVICE_NAME}-civil-service
 
 civil-service:
   enabled: true
@@ -95,9 +96,8 @@ civil-service:
       STITCHING_API_ENABLED: false
       DOCUMENT_MANAGEMENT_SECURED: true
       RD_COMMONDATA_API_URL: http://rd-commondata-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-      SERVICE_REQUEST_UPDATE: https://${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update
-      CREATE_CLAIM_CIVIL_CASEWORKER: https://${SERVICE_NAME}.preview.platform.hmcts.net/cases/caseworkers/jurisdictions/CIVIL/case-types/CIVIL/cases/
-      SERVICE_REQUEST_UPDATE_CLAIM_ISSUED: https://${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update-claim-issued
+      SERVICE_REQUEST_UPDATE: https://civil-service-${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update
+      SERVICE_REQUEST_UPDATE_CLAIM_ISSUED: https://civil-service-${SERVICE_NAME}.preview.platform.hmcts.net/service-request-update-claim-issued
 ccd:
   enabled: true
   ccd:
@@ -217,6 +217,10 @@ camunda-bpm:
     disableKeyVaults: true
     releaseNameOverride: ${SERVICE_NAME}-camunda
     ingressHost: camunda-${SERVICE_FQDN}
+    devcpuRequests: 500m
+    devmemoryRequests: 512Mi
+    devcpuLimits: 1
+    devmemoryLimits: 1Gi
     environment:
       CAMUNDA_API_AUTH_ENABLED: false
       CAMUNDA_DB_HOST: ${SERVICE_NAME}-postgresql

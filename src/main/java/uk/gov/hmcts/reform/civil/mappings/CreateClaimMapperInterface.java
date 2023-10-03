@@ -24,6 +24,7 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "applicant1.primaryAddress.county", expression = "java(null)")
     @Mapping(target = "applicant1.primaryAddress.country", expression = "java(null)")
     @Mapping(target = "applicant1.primaryAddress.postCode", source = "claimant.address.postcode")
+    @Mapping(target = "adddApplicant2", source = "addApplicant2")
 
     @Mapping(target = "applicantSolicitor1CheckEmail", expression = "java(CreateClaimMappingUtils.checkCorrectEmail())")
     @Mapping(target = "applicant1OrganisationPolicy", expression = "java(null)")
@@ -38,6 +39,7 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent1.primaryAddress.county", expression = "java(null)")
     @Mapping(target = "respondent1.primaryAddress.country", expression = "java(null)")
     @Mapping(target = "respondent1.primaryAddress.postCode", source = "defendant1.address.postcode")
+    @Mapping(target = "specRespondent1Represented", source = "specRespondent1Represented")
 
     @Mapping(target = "adddRespondent2", expression = "java(CreateClaimMappingUtils.checkRespondent2(createClaimRequest))")
     @Mapping(target = "respondent2.type", expression = "java(CreateClaimMappingUtils.setDefendantType())")
@@ -52,7 +54,7 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "respondent2.primaryAddress.postCode", source = "defendant2.address.postcode")
 
     @Mapping(target = "detailsOfClaim", source = "particulars")
-    @Mapping(target = "totalClaimAmount", expression = "java(CreateClaimMappingUtils.claimAmount(createClaimRequest))")
+    @Mapping(target = "totalClaimAmount", expression = "java(CreateClaimMappingUtils.totalClaimAmount(createClaimRequest))")
     @Mapping(target = "claimInterest", expression = "java(CreateClaimMappingUtils.claimInterest(createClaimRequest))")
     @Mapping(target = "interestFromSpecificDate", source = "interest.interestOwedDate")
     @Mapping(target = "interestFromSpecificDateDescription", expression = "java(null)")

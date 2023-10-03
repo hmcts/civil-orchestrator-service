@@ -27,7 +27,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenBulkClaimIdIsNotInValidFormat() {
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("abc123678")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(7890))
+            .claimAmount(7890L)
             .claimantReference("1568h8992334")
             .defendant1(DefendantType.builder().name("defendant1").build())
             .defendant2(DefendantType.builder().name("defendant2").build())
@@ -42,7 +42,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenBulkClaimIdIsNull() {
         claimRequest = CreateClaimRequest.builder()
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(7890))
+            .claimAmount(7890L)
             .claimantReference("1568h8992334")
             .particulars("particulars")
             .sotSignature("sotSignatureExample")
@@ -58,7 +58,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(7890))
+            .claimAmount(7890L)
             .particulars("particulars")
             .sotSignature("sotSignatureExample")
             .defendant1(DefendantType.builder().name("defendant1").build())
@@ -73,7 +73,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(8000))
+            .claimAmount(8000L)
             .particulars("particulars length should ne less than or equal to forty five. testing is in progress")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
@@ -88,7 +88,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenDefendantNameIsNull() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
-            .claimAmount(Long.valueOf(8000))
+            .claimAmount(8000L)
             .particulars("particulars length")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
@@ -103,7 +103,7 @@ class CreateClaimRequestTest {
     void shouldThrowErrorMessageWhenDefendant2NameIsNull() {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
-            .claimAmount(Long.valueOf(8000))
+            .claimAmount(8000L)
             .particulars("particulars length")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
@@ -119,7 +119,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(8000))
+            .claimAmount(8000L)
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .defendant1(DefendantType.builder().name("defendant1").build())
@@ -149,7 +149,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(-1))
+            .claimAmount((long) -1)
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
@@ -165,7 +165,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(9999999))
+            .claimAmount(99999999L)
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .sotSignature("sotSignatureExample")
@@ -173,7 +173,7 @@ class CreateClaimRequestTest {
             .defendant2(DefendantType.builder().name("defendant2").build())
             .build();
         constraintViolations = validator.validate(claimRequest);
-        assertEquals(constraintViolations.iterator().next().getMessage(), "claim amount should not be more than 99999");
+        assertEquals(constraintViolations.iterator().next().getMessage(), "claim amount should not be more than £99,999");
     }
 
     @Test
@@ -181,7 +181,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(9999))
+            .claimAmount(9999L)
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .claimant(ClaimantType.builder().name("claimant").build())
@@ -199,7 +199,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(9999))
+            .claimAmount(9999L)
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .claimant(ClaimantType.builder().name("claimant").build())
@@ -216,7 +216,7 @@ class CreateClaimRequestTest {
 
         claimRequest = CreateClaimRequest.builder().bulkCustomerId("15678908")
             .sdtRequestId("testId")
-            .claimAmount(Long.valueOf(9999))
+            .claimAmount(9999L)
             .particulars("particulars")
             .claimantReference("1568h8992334")
             .claimant(ClaimantType.builder().name("claimant").build())
