@@ -12,6 +12,7 @@ Civil orchestration service for bulk claims
 The project is dependent on other Civil repositories:
 
 civil-ccd-definition
+civil-service
 
 ### Building the application
 
