@@ -243,7 +243,7 @@ dependencies {
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
 
-  implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.3.1'
+  implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.4.0'
   implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
   implementation group: 'com.google.guava', name: 'guava', version: '32.1.1-jre'
   implementation group: 'org.json', name: 'json', version: '20230227'
