@@ -2,7 +2,7 @@
 
 ## Building and deploying the application
 
-### Building the application
+### Building the applicatio
 
 Civil orchestration service for bulk claims
 
