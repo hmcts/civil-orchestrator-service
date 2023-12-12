@@ -58,6 +58,8 @@ public interface CreateClaimMapperInterface {
     @Mapping(target = "claimInterest", expression = "java(CreateClaimMappingUtils.claimInterest(createClaimRequest))")
     @Mapping(target = "interestFromSpecificDate", source = "interest.interestOwedDate")
     @Mapping(target = "interestFromSpecificDateDescription", expression = "java(null)")
+    @Mapping(target = "sameRateInterestSelection.differentRate", source = "interest.interestDailyAmount")
+    @Mapping(target = "sameRateInterestSelection.differentRateReason",  expression = "java(null)")
     @Mapping(target = "uiStatementOfTruth.name", source = "sotSignature")
     @Mapping(target = "uiStatementOfTruth.role", source = "sotSignatureRole")
     @Mapping(target = "applicantSolicitor1UserDetails", expression = "java(null)")

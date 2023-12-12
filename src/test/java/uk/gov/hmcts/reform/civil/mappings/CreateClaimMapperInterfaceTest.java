@@ -6,6 +6,7 @@ import org.mapstruct.factory.Mappers;
 import uk.gov.hmcts.reform.civil.model.casedata.Address;
 import uk.gov.hmcts.reform.civil.model.casedata.CorrectEmail;
 import uk.gov.hmcts.reform.civil.model.casedata.Party;
+import uk.gov.hmcts.reform.civil.model.casedata.SameRateInterestSelection;
 import uk.gov.hmcts.reform.civil.model.casedata.SolicitorReferences;
 import uk.gov.hmcts.reform.civil.model.casedata.StatementOfTruth;
 import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
@@ -118,12 +119,17 @@ class CreateClaimMapperInterfaceTest {
         createClaimRequest.setInterest(Interest.builder()
                                            .interestClaimDate(LocalDate.now().minusMonths(2))
                                            .interestOwedDate(LocalDate.now().minusMonths(1))
+                                           .interestDailyAmount(5L)
                                            .build());
         // Mapping
         createClaimCCD = mapper.claimToDto(createClaimRequest);
         // Updated CCD test mappings should then be
         testCreateClaimCCD.setClaimInterest(YesOrNo.YES);
         testCreateClaimCCD.setInterestFromSpecificDate(LocalDate.now().minusMonths(1));
+        testCreateClaimCCD.setSameRateInterestSelection(SameRateInterestSelection.builder()
+                                                            .differentRate(BigDecimal.valueOf(5L))
+                                                            .differentRateReason(null)
+                                                            .build());
         //
         assertThat(createClaimCCD).usingRecursiveComparison().isEqualTo(testCreateClaimCCD);
     }
@@ -172,11 +178,16 @@ class CreateClaimMapperInterfaceTest {
         createClaimRequest.setInterest(Interest.builder()
                                            .interestClaimDate(LocalDate.now().minusMonths(2))
                                            .interestOwedDate(LocalDate.now().minusMonths(1))
+                                           .interestDailyAmount(5L)
                                            .build());
         // Mapping
         createClaimCCD = mapper.claimToDto(createClaimRequest);
         // Updated CCD test mappings should then be
         testCreateClaimCCD.setClaimInterest(YesOrNo.YES);
+        testCreateClaimCCD.setSameRateInterestSelection(SameRateInterestSelection.builder()
+                                                            .differentRate(BigDecimal.valueOf(5L))
+                                                            .differentRateReason(null)
+                                                            .build());
         testCreateClaimCCD.setInterestFromSpecificDate(LocalDate.now().minusMonths(1));
         testCreateClaimCCD.setAdddRespondent2(YesOrNo.YES);
         testCreateClaimCCD.setRespondent2(Party.builder()

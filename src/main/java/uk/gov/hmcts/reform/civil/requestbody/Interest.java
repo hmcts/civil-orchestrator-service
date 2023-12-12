@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Interest {
     @Schema(example = "7")
-    private Integer interestDailyAmount;
+    private Long interestDailyAmount;
     @NotNull(message = "Interest Owed Date should not be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Schema(example = "2023-07-25")

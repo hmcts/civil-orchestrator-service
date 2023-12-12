@@ -27,7 +27,7 @@ class InterestTest {
     @Test
     void shouldThrowErrorMessageWhenInterestOwedDateIsNull() {
 
-        interest = Interest.builder().interestDailyAmount(200)
+        interest = Interest.builder().interestDailyAmount(200L)
             .interestClaimDate(LocalDate.now())
             .claimAmountInterestBase(20)
             .build();
@@ -38,7 +38,7 @@ class InterestTest {
     @Test
     void shouldNotThrowErrorMessageWhenInterestOwedDateIsNotNull() {
 
-        interest = Interest.builder().interestDailyAmount(200)
+        interest = Interest.builder().interestDailyAmount(200L)
             .interestOwedDate(LocalDate.now())
             .interestClaimDate(LocalDate.now())
             .claimAmountInterestBase(20)

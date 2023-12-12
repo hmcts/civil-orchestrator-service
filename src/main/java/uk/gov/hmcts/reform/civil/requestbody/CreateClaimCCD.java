@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.civil.model.casedata.CorrectEmail;
 import uk.gov.hmcts.reform.civil.model.casedata.IdamUserDetails;
 import uk.gov.hmcts.reform.civil.model.casedata.OrganisationPolicy;
 import uk.gov.hmcts.reform.civil.model.casedata.Party;
+import uk.gov.hmcts.reform.civil.model.casedata.SameRateInterestSelection;
 import uk.gov.hmcts.reform.civil.model.casedata.SolicitorReferences;
 import uk.gov.hmcts.reform.civil.model.casedata.StatementOfTruth;
 import uk.gov.hmcts.reform.civil.model.casedata.YesOrNo;
@@ -46,9 +47,5 @@ public class CreateClaimCCD {
     private String interestFromSpecificDateDescription;
     private StatementOfTruth uiStatementOfTruth;
     private IdamUserDetails applicantSolicitor1UserDetails;
-    // TODO: Add in fields if interest was requested
-    // private InterestClaimOptions interestClaimOptions;
-    // private SameRateInterestSelection sameRateInterestSelection;
-    // etc
-
+    private SameRateInterestSelection sameRateInterestSelection;
 }
