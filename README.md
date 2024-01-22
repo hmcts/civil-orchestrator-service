@@ -4,7 +4,7 @@
 
 ### Building the application
 
-Civil orchestration service for bulk claims
+Civil orchestration service for bulk claims banana
 
 ## Building and deploying the application
 
