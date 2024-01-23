@@ -20,8 +20,5 @@
     <cve>CVE-2023-41080</cve>
     <cve>CVE-2023-5072</cve>
   </suppress>
-  <suppress until="2024-04-14">
-    <cve>CVE-2023-33202</cve>
-  </suppress>
   <!--End of temporary suppression section -->
 </suppressions>
