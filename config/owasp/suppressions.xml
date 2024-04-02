@@ -19,6 +19,7 @@
     <cve>CVE-2023-35116</cve>
     <cve>CVE-2023-41080</cve>
     <cve>CVE-2023-5072</cve>
+    <cve>CVE-2024-22243</cve>
   </suppress>
   <!--End of temporary suppression section -->
 </suppressions>
