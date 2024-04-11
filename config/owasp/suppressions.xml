@@ -20,6 +20,9 @@
     <cve>CVE-2023-41080</cve>
     <cve>CVE-2023-5072</cve>
     <cve>CVE-2024-22243</cve>
+    <cve>CVE-2024-29857</cve>
+    <cve>CVE-2024-30172</cve>
+    <cve>CVE-2024-30171</cve>
   </suppress>
   <!--End of temporary suppression section -->
 </suppressions>
