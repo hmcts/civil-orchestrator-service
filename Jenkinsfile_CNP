@@ -62,21 +62,23 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
   }
     before('smoketest:preview') {
-      sh """
-      eval \$(./bin/variables/load-preview-environment-variables.sh ${CHANGE_ID})
-      ./bin/add-roles.sh
-      ./bin/pull-latest-camunda-files.sh ${camundaBranch}
-      ./bin/import-ccd-definition.sh "-e *-prod.json,*HNL-nonprod.json,*-shuttered.json" ${ccddefbranch}
+      retry (3) {
+        sh """
+           eval \$(./bin/variables/load-preview-environment-variables.sh ${CHANGE_ID})
+          ./bin/add-roles.sh
+          ./bin/pull-latest-camunda-files.sh ${camundaBranch}
+          ./bin/import-ccd-definition.sh "-e *-prod.json,*HNL-nonprod.json,*-shuttered.json" ${ccddefbranch}
     """
-      env.IDAM_API_URL = "https://idam-api.aat.platform.hmcts.net"
-      env.CIVIL_ORCHESTRATOR_SERVICE_URL="https://civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
-      env.CCD_DATA_STORE_URL = "https://ccd-data-store-api-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
-      env.DM_STORE_URL = "http://dm-store-aat.service.core-compute-aat.internal"
-      env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-      env.URL = "https://xui-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
-      env.CIVIL_SERVICE_URL = "https://civil-service-civil-orchestrator-pr-${CHANGE_ID}.preview.platform.hmcts.net"
-      yarnBuilder.yarn('yarn-update')
-      yarnBuilder.yarn('install-dependencies')
+      }
+        env.IDAM_API_URL = "https://idam-api.aat.platform.hmcts.net"
+        env.CIVIL_ORCHESTRATOR_SERVICE_URL="https://civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+        env.CCD_DATA_STORE_URL = "https://ccd-data-store-api-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+        env.DM_STORE_URL = "http://dm-store-aat.service.core-compute-aat.internal"
+        env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        env.URL = "https://xui-civil-orchestrator-service-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+        env.CIVIL_SERVICE_URL = "https://civil-service-civil-orchestrator-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+        yarnBuilder.yarn('yarn-update')
+        yarnBuilder.yarn('install-dependencies')
     }
 
     afterAlways('smoketest:preview') {
