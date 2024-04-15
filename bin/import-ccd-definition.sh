@@ -8,6 +8,7 @@ params="$@"
 
 params="$1"
 branchName="$2"
+rm -rf ./civil-ccd-definition
 
 git clone https://github.com/hmcts/civil-ccd-definition.git
 cd civil-ccd-definition
@@ -22,7 +23,6 @@ cp -r ./civil-ccd-definition/package.json .
 cp -r ./civil-ccd-definition/yarn.lock .
 cp -r ./civil-ccd-definition/codecept.conf.js .
 echo *
-rm -rf ./civil-ccd-definition
 
 cd civil-ccd-definition
 definition_input_dir=$(realpath './ccd-definition')
