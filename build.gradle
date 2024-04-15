@@ -277,21 +277,6 @@ dependencies {
   implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '4.0.0'
 
 }
-dependencyManagement {
-  dependencies {
-// Fix CVE-2023-42795, CVE-2023-45648
-    dependencySet(group: 'org.apache.tomcat.embed', version: '10.1.16') {
-      entry 'tomcat-embed-core'
-      entry 'tomcat-embed-el'
-      entry 'tomcat-embed-websocket'
-    }
-    // CVE-2023-6378
-    dependencySet(group: 'ch.qos.logback', version: '1.4.14') {
-      entry 'logback-core'
-      entry 'logback-classic'
-    }
-  }
-}
 
 mainClassName = 'uk.gov.hmcts.reform.civil.Application'
 
