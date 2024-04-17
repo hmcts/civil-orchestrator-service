@@ -164,6 +164,10 @@ jacocoTestReport.dependsOn {
   subprojects*.test
 }
 
+def versions = [
+  jackson            : '2.17.0'
+]
+
 // before committing a change, make sure task still works
 dependencyUpdates {
   def isNonStable = { String version ->
@@ -198,6 +202,16 @@ dependencyCheck {
   ]
 }
 
+dependencyManagement {
+  dependencies {
+  // Solves CVE-2023-35116
+    dependency group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jackson
+    dependency group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jackson
+    dependency group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jackson
+
+  }
+}
+
 repositories {
   mavenLocal()
   mavenCentral()
@@ -223,6 +237,8 @@ ext {
   mapstructVersion = '1.5.3.Final'
   lombokVersion = '1.18.28'
 }
+
+
 
 dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
