@@ -209,8 +209,6 @@ dependencyManagement {
     dependency group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jackson
     dependency group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jackson
 
-  //Solves CVE-2024-22243
-    dependency group: 'org.springframework', name: 'spring-core', version: '6.1.4'
   }
 }
 

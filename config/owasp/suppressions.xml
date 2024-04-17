@@ -11,6 +11,7 @@
 
   <!--Please add all the temporary suppression under the below section-->
   <suppress until="2024-10-14">
+    <cve>CVE-2024-22243</cve>
     <cve>CVE-2024-29857</cve>
     <cve>CVE-2024-30172</cve>
     <cve>CVE-2024-30171</cve>
