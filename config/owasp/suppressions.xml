@@ -11,14 +11,6 @@
 
   <!--Please add all the temporary suppression under the below section-->
   <suppress until="2024-10-14">
-    <cve>CVE-2022-1471</cve>
-    <cve>CVE-2022-45688</cve>
-    <cve>CVE-2023-2976</cve>
-    <cve>CVE-2020-8908</cve>
-    <cve>CVE-2023-33201</cve>
-    <cve>CVE-2023-35116</cve>
-    <cve>CVE-2023-41080</cve>
-    <cve>CVE-2023-5072</cve>
     <cve>CVE-2024-22243</cve>
     <cve>CVE-2024-29857</cve>
     <cve>CVE-2024-30172</cve>
