@@ -264,7 +264,7 @@ dependencies {
   implementation group: 'com.google.guava', name: 'guava', version: '32.1.1-jre'
   implementation group: 'org.json', name: 'json', version: '20240303'
   implementation group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '6.5.1'
-  implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '6.2.1'
+  implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '6.3.0'
 
   testImplementation(platform('org.junit:junit-bom:5.10.0'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
