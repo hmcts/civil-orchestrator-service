@@ -224,7 +224,6 @@ repositories {
   maven {
     url "https://jitpack.io"
   }
-  jcenter()
 }
 
 ext {
@@ -290,7 +289,7 @@ dependencies {
   annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
-  implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '4.0.0'
+  implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '4.0.3'
 
 }
 
