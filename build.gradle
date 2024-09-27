@@ -165,7 +165,7 @@ jacocoTestReport.dependsOn {
 }
 
 def versions = [
-  jackson            : '2.17.0'
+  jackson            : '2.18.0'
 ]
 
 // before committing a change, make sure task still works
